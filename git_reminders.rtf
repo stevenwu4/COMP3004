@@ -1,0 +1,93 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx7920\tx7920\ql\qnatural\pardirnatural
+
+\f0\b\fs30 \cf0 \ul \ulc0 THINGS TO KNOW RE: GITHUB\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\fs24 \cf0 \ulc0 \
+
+\b0 \ulnone There is a 
+\b master
+\b0  branch that will contain all of the working code.\
+As our enthusiastic build prime, 
+\b Sean
+\b0  will handle the merging of your 
+\b local
+\b0  branches to this 
+\b master
+\b0  branch once your 
+\b local 
+\b0 branches have been 
+\b pushed
+\b0  up to the repository.\
+
+\fs22 *>> denotes code to be typed in the Terminal
+\fs24 \
+\
+
+\b\fs28 \ul WORKFLOW:
+\fs24 \ulnone \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 To start anything:\
+
+\b0 In the Terminal, you must be in the directory of the repository for Git to recognize that you want to make changes to our repo\
+(this changes depending on where you cloned it locally in your computer)\
+\
+>> cd <path_to_repo>/COMP3004
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 \
+Before beginning on your work, you must ensure you are checked out of the master branch:\
+
+\b0 You never want to do new work on the master branch. Why? Because unless you have perfect code, you will break our last previous working version!\
+Before 
+\b checking out
+\b0  to a 
+\b new 
+\b0 branch though, you will want to 
+\b pull
+\b0  the last updates from the repository's 
+\b master
+\b0  branch. Intuitively, this makes sense; you want your new work to be built off the last working version that 
+\b Sean
+\b0  has merged & confirmed.\
+\
+>> git checkout master \
+(this puts you in the master branch)\
+>> git pull origin master \
+(this updates your local master branch to the repo's)\
+>> git checkout -b <descriptive_branch_name> \
+(-b flag means new branch, and an example of a branch name = "add_test_cases")\
+\
+Now you have all the contents of the repo's 
+\b master
+\b0  branch, but branched off in your own local branch that Git has no awareness of. Once you are satisfied with the work you have done in your local branch, you'll want to push your changes for them to be merged with the 
+\b master
+\b0  branch.\
+\
+
+\b Before pushing your work to GitHub:\
+
+\b0 In your working branch <descriptive_branch_name>,\
+>> git pull origin master\
+\
+Why do we have to pull 
+\b master
+\b0  again before? Let's say on 
+\b master
+\b0  that we have requirements_doc.txt. Let's say that on your local branch, you wanted to edit this document and add formatting/final touches. \
+Two scenarios can occur:\
+1) Simultaneously while you were working, TeammateX begun work on requirements_doc.txt and had his pushed changes merged to 
+\b master AFTER
+\b0  you had originally pulled before checking out to a new local branch. That's when a merge conflict will occur; and it will be up to you to decide what changes from TeammateX you want to keep, along with deciding what changes of yours you want to keep.\
+2) Simultaneously while you were working, TeammateX begun work on some file(s) that you are NOT touching/changing in your local branch, eg: a model class for the program, and had his changes pushed and merged to 
+\b master AFTER
+\b0  you had originally pulled before checking out to a new local branch. If you push without pulling, the newest version of the model class will get reverted back to the old version of the model class that is in your local branch.\
+\
+Now, we can push our changes.\
+>> git push origin <descriptive_branch_name>\
+}
