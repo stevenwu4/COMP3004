@@ -1,0 +1,29 @@
+Use Case:
+EvaluateTask
+
+Participating Actors:
+Initiated by Instructor
+
+Flow of events:
+1.	The Instructor selects the evaluate task option.
+	2.	The system displays a task evaluation form to the Instructor.
+3.	The Instructor specifies a rating from 1-5 -- with 1 being the worst and 5 being the best -- then leaves textual feedback and submits the form.
+	4.	The system updates the task with the Instructor's evaluation, sends a notification of success, and returns the Instructor to the previous menu.
+
+
+Entry condition:
+The Instructor has selected a task to evaluate from a list of tasks.
+
+Exit condition:
+The selected task has its evaluation data updated to reflect the Instructor's evaluation OR
+The Instructor has cancelled the evaluation and the task's evaluation data is left unchanged.
+
+Quality requirements:
+	-	The system should respond to requests in no more than 10 seconds.
+	
+Traceability:
+
+Extending Use Cases:
+
+RequestTimeout:
+The User is notified of a timeout and prompted to retry their previous action.

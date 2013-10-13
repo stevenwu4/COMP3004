@@ -1,0 +1,40 @@
+Use Case:
+ManageTask
+
+Participating Actors:
+Initiated by Instructor
+
+Flow of events:
+1.	The Instructor launches TAEval.
+	2.	The system displays a menu with the following three login options: TA, Instructor, and Admin.
+3.	The Instructor selects the option to login as an Instructor.
+	4.	The system displays the list of courses the Instructor is teaching and a menu with the following options: create a new task, edit a task, delete a task, evaluate a task, view a list of courses, view a list of TAs, and view a list of Tasks.
+	5.	If the Instructor opts to create a new task a task creation form is displayed (include use case CreateTask).
+	*6.	If the Instructor opts to edit a task a list of existing tasks is displayed and the Instructor selects the task to be edited (include use case EditTask).
+	*7.	If the Instructor opts to delete a task a list of existing tasks is displayed and the Instructor selects the task to be deleted (include use case DeleteTask).
+	*8.	If the Instructor opts to evaluate a task a list of existing tasks is displayed and the Instructor selects the task to evaluate (include use case EvaluateTask).
+	8.	If the Instructor opts to view a list of courses the system displays a list of courses the Instructor is teaching(include use case ViewCourseList).
+	9.	If the Instructor opts to view a list of TAs the system displays a list of TAs assigned to the Instructor (include use case ViewTAList).
+	10.	If the Instructor opts to view a list of tasks the system displays a list of tasks created by the Instructor (include use case ViewTasks).
+
+Entry condition:
+
+Exit condition:
+
+Quality requirements:
+	-	The list of courses displayed should be sorted alphanumerically by course code and shown grouped in descending order by term.
+	-	The list of TAs should be sorted alphabetically by their last names.
+	-	The list of tasks should be sorted alphabetically by the task name.
+	-	The system should respond to requests in no more than 10 seconds.
+
+Traceability:
+
+
+Extending Use Cases:
+
+LackOfPrivilege: The User is prompted to re-enter their login credentials.
+
+InvalidCredentials: The User is prompted to re-enter their login credentials.
+
+RequestTimeout: The User is notified of a timeout and prompted to retry their previous action.
+
