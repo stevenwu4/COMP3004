@@ -1,0 +1,32 @@
+Use Case:
+BrowseOwnTasks
+
+Participating Actors:
+Initiated by TA
+
+Flow of events:
+1.	The TA launches TAEval.
+	2.	The system displays a login form.
+3.	The TA enters their TA login credentials.
+	4.	The system displays the list of all courses the TA is or has been involved in with a selectable option to filter by a specific semester and a menu with the following options: view a list of courses, view a list of tasks.
+	5.	If the TA opts to view a list of courses the system displays a list of courses optionally filtered by semester (initiate use case ViewCourseList).
+6.	The TA selects a course from the course list.
+	7.	If the TA opts to view a list of tasks the system displays a list of tasks associated with the TA's selected course (initiate use case ViewTaskList).
+	
+Entry condition:
+
+Exit condition:
+
+Quality requirements:
+	-	The list of all courses displayed should be sorted alphanumerically by course code and shown grouped in descending order by term.
+	-	The list of tasks should be sorted alphabetically by the task name.
+	-	The system should respond to requests in no more than 10 seconds.
+
+Traceability:
+
+
+Extending Use Cases:
+
+InvalidCredentials: The User is prompted to re-enter their login credentials.
+
+RequestTimeout: The User is notified of a timeout and prompted to retry their previous action.

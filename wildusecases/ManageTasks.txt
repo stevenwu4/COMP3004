@@ -1,0 +1,38 @@
+Use Case:
+ManageTask
+
+Participating Actors:
+Initiated by Instructor
+
+Flow of events:
+1.	The Instructor launches TAEval.
+	2.	The system displays a login form.
+3.	The Instructor enters their Instructor login credentials.
+	4.	The system displays the list of all courses the Instructor is teaching and has taught with a selectable option to filter by a specific semester and a menu with the following options: create a new task, view a list of courses, view a list of TAs, view a list of tasks.
+	5.	If the Instructor opts to create a new task a task creation form is displayed (include use case CreateTask).
+	6.	If the Instructor opts to view a list of courses the system displays a list of courses the Instructor is teaching optionally filtered by a specific semester (include use case ViewCourseList).
+7.	The Instructor selects a course from the list of courses.	
+	8.	If the Instructor opts to view a list of TAs the system displays a list of TAs assigned to the Instructor of the Instructor's selected course (include use case ViewTAList).
+	9.	If the Instructor opts to view a list of tasks the system displays a list of all tasks the Instructor has created for the selected course (include use case ViewTaskList).
+
+Entry condition:
+
+Exit condition:
+
+Quality requirements:
+	-	The list of all courses displayed should be sorted alphanumerically by course code and shown grouped in descending order by term.
+	-	The list of TAs should be sorted alphabetically by their last names.
+	-	The list of tasks should be sorted alphabetically by the task name.
+	-	The system should respond to requests in no more than 10 seconds.
+
+Traceability:
+
+
+Extending Use Cases:
+
+InvalidCredentials: The User is prompted to re-enter their login credentials.
+
+RequestTimeout: The User is notified of a timeout and prompted to retry their previous action.
+
+
+
