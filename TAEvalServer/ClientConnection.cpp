@@ -2,6 +2,7 @@
 #include <iostream>
 #include <QDir>
 #include <QSqlDatabase>
+#include "DBManager.h"
 #include <QtEndian>
 #include "NetworkConnection.h"
 
@@ -33,17 +34,19 @@ void ClientConnection::startConnection() {
     _network = new NetworkConnection(_socket);
     connect(_network, SIGNAL(processPacket(unsigned short, const QByteArray&)), this, SLOT(processPacket(unsigned short, const QByteArray&)));
 
-    //Connect to database here
-    QString databasePath(QDir::home().path());
-    databasePath.append(QDir::separator()).append("ta_eval.db");
-    databasePath = QDir::toNativeSeparators(databasePath);
 
-    //Use socket descriptor as unique name for database connection for now, use login name later
-    QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE", QString::number(_socketDescriptor));
-    database.setDatabaseName(databasePath);
+    DBManager* mydbmanager = new DBManager;
 
-    if (database.open()) {
+    if (mydbmanager->openDB()) {
         std::cerr << "Database Opened!\n";
+        if (mydbmanager->createTATable())
+            std::cerr << "TA Table created\n";
+        if (mydbmanager->createInstructorTable())
+            std::cerr << "Instructor Table created\n";
+        if (mydbmanager->createCourseTable())
+            std::cerr << "Course Table created\n";
+        if (mydbmanager->createTaskTable())
+            std::cerr << "Task Table created\n";
     }
 
     _timeoutTimer = new QTimer();
