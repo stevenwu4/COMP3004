@@ -3,6 +3,7 @@
 
 #include <QtNetwork/QTcpSocket>
 #include <QTimer>
+#include "DBManager.h"
 
 class NetworkConnection;
 
@@ -15,12 +16,16 @@ private:
     QTcpSocket* _socket;
     NetworkConnection* _network;
     QTimer* _timeoutTimer;
+    DBManager *mydbmanager;
+    void sendCourseList();
 
 public:
     ClientConnection(int socketDescriptor, int timeoutSeconds);
     ~ClientConnection();
 
     void processTestRequest(const QByteArray& packetData);
+    void processCourseListRequest(const QByteArray& packetData);
+
 
 public slots:
     void startConnection();

@@ -2,7 +2,6 @@
 #include <iostream>
 #include <QDir>
 #include <QSqlDatabase>
-#include "DBManager.h"
 #include <QtEndian>
 #include "NetworkConnection.h"
 
@@ -14,7 +13,9 @@ ClientConnection::ClientConnection(int socketDescriptor, int timeoutSeconds) :
     _timeoutSeconds(timeoutSeconds),
     _socket(0),
     _network(0),
-    _timeoutTimer(0) {}
+    _timeoutTimer(0) {
+    mydbmanager = new DBManager();
+}
 
 ClientConnection::~ClientConnection() {
     delete _timeoutTimer;
@@ -35,7 +36,7 @@ void ClientConnection::startConnection() {
     connect(_network, SIGNAL(processPacket(unsigned short, const QByteArray&)), this, SLOT(processPacket(unsigned short, const QByteArray&)));
 
 
-    DBManager* mydbmanager = new DBManager();
+    //DBManager* mydbmanager = new DBManager();
 
     mydbmanager->initializeDB(mydbmanager);
 
@@ -77,6 +78,45 @@ void ClientConnection::startConnection() {
 
      //}
  }
+
+ void ClientConnection::sendCourseList() {
+     QByteArray message;
+     QDataStream outputStream(&message, QIODevice::WriteOnly);
+     outputStream.setVersion(QDataStream::Qt_4_8);
+
+     outputStream << mydbmanager->_courses.size();
+
+     for (std::vector<Course>::iterator it = mydbmanager->_courses.begin() ; it != mydbmanager->_courses.end(); ++it){
+        outputStream <<  it->id();
+        outputStream <<  it->getCourseName();
+        outputStream <<  it->getCourseCode();
+        outputStream <<  it->getTerm();
+        outputStream <<  it->getYear();
+     }
+
+     _network->sendPacket(0, message);
+ }
+
+ void ClientConnection::processCourseListRequest(const QByteArray& packetData) {
+
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+
+
+     int year = 0;
+     inputStream >> year;
+
+     char* term = 0;
+     inputStream >> term;
+     qDebug() << "processCourseListRequest";
+     qDebug() << "year=  " << year;
+     qDebug() << "term= " << term;
+     mydbmanager->getCourse(QString(term), year);
+     mydbmanager->showCourse(mydbmanager);
+     sendCourseList();
+
+ }
+
 
  void ClientConnection::processTestRequest(const QByteArray& packetData) {
      QDataStream inputStream(packetData);

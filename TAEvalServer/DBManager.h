@@ -32,6 +32,7 @@ class DBManager : public QObject
         //QVector<Course> *_courses;
        // QVectorIterator<Course> i(_courses);
         void initializeDB(DBManager *mydbmanager);
+        void showCourse(DBManager *mydbmanager);
 
     private:
         QSqlDatabase db;
@@ -44,5 +45,6 @@ class DBManager : public QObject
         int createCourse(QString coursename, QString coursecode, int year, QString term, int instructor);
         int createTask(QString taskname, QString taskdesc, QString evaldesc, int evalrank, int studentnum, int courseid);
         void clearServerState();
+
 
     };

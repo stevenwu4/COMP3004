@@ -58,8 +58,8 @@ bool DBManager::createDB(DBManager *mydbmanager){
 
         mydbmanager->populateDB();
         QTextStream out(stdout);
-        mydbmanager->getCourse("fall", 2013);
-        out << "Number of Courses  " << mydbmanager->_courses.size() << endl;
+        mydbmanager->getCourse("Fall", 2009);
+        out << "Number of Courses1  " << mydbmanager->_courses.size() << endl;
             for (std::vector<Course>::iterator it = mydbmanager->_courses.begin() ; it != mydbmanager->_courses.end(); ++it){
                 out << "Course Id " << it->id() << endl;
                 out << "Course Name " << it->getCourseName() << endl;
@@ -71,6 +71,18 @@ bool DBManager::createDB(DBManager *mydbmanager){
 
         return true;
     }
+
+void DBManager::showCourse(DBManager *mydbmanager){
+        QTextStream out(stdout);
+        out << "Number of Courses2  " << mydbmanager->_courses.size() << endl;
+        for (std::vector<Course>::iterator it = mydbmanager->_courses.begin() ; it != mydbmanager->_courses.end(); ++it){
+            out << "Course Id " << it->id() << endl;
+            out << "Course Name " << it->getCourseName() << endl;
+            out << "Course Code " << it->getCourseCode() << endl;
+            out << "Term " << it->getTerm() << endl;
+            out << "Year " << it->getYear() << endl;
+        }
+}
 
 bool DBManager::deleteDB()
     {
@@ -177,9 +189,9 @@ void DBManager::populateDB(){
     instructID = createInstructor(1, "Fred", "Flintstone", "Geology");
     taID = createTA(100, "Sean", "Benjamin", "BSc", "Comp Sci", 3);
     taID = 100;
-    courseID = createCourse("Rocks", "GEOL100", 2013, "fall", instructID);
+    courseID = createCourse("Rocks", "GEOL100", 2009, "Fall", instructID);
     instructID = createInstructor(2, "Donald", "Knuth", "Computer Science");
-    courseID = createCourse("Discrete Math", "COMP1805", 2013, "fall", instructID);
+    courseID = createCourse("Discrete Math", "COMP1805", 2009, "Fall", instructID);
     taskID = createTask("Marking Exam", "correct midterm", NULL, 0, taID, courseID);
 
 }
