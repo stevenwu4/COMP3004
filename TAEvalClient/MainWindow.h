@@ -23,6 +23,8 @@ private:
 public slots:
     void pretendWeClickedATestCaseButton();
     void testCaseFinished(bool success);
+private slots:
+    void on_courseListButton_clicked();
 };
 
 #endif // MAINWINDOW_H
