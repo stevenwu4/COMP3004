@@ -1,4 +1,4 @@
-#include "course.h"
+#include "Course.h"
 
 Course::Course(int id, const QString &name, const QString &code, int year, const QString &term) :
     _id(id),

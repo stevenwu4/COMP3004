@@ -63,9 +63,9 @@ void ClientConnection::startConnection() {
         case 0:
              processCourseListRequest(packetData);
              break;
-      //   case 1:
-      //       processTeachingAssistantListRequest(packetData);
-      //       break;
+         case 1:
+             processTeachingAssistantListRequest(packetData);
+             break;
       //   case 2:
       //       processTaskListRequest(packetData);
       //       break;
@@ -97,6 +97,26 @@ void ClientConnection::startConnection() {
      _network->sendPacket(0, message);
  }
 
+ void ClientConnection::sendTAList() {
+     QByteArray message;
+     QDataStream outputStream(&message, QIODevice::WriteOnly);
+     outputStream.setVersion(QDataStream::Qt_4_8);
+
+     outputStream << mydbmanager->_taList.size();
+
+     for (std::vector<TeachingAssistant>::iterator it = mydbmanager->_taList.begin() ; it != mydbmanager->_taList.end(); ++it){
+        outputStream << it->id();
+        outputStream << it->getFirstName();
+        outputStream << it->getLastName();
+        outputStream << it->getDegree();
+        outputStream << it->getMajor();
+        outputStream << it->getYear();
+
+     }
+
+     _network->sendPacket(0, message);
+ }
+
  void ClientConnection::processCourseListRequest(const QByteArray& packetData) {
 
      QDataStream inputStream(packetData);
@@ -114,10 +134,28 @@ void ClientConnection::startConnection() {
      qDebug() << "term= " << term;
      mydbmanager->getCourse(term, year);
      mydbmanager->showCourse(mydbmanager);
+
      sendCourseList();
-     //delete[] term;
 
  }
+ void ClientConnection::processTeachingAssistantListRequest(const QByteArray& packetData) {
+
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+
+     int courseid = 0;
+     inputStream >> courseid;
+
+     qDebug() << "processTAListRequest";
+     qDebug() << "courseid=  " << courseid;
+     mydbmanager->getCourseTA(courseid);
+     mydbmanager->showTAs(mydbmanager);
+
+     sendTAList();
+
+ }
+
+
 
 
  void ClientConnection::processTestRequest(const QByteArray& packetData) {

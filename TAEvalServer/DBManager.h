@@ -6,7 +6,8 @@
 #include <QDir>
 #include <QVariant>
 #include <QVector>
-#include "course.h"
+#include "Course.h"
+#include "TeachingAssistant.h"
 
 #ifndef DBMANAGER_H
 #define DBMANAGER_H
@@ -29,10 +30,14 @@ class DBManager : public QObject
         void getCourse(QString term, int year);
         QSqlError lastError();
         std::vector<Course> _courses;
+        std::vector<TeachingAssistant> _taList;
         //QVector<Course> *_courses;
        // QVectorIterator<Course> i(_courses);
         void initializeDB(DBManager *mydbmanager);
         void showCourse(DBManager *mydbmanager);
+        void showTAs(DBManager *mydbmanager);
+        void getTA(int courseid);
+        void getCourseTA(int courseid);
 
     private:
         QSqlDatabase db;
@@ -40,11 +45,12 @@ class DBManager : public QObject
         bool createTATable();
         bool createCourseTable();
         bool createInstructorTable();
+        bool createCourseTATable();
         int createInstructor(int emplynum, QString fname, QString lname, QString dept);
         int createTA(int stdnum, QString fname, QString lname, QString degree, QString major, int year);
         int createCourse(QString coursename, QString coursecode, int year, QString term, int instructor);
         int createTask(QString taskname, QString taskdesc, QString evaldesc, int evalrank, int studentnum, int courseid);
         void clearServerState();
-
+        int createCourseTA(int courseid, int stdnum);
 
     };

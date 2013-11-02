@@ -6,7 +6,7 @@ DBManager::DBManager(QObject *parent) : QObject(parent){}
 
 void DBManager::clearServerState() {
     _courses.clear();
-    //_teachingAssistantList.clear();
+    _taList.clear();
     //_taskList.clear();
 
     //delete _currentTask;
@@ -55,18 +55,15 @@ bool DBManager::createDB(DBManager *mydbmanager){
             std::cerr << "Task Table not created\n";
             return false;
         }
+        if (!mydbmanager->createCourseTATable()){
+            std::cerr << "Course TA relationship table not created.\n";
+        }
 
         mydbmanager->populateDB();
-        QTextStream out(stdout);
-        mydbmanager->getCourse("Fall", 2009);
-        out << "Number of Courses1  " << mydbmanager->_courses.size() << endl;
-            for (std::vector<Course>::iterator it = mydbmanager->_courses.begin() ; it != mydbmanager->_courses.end(); ++it){
-                out << "Course Id " << it->id() << endl;
-                out << "Course Name " << it->getCourseName() << endl;
-                out << "Course Code " << it->getCourseCode() << endl;
-                out << "Term " << it->getTerm() << endl;
-                out << "Year " << it->getYear() << endl;
-            }
+        //QTextStream out(stdout);
+        //mydbmanager->getCourse("Fall", 2009);
+       // mydbmanager->getCourseTA(1);
+
          }
 
         return true;
@@ -74,12 +71,25 @@ bool DBManager::createDB(DBManager *mydbmanager){
 
 void DBManager::showCourse(DBManager *mydbmanager){
         QTextStream out(stdout);
-        out << "Number of Courses2  " << mydbmanager->_courses.size() << endl;
+        out << "Number of Courses  " << mydbmanager->_courses.size() << endl;
         for (std::vector<Course>::iterator it = mydbmanager->_courses.begin() ; it != mydbmanager->_courses.end(); ++it){
             out << "Course Id " << it->id() << endl;
             out << "Course Name " << it->getCourseName() << endl;
             out << "Course Code " << it->getCourseCode() << endl;
             out << "Term " << it->getTerm() << endl;
+            out << "Year " << it->getYear() << endl;
+        }
+}
+
+void DBManager::showTAs(DBManager *mydbmanager){
+        QTextStream out(stdout);
+        out << "Number of TAs  " << mydbmanager->_taList.size() << endl;
+        for (std::vector<TeachingAssistant>::iterator it = mydbmanager->_taList.begin() ; it != mydbmanager->_taList.end(); ++it){
+            out << "TA Id " << it->id() << endl;
+            out << "First Name " << it->getFirstName() << endl;
+            out << "Last Name " << it->getLastName() << endl;
+            out << "Degree " << it->getDegree() << endl;
+            out << "Major " << it->getMajor() << endl;
             out << "Year " << it->getYear() << endl;
         }
 }
@@ -179,17 +189,38 @@ if (db.isOpen())
 return ret;
 }
 
+
+bool DBManager::createCourseTATable()
+{
+// Create table "That contains the TAs associated with Courses"
+bool ret = false;
+if (db.isOpen())
+    {
+
+        QSqlQuery query;
+        ret = query.exec("create table if not exists courseta "
+                         "(courseid integer not null references course(courseid), "
+                         "taid integer not null references ta(studentno), "
+                         "primary key (courseid,taid))");
+        //std::cerr << "go here in courseta\n";
+    }
+return ret;
+}
+
+
+
 void DBManager::populateDB(){
     int instructID;
     int taID;
     int courseID;
     int taskID;
-
+    int courseta;
 
     instructID = createInstructor(1, "Fred", "Flintstone", "Geology");
     taID = createTA(100, "Sean", "Benjamin", "BSc", "Comp Sci", 3);
     taID = 100;
     courseID = createCourse("Rocks", "GEOL100", 2009, "Fall", instructID);
+    courseta = createCourseTA(courseID,taID);
     instructID = createInstructor(2, "Donald", "Knuth", "Computer Science");
     courseID = createCourse("Discrete Math", "COMP1805", 2009, "Fall", instructID);
     taskID = createTask("Marking Exam", "correct midterm", NULL, 0, taID, courseID);
@@ -205,9 +236,55 @@ QString DBManager::getTask(int id)
         {
         ret = QString("Task info = %1 %2 %3").arg(query.value(0).toString()).arg(query.value(1).toString()).arg(query.value(2).toString());
         }
-    qDebug() << query.lastError();
+    qDebug() << "getTask query" << query.lastError();
     return ret;
   }
+
+void DBManager::getCourseTA(int courseid)
+    {
+    this->clearServerState();
+    QSqlQuery query(QString("select * from courseta where courseid=%1").arg(courseid));
+    qDebug() << "getCourseTA";
+    while (query.next()){
+
+            int studentID = 0;
+            studentID = query.value(1).toInt();
+            getTA(studentID);
+
+            qDebug() << "Passed student ID " << studentID;
+    }
+        qDebug() << "getCourseTA query" << query.lastError();
+
+
+}
+
+void DBManager::getTA(int studentnum){
+    QSqlQuery query(QString("select * from ta where studentno=%1").arg(studentnum));
+
+        int id;
+        id = query.value(0).toInt();
+
+        QString firstName;
+        firstName = query.value(1).toString();
+
+        QString lastName;
+        lastName = query.value(2).toString();
+
+        QString degree;
+        degree = query.value(3).toString();
+
+        QString major;
+        major = query.value(4).toString();
+
+        int year = 0;
+        year = query.value(5).toInt();
+
+        _taList.push_back(TeachingAssistant(id, firstName, lastName, degree, major, year));
+
+
+    qDebug() << "getTA query " << query.lastError();
+}
+
 
 void DBManager::getCourse(QString courseterm, int courseyear)
     {
@@ -232,7 +309,7 @@ void DBManager::getCourse(QString courseterm, int courseyear)
            term = query.value(4).toString();
            _courses.push_back(Course(courseID, courseName, courseCode, year, term));
     }
-        qDebug() << query.lastError();
+        qDebug() << "getCourse query " << query.lastError();
 
 
 }
@@ -278,6 +355,29 @@ int DBManager::createTA(int stdnum, QString fname, QString lname, QString degree
         }
     return newId;
 }
+
+int DBManager::createCourseTA(int courseid, int stdnum){
+    int newId = -1;
+    bool ret = false;
+
+    if (db.isOpen())
+        {
+
+        QSqlQuery query;
+        ret = query.exec(QString("insert into courseta values(%1,%2)")
+                         .arg(courseid).arg(stdnum));
+
+        // Get database given autoincrement value
+        if (ret)
+            {
+            newId = query.lastInsertId().toInt();
+            }
+
+        }
+    return newId;
+}
+
+
 
 int DBManager::createCourse(QString coursename, QString coursecode, int year, QString term, int instructor){
     int newId = -1;

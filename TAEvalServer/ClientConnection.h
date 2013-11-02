@@ -18,6 +18,7 @@ private:
     QTimer* _timeoutTimer;
     DBManager *mydbmanager;
     void sendCourseList();
+    void sendTAList();
 
 public:
     ClientConnection(int socketDescriptor, int timeoutSeconds);
@@ -25,6 +26,7 @@ public:
 
     void processTestRequest(const QByteArray& packetData);
     void processCourseListRequest(const QByteArray& packetData);
+    void processTeachingAssistantListRequest(const QByteArray& packetData);
 
 
 public slots:
