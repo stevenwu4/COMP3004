@@ -33,5 +33,5 @@ void MainWindow::testCaseFinished(bool success){
 
     //Update the GUI here
 
-    QTimer::singleShot(0, this, SLOT(pretendWeClickedATestCaseButton()));
+   // QTimer::singleShot(0, this, SLOT(pretendWeClickedATestCaseButton()));
 }

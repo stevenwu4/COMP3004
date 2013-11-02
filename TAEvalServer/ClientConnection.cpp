@@ -40,16 +40,16 @@ void ClientConnection::startConnection() {
 
     mydbmanager->initializeDB(mydbmanager);
 
-    _timeoutTimer = new QTimer();
+    /*_timeoutTimer = new QTimer();
     connect(_timeoutTimer, SIGNAL(timeout()), this, SLOT(connectionTimeout()));
-    _timeoutTimer->start(_timeoutSeconds * 1000);
+    _timeoutTimer->start(_timeoutSeconds * 1000); */
 
-    //Send a test welcome message
+ /*   //Send a test welcome message
     QByteArray welcomeMessage;
     QDataStream outputStream(&welcomeMessage, QIODevice::WriteOnly);
     outputStream.setVersion(QDataStream::Qt_4_8);
     outputStream << "Welcome";
-    _network->sendPacket(0, welcomeMessage);
+    _network->sendPacket(0, welcomeMessage);*/
 }
 
  void ClientConnection::processPacket(unsigned short packetId, const QByteArray& packetData) {
@@ -102,18 +102,20 @@ void ClientConnection::startConnection() {
      QDataStream inputStream(packetData);
      inputStream.setVersion(QDataStream::Qt_4_8);
 
+     QString term;
+     inputStream >> term;
+
 
      int year = 0;
      inputStream >> year;
 
-     char* term = 0;
-     inputStream >> term;
      qDebug() << "processCourseListRequest";
      qDebug() << "year=  " << year;
      qDebug() << "term= " << term;
-     mydbmanager->getCourse(QString(term), year);
+     mydbmanager->getCourse(term, year);
      mydbmanager->showCourse(mydbmanager);
      sendCourseList();
+     //delete[] term;
 
  }
 
