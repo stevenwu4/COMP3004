@@ -35,19 +35,9 @@ void ClientConnection::startConnection() {
     connect(_network, SIGNAL(processPacket(unsigned short, const QByteArray&)), this, SLOT(processPacket(unsigned short, const QByteArray&)));
 
 
-    DBManager* mydbmanager = new DBManager;
+    DBManager* mydbmanager = new DBManager();
 
-    if (mydbmanager->openDB()) {
-        std::cerr << "Database Opened!\n";
-        if (mydbmanager->createTATable())
-            std::cerr << "TA Table created\n";
-        if (mydbmanager->createInstructorTable())
-            std::cerr << "Instructor Table created\n";
-        if (mydbmanager->createCourseTable())
-            std::cerr << "Course Table created\n";
-        if (mydbmanager->createTaskTable())
-            std::cerr << "Task Table created\n";
-    }
+    mydbmanager->initializeDB(mydbmanager);
 
     _timeoutTimer = new QTimer();
     connect(_timeoutTimer, SIGNAL(timeout()), this, SLOT(connectionTimeout()));
@@ -62,13 +52,30 @@ void ClientConnection::startConnection() {
 }
 
  void ClientConnection::processPacket(unsigned short packetId, const QByteArray& packetData) {
-     switch (packetId) {
-     case 0:
-        processTestRequest(packetData);
-        break;
-     default:
-         break;
-     }
+    // switch (packetId) {
+    // case 0:
+    //    processTestRequest(packetData);
+   //     break;
+   //  default:
+   //      break;
+    switch (packetId) {
+        case 0:
+             processCourseListRequest(packetData);
+             break;
+      //   case 1:
+      //       processTeachingAssistantListRequest(packetData);
+      //       break;
+      //   case 2:
+      //       processTaskListRequest(packetData);
+      //       break;
+      //   case 3:
+      //       processCreateTask(packetData);
+      //       break;
+         default:
+             break;
+        }
+
+     //}
  }
 
  void ClientConnection::processTestRequest(const QByteArray& packetData) {

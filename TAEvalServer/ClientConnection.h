@@ -1,5 +1,6 @@
 #ifndef CLIENTCONNECTION_H
 #define CLIENTCONNECTION_H
+
 #include <QtNetwork/QTcpSocket>
 #include <QTimer>
 
