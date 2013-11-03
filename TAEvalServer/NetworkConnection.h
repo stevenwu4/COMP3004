@@ -19,7 +19,7 @@ public:
 
 private slots:
     void networkDataAvailable();
-    
+
 signals:
     void processPacket(unsigned short packetId, const QByteArray& packetData);
 };

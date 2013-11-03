@@ -25,7 +25,11 @@ SOURCES +=\
     ViewTasksController.cpp \
     ViewTasksTestCase.cpp \
     CreateTaskController.cpp \
-    CreateTaskTestCase.cpp
+    CreateTaskTestCase.cpp \
+    DeleteTaskController.cpp \
+    DeleteTaskTestCase.cpp \
+    EditTaskController.cpp \
+    EditTaskTestCase.cpp
 
 HEADERS  += MainWindow.h \
     TAEval.h \
@@ -40,6 +44,10 @@ HEADERS  += MainWindow.h \
     ViewTasksController.h \
     ViewTasksTestCase.h \
     CreateTaskController.h \
-    CreateTaskTestCase.h
+    CreateTaskTestCase.h \
+    DeleteTaskController.h \
+    DeleteTaskTestCase.h \
+    EditTaskController.h \
+    EditTaskTestCase.h
 
 FORMS    += MainWindow.ui

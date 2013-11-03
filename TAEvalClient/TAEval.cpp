@@ -71,6 +71,30 @@ void TAEval::createTask(const Course& course, const TeachingAssistant& teachingA
     _network->sendPacket(3, message);
 }
 
+void TAEval::deleteTask(const Task& task) {
+    QByteArray message;
+    QDataStream outputStream(&message, QIODevice::WriteOnly);
+    outputStream.setVersion(QDataStream::Qt_4_8);
+
+    outputStream << task.id();
+
+    _network->sendPacket(4, message);
+}
+
+void TAEval::editTask(const Task& task) {
+    QByteArray message;
+    QDataStream outputStream(&message, QIODevice::WriteOnly);
+    outputStream.setVersion(QDataStream::Qt_4_8);
+
+    outputStream << task.id();
+    outputStream << task.name();
+    outputStream << task.description();
+    outputStream << task.comment();
+    outputStream << task.rating();
+
+    _network->sendPacket(5, message);
+}
+
 void TAEval::initialize() {
     _socket = new QTcpSocket();
 
@@ -93,6 +117,12 @@ void TAEval::processPacket(unsigned short packetId, const QByteArray& packetData
         break;
     case 3:
         processCreateTask(packetData);
+        break;
+    case 4:
+        processDeleteTask(packetData);
+        break;
+    case 5:
+        processEditTask(packetData);
         break;
     default:
         break;
@@ -234,4 +264,51 @@ void TAEval::processCreateTask(const QByteArray& packetData) {
     }
 
     emit taskCreated(_currentTask);
+}
+
+void TAEval::processDeleteTask(const QByteArray &packetData) {
+    clearClientState();
+
+    QDataStream inputStream(packetData);
+    inputStream.setVersion(QDataStream::Qt_4_8);
+
+    bool success;
+    inputStream >> success;
+
+    emit taskDeleted(success);
+}
+
+void TAEval::processEditTask(const QByteArray& packetData) {
+    clearClientState();
+
+    QDataStream inputStream(packetData);
+    inputStream.setVersion(QDataStream::Qt_4_8);
+
+    bool success;
+    inputStream >> success;
+
+    if (success) {
+        int id;
+        inputStream >> id;
+
+        char* name = 0;
+        inputStream >> name;
+
+        char* description = 0;
+        inputStream >> description;
+
+        char* evaluation = 0;
+        inputStream >> evaluation;
+
+        int rating;
+        inputStream >> rating;
+
+        _currentTask = new Task(id, name, description, evaluation, rating);
+
+        delete[] name;
+        delete[] description;
+        delete[] evaluation;
+    }
+
+    emit taskEdited(_currentTask);
 }

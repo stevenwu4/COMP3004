@@ -5,6 +5,7 @@
 #include <QTimer>
 
 class NetworkConnection;
+class DBManager;
 
 class ClientConnection : public QObject {
     Q_OBJECT
@@ -15,12 +16,18 @@ private:
     QTcpSocket* _socket;
     NetworkConnection* _network;
     QTimer* _timeoutTimer;
+    DBManager* _dbManager;
+
+private:
+    void sendCourseList();
+    void sendTAList();
 
 public:
     ClientConnection(int socketDescriptor, int timeoutSeconds);
     ~ClientConnection();
 
-    void processTestRequest(const QByteArray& packetData);
+    void processCourseListRequest(const QByteArray& packetData);
+    void processTeachingAssistantListRequest(const QByteArray& packetData);
 
 public slots:
     void startConnection();

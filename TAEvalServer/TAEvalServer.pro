@@ -19,9 +19,17 @@ SOURCES += \
     Main.cpp \
     Server.cpp \
     ClientConnection.cpp \
-    NetworkConnection.cpp
+    NetworkConnection.cpp \
+    Course.cpp \
+    Task.cpp \
+    TeachingAssistant.cpp \
+    DBManager.cpp
 
 HEADERS += \
     Server.h \
     ClientConnection.h \
-    NetworkConnection.h
+    NetworkConnection.h \
+    Course.h \
+    Task.h \
+    TeachingAssistant.h \
+    DBManager.h
