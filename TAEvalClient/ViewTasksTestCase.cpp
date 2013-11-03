@@ -12,5 +12,6 @@ TeachingAssistant ViewTasksTestCase::teachingAssistant() const {
 
 void ViewTasksTestCase::run(const std::vector<Task>& taskList) const {
     //Check to see that everything in task list is correct
-    emit complete(true);
+
+    emit complete(false,2);
 }

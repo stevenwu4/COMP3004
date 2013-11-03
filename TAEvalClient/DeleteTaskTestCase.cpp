@@ -7,5 +7,5 @@ Task DeleteTaskTestCase::task() const {
 }
 
 void DeleteTaskTestCase::run(bool success) const {
-    emit complete(success);
+    emit complete(true,6);
 }

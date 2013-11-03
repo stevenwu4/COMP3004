@@ -9,5 +9,6 @@ Task EditTaskTestCase::task() const {
 
 void EditTaskTestCase::run(const Task* task) const {
     //Check to see that everything is edited properly
-    emit complete(true);
+    emit complete(true,4);
+    emit complete(false,5);
 }

@@ -15,7 +15,7 @@ public:
     Task task() const;
 
 signals:
-    void complete(bool success) const;
+    void complete(bool success,int testCase) const;
 
 public slots:
     void run(bool success) const;

@@ -8,5 +8,5 @@ Course ViewTeachingAssistantsTestCase::course() const {
 
 void ViewTeachingAssistantsTestCase::run(const std::vector<TeachingAssistant>& teachingAssistantList) const {
     //Check to see that everything in TA list is correct
-    emit complete(true);
+    emit complete(false,1);
 }

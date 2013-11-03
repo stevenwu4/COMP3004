@@ -21,5 +21,5 @@ QString CreateTaskTestCase::taskDescription() const {
 
 void CreateTaskTestCase::run(const Task* task) const {
     //Check to see that everything in the new task is correct
-    emit complete(true);
+    emit complete(true,3);
 }

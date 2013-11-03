@@ -12,5 +12,13 @@ QString ViewCoursesTestCase::term() const {
 
 void ViewCoursesTestCase::run(const std::vector<Course>& courseList) const {
     //Check to see that everything in courseList is correct
-    emit complete(true);
+    int x = qrand() % 2;
+    bool result;
+
+    if (x == 0)
+        result = true;
+    else if (x == 1)
+        result = false;
+
+    emit complete(result,0);
 }
