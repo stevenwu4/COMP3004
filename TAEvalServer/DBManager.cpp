@@ -319,7 +319,7 @@ void DBManager::getTaskbyID(int taskid)
 
 void DBManager::getCourseTA(int courseid)
     {
-
+    clearServerState();
     QSqlQuery query(QString("select * from courseta where courseid=%1").arg(courseid));
     qDebug() << "getCourseTA" << " for courseid = " << courseid;
     while (query.next()){
@@ -337,7 +337,7 @@ void DBManager::getCourseTA(int courseid)
 }
 
 void DBManager::getTA(int studentnum){
-    clearServerState();
+    
     qDebug() << "getTA studentnum = " << studentnum;
     QSqlQuery query(QString("select * from ta where studentno=%1").arg(studentnum));
     while (query.next()){
