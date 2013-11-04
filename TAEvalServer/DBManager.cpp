@@ -7,10 +7,7 @@ void DBManager::clearServerState() {
     _courses.clear();
     _taList.clear();
     _taskList.clear();
-    //_taskList.clear();
 
-    //delete _currentTask;
-    //_currentTask = 0;
 }
 
 void DBManager::initializeDB(){
@@ -224,7 +221,7 @@ void DBManager::populateDB(){
     int instructID;
     int taID;
     int courseID;
-    int taskID;
+    bool tasksucceed;
     int courseta;
 
     instructID = createInstructor(1, "Fred", "Flintstone", "Geology");
@@ -234,16 +231,46 @@ void DBManager::populateDB(){
     courseta = createCourseTA(courseID,taID);
     instructID = createInstructor(2, "Donald", "Knuth", "Computer Science");
     courseID = createCourse("Discrete Math", "COMP1805", 2009, "Fall", instructID);
-    taskID = createTask("Marking Exam", "correct midterm", NULL, 0, taID, courseID);
+    tasksucceed = createTask("Marking Exam", "correct midterm", NULL, 0, taID, courseID);
+
+
+    //course with no TA in W2007 with tasks that aren't evaluated
+
+    instructID = createInstructor(3, "John", "Carmack", "Computer Science");
+    courseID = createCourse("3D Game Engines", "COMP4002", 2007, "Winter", instructID);
+    taID = createTA(105, "John", "Romero", "MSc", "Computer Science", 1);
+    courseta = createCourseTA(courseID,taID);
+    tasksucceed = createTask("Tutorial", "organize tutorial", NULL, 0, taID, courseID);
+    tasksucceed = createTask("Marking Test", "correct test", NULL, 0, taID, courseID);
+    courseID = createCourse("Virtual Reality", "COMP4401", 2007, "Winter", instructID);
+    taID = createTA(104, "Palmer", "Luckey", "BSc", "Computer Science", 4);
+    courseta = createCourseTA(courseID,taID);
+    tasksucceed = createTask("Tutorial", "organize tutorial", NULL, 0, taID, courseID);
+    tasksucceed = createTask("Marking Project", "evaluate projects", NULL, 0, taID, courseID);
+
+    //course with TA in W2007 with tasks that are evaluated
+
+    instructID = createInstructor(4, "Jack", "Handey", "English");
+    courseID = createCourse("Deep Thoughts", "ENGL9999", 2007, "Winter", instructID);
+    taID = createTA(101, "Steve", "Martin", "M.A.", "English", 2);
+    courseta = createCourseTA(courseID,taID);
+    tasksucceed = createTask("Tutorial", "organize tutorial", "Well organized!", 5, taID, courseID);
+    taID = createTA(102, "Michael", "Nesmith", "M.A.", "English", 1);
+    courseta = createCourseTA(courseID,taID);
+    tasksucceed = createTask("Marking Exam", "correct final", "Satisfactory marking.", 3, taID, courseID);
+    courseID = createCourse("Comedic Writing", "ENGL3304", 2007, "Winter", instructID);
+    taID = createTA(103, "Jim", "Borgman", "B.A.", "English", 2);
+    courseta = createCourseTA(courseID,taID);
+    tasksucceed = createTask("Marking Assignments", "evaluate comics", "Always on time!", 4, taID, courseID);
 
 }
 
 void DBManager::getTask(int courseid, int taid)
     {
-
+    clearServerState();
     QSqlQuery query(QString("select * from task where courseid = %1 AND studentnum = %2").arg(courseid).arg(taid));
     while (query.next()){
-
+            clearServerState();
             int taskID = 0;
             taskID = query.value(0).toInt();
 
@@ -266,7 +293,7 @@ void DBManager::getTask(int courseid, int taid)
 
 void DBManager::getCourseTA(int courseid)
     {
-    clearServerState();
+
     QSqlQuery query(QString("select * from courseta where courseid=%1").arg(courseid));
     qDebug() << "getCourseTA" << " for courseid = " << courseid;
     while (query.next()){
@@ -284,7 +311,7 @@ void DBManager::getCourseTA(int courseid)
 }
 
 void DBManager::getTA(int studentnum){
-    //clearServerState();
+    clearServerState();
     qDebug() << "getTA studentnum = " << studentnum;
     QSqlQuery query(QString("select * from ta where studentno=%1").arg(studentnum));
     while (query.next()){
@@ -433,7 +460,7 @@ int DBManager::createCourse(QString coursename, QString coursecode, int year, QS
     return newId;
 }
 
-int DBManager::createTask(QString taskname, QString taskdesc, QString evaldesc, int evalrank, int studentnum, int courseid){
+bool DBManager::createTask(QString taskname, QString taskdesc, QString evaldesc, int evalrank, int studentnum, int courseid){
     int newId = -1;
     bool ret = false;
 
@@ -448,11 +475,30 @@ int DBManager::createTask(QString taskname, QString taskdesc, QString evaldesc, 
         if (ret)
             {
             newId = query.lastInsertId().toInt();
+            ret = true;
             }
 
         }
-    return newId;
+    return ret;
 }
+
+bool DBManager::deleteTask(int taskid){
+    bool ret = false;
+
+    if (db.isOpen())
+    {
+
+        QSqlQuery query;
+        ret = query.exec(QString("delete from task where taskid = %1").arg(taskid));
+
+        // Get database given autoincrement value
+        if (ret)
+           ret = true;
+
+    }
+    return ret;
+}
+
 
 QSqlError DBManager::lastError()
  {

@@ -33,6 +33,8 @@ public:
     void showTask();
     void getTA(int courseid);
     void getCourseTA(int courseid);
+    bool createTask(QString taskname, QString taskdesc, QString evaldesc, int evalrank, int studentnum, int courseid);
+    bool deleteTask(int taskid);
 
 private:
     QSqlDatabase db;
@@ -44,7 +46,6 @@ private:
     int createInstructor(int emplynum, QString fname, QString lname, QString dept);
     int createTA(int stdnum, QString fname, QString lname, QString degree, QString major, int year);
     int createCourse(QString coursename, QString coursecode, int year, QString term, int instructor);
-    int createTask(QString taskname, QString taskdesc, QString evaldesc, int evalrank, int studentnum, int courseid);
     void clearServerState();
     int createCourseTA(int courseid, int stdnum);
 };

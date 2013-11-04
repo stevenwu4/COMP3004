@@ -242,16 +242,15 @@ void TAEval::processCreateTask(const QByteArray& packetData) {
         int id;
         inputStream >> id;
 
-        char* name = 0;
+        QString name;
         inputStream >> name;
 
-        char* description = 0;
+        QString description;
         inputStream >> description;
 
         _currentTask = new Task(id, name, description, QString(), -1);
 
-        delete[] name;
-        delete[] description;
+
     }
 
     emit taskCreated(_currentTask);
@@ -282,13 +281,13 @@ void TAEval::processEditTask(const QByteArray& packetData) {
         int id;
         inputStream >> id;
 
-        char* name = 0;
+        QString name;
         inputStream >> name;
 
-        char* description = 0;
+        QString description;
         inputStream >> description;
 
-        char* evaluation = 0;
+        QString evaluation;
         inputStream >> evaluation;
 
         int rating;
@@ -296,9 +295,6 @@ void TAEval::processEditTask(const QByteArray& packetData) {
 
         _currentTask = new Task(id, name, description, evaluation, rating);
 
-        delete[] name;
-        delete[] description;
-        delete[] evaluation;
     }
 
     emit taskEdited(_currentTask);

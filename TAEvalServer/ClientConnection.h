@@ -24,6 +24,8 @@ private:
     void sendCourseList();
     void sendTAList();
     void sendTaskList();
+    void sendTaskSuccess(bool success);
+    void sendTaskDeleteSuccess(bool success);
 
 public:
     ClientConnection(int socketDescriptor, int timeoutSeconds);
@@ -32,6 +34,8 @@ public:
     void processCourseListRequest(const QByteArray& packetData);
     void processTeachingAssistantListRequest(const QByteArray& packetData);
     void processTaskListRequest(const QByteArray& packetData);
+    void processCreateTaskRequest(const QByteArray& packetData);
+    void processDeleteTask(const QByteArray& packetData);
 
 public slots:
     void startConnection();

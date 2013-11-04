@@ -3,11 +3,11 @@
 ViewCoursesTestCase::ViewCoursesTestCase() {}
 
 int ViewCoursesTestCase::year() const {
-    return 2009;
+    return 2007; //2009
 }
 
 QString ViewCoursesTestCase::term() const {
-    return "Fall";
+    return "Winter"; //Fall
 }
 
 void ViewCoursesTestCase::run(const std::vector<Course>& courseList) const {

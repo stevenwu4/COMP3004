@@ -55,13 +55,13 @@ void ClientConnection::startConnection() {
      case 2:
          processTaskListRequest(packetData);
          break;
-     /*case 3:
-         processCreateTask(packetData);
+     case 3:
+         processCreateTaskRequest(packetData);
          break;
      case 4:
          processDeleteTask(packetData);
          break;
-     case 5:
+     /*  case 5:
          processEditTask(packetData);
          break;*/
      default:
@@ -88,6 +88,35 @@ void ClientConnection::startConnection() {
 
      _network->sendPacket(0, message);
  }
+
+ void ClientConnection::sendTaskSuccess(bool success) {
+     QByteArray message;
+     QDataStream outputStream(&message, QIODevice::WriteOnly);
+     outputStream.setVersion(QDataStream::Qt_4_8);
+
+     outputStream << success;
+     if (success){
+        for (std::vector<Task>::iterator it = _dbManager->_taskList.begin() ; it != _dbManager->_taskList.end(); ++it){
+            outputStream <<  it->id();
+            outputStream <<  it->name();
+            outputStream <<  it->description();
+        }
+     }
+
+     _network->sendPacket(3, message);
+ }
+
+
+ void ClientConnection::sendTaskDeleteSuccess(bool success) {
+     QByteArray message;
+     QDataStream outputStream(&message, QIODevice::WriteOnly);
+     outputStream.setVersion(QDataStream::Qt_4_8);
+
+     outputStream << success;
+
+     _network->sendPacket(4, message);
+ }
+
 
  void ClientConnection::sendTAList() {
      QByteArray message;
@@ -151,6 +180,42 @@ void ClientConnection::startConnection() {
 
  }
 
+ void ClientConnection::processCreateTaskRequest(const QByteArray& packetData) {
+
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+
+     bool success = false;
+
+     int courseid = 0;
+     inputStream >> courseid;
+
+     int taid = 0;
+     inputStream >> taid;
+
+     QString taskname;
+     inputStream >> taskname;
+
+     QString taskdesc;
+     inputStream >> taskdesc;
+
+
+     qDebug() << "processCreateTaskRequest";
+     qDebug() << "courseid=  " << courseid;
+     qDebug() << "taid= " << taid;
+     qDebug() << "taskname= " << taskname;
+     qDebug() << "taskdesc= " << taskdesc;
+     success = _dbManager->createTask(taskname, taskdesc, NULL, 0, taid, courseid);
+     if (success){
+         qDebug() << "Failed Creating a task";
+        _dbManager->getTask(courseid, taid);
+        _dbManager->showTask();
+    }
+     sendTaskSuccess(success);
+
+ }
+
+
  void ClientConnection::processTeachingAssistantListRequest(const QByteArray& packetData) {
 
      QDataStream inputStream(packetData);
@@ -167,6 +232,26 @@ void ClientConnection::startConnection() {
      sendTAList();
 
  }
+
+ void ClientConnection::processDeleteTask(const QByteArray& packetData) {
+
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+
+     bool success = false;
+
+     int taskid = 0;
+     inputStream >> taskid;
+
+     qDebug() << "processDeleteTask";
+     qDebug() << "courseid=  " << taskid;
+     success = _dbManager->deleteTask(taskid);
+
+
+     sendTaskDeleteSuccess(success);
+
+ }
+
 
  void ClientConnection::processTaskListRequest(const QByteArray& packetData) {
 
