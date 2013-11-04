@@ -262,6 +262,7 @@ void ClientConnection::startConnection() {
      qDebug() << "taskdesc= " << taskdesc;
      qDebug() << "evalcomment= " << evalcomment;
      qDebug() << "evalrating= " << rank;
+     
      success = _dbManager->modifyTask(taid,taskname,taskdesc,evalcomment,rank);
 
      if (success){
