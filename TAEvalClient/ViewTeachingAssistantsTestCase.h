@@ -12,6 +12,7 @@ class ViewTeachingAssistantsTestCase : public QObject {
 public:
     ViewTeachingAssistantsTestCase();
     Course course() const;
+    bool match(const TeachingAssistant&, TeachingAssistant&) const;
     
 signals:
     void complete(bool success,int testCase) const;

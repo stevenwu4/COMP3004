@@ -3,9 +3,10 @@
 DeleteTaskTestCase::DeleteTaskTestCase() {}
 
 Task DeleteTaskTestCase::task() const {
-    return Task(384, "Grade Midterms", "Grade all the midterms by November 15th", QString(), -1);
+    return Task(20, "Marking Project", "evaluate projects", QString(), -1); //(384, "Grade Midterms", "Grade all the midterms by November 15th", QString(), -1)
 }
 
 void DeleteTaskTestCase::run(bool success) const {
-    emit complete(true,6);
+    //should we try to grab the task from the database to show it's not there anymore?
+    emit complete(success,6);
 }

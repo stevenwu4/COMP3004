@@ -29,7 +29,7 @@ private slots:
     void on_taskListButton_clicked();
     void on_createButton_clicked();
     void on_editButton_clicked();
-    void on_evaluateButton_clicked();
+    //void on_evaluateButton_clicked();
     void on_deleteButton_clicked();
 };
 

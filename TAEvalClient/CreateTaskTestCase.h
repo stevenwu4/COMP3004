@@ -18,6 +18,7 @@ public:
     TeachingAssistant teachingAssistant() const;
     QString taskName() const;
     QString taskDescription() const;
+    bool match(const Task*, Task&) const;
 
 signals:
     void complete(bool success,int testCase) const;

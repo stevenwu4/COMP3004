@@ -15,6 +15,7 @@ public:
     EditTaskTestCase();
 
     Task task() const;
+    bool match(const Task*, Task&) const;
 
 signals:
     void complete(bool success,int testCase) const;

@@ -12,13 +12,13 @@ QString ViewCoursesTestCase::term() const {
 
 void ViewCoursesTestCase::run(const std::vector<Course>& courseList) const {
     //Check to see that everything in courseList is correct
-    int x = qrand() % 2;
+
     bool result;
 
-    if (x == 0)
-        result = true;
-    else if (x == 1)
-        result = false;
+    Course comp4002(3, "3D Game Engines", "COMP4002", 2007, "Winter");
+    Course comp4401(4, "Virtual Reality", "COMP4401", 2007, "Winter");
+    Course engl9999(5, "Deep Thoughts", "ENGL9999", 2007, "Winter");
+    Course engl3304(6, "Comedic Writing", "ENGL3304", 2007, "Winter");
 
     QTextStream out(stdout);
     out << "Number of Courses  " << courseList.size() << endl;
@@ -30,7 +30,45 @@ void ViewCoursesTestCase::run(const std::vector<Course>& courseList) const {
         out << "Term " << courseList[i].term() << endl;
     }
 
-
+    if(courseList.size() == 4 &&
+       match(courseList[0],comp4002)    &&
+       match(courseList[1],comp4401)    &&
+       match(courseList[2],engl9999)    &&
+       match(courseList[3],engl3304))   {
+        result = true;
+    }
 
     emit complete(result,0);
+}
+
+bool ViewCoursesTestCase::match(const Course& actual, Course& expected) const {
+    bool result = true;
+    QTextStream out(stdout);
+
+    if(expected.id() != actual.id()) {
+        result = false;
+        out << "course id from database doesn't match expected" << endl;
+    }
+
+    if(expected.name() != actual.name()) {
+        result = false;
+        out << "course name from database doesn't match expected" << endl;
+    }
+
+    if(expected.code() != actual.code()) {
+        result = false;
+        out << "course code from database doesn't match expected" << endl;
+    }
+
+    if(expected.year() != actual.year()) {
+        result = false;
+        out << "course year from database doesn't match expected" << endl;
+    }
+
+    if(expected.term() != actual.term()) {
+        result = false;
+        out << "course term from database doesn't match expected" << endl;
+    }
+
+    return result;
 }

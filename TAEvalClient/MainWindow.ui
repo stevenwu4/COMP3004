@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>448</width>
-    <height>454</height>
+    <width>414</width>
+    <height>1079</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,10 +23,26 @@
      <height>16777215</height>
     </size>
    </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
+    <item row="3" column="1">
+     <widget class="QTextEdit" name="taListTextEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
+    </item>
     <item row="2" column="0" colspan="2">
      <widget class="QTextEdit" name="courseListInfotextEdit">
       <property name="enabled">
@@ -43,7 +59,7 @@
     <item row="9" column="0">
      <widget class="QPushButton" name="editButton">
       <property name="text">
-       <string>Edit Task</string>
+       <string>Edit/Evaluate Task</string>
       </property>
      </widget>
     </item>
@@ -55,13 +71,6 @@
      </widget>
     </item>
     <item row="11" column="0">
-     <widget class="QPushButton" name="evaluateButton">
-      <property name="text">
-       <string>Evaluate Task</string>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="0">
      <widget class="QPushButton" name="deleteButton">
       <property name="text">
        <string>Delete Task</string>
@@ -74,19 +83,6 @@
        <bool>false</bool>
       </property>
       <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="0" colspan="2">
-     <widget class="QTextEdit" name="evaluateInfoTextEdit">
-      <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="verticalScrollBarPolicy">
@@ -130,7 +126,7 @@
       </property>
      </widget>
     </item>
-    <item row="13" column="1">
+    <item row="11" column="1">
      <widget class="QTextEdit" name="deleteTextEdit">
       <property name="enabled">
        <bool>false</bool>
@@ -196,34 +192,8 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QTextEdit" name="taListTextEdit">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-     </widget>
-    </item>
     <item row="9" column="1">
      <widget class="QTextEdit" name="editTextEdit">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="1">
-     <widget class="QTextEdit" name="evaluateTextEdit">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -248,7 +218,7 @@
       </property>
      </widget>
     </item>
-    <item row="14" column="0" colspan="2">
+    <item row="12" column="0" colspan="2">
      <widget class="QTextEdit" name="deleteInfoTextEdit">
       <property name="enabled">
        <bool>false</bool>
@@ -263,9 +233,6 @@
     </item>
    </layout>
    <zorder>courseListButton</zorder>
-   <zorder>label</zorder>
-   <zorder>courseListButton</zorder>
-   <zorder>courseListButton</zorder>
    <zorder>courseListTextEdit</zorder>
    <zorder>taListButton</zorder>
    <zorder>taListTextEdit</zorder>
@@ -276,15 +243,12 @@
    <zorder>createTextEdit</zorder>
    <zorder>editButton</zorder>
    <zorder>editTextEdit</zorder>
-   <zorder>evaluateButton</zorder>
-   <zorder>evaluateTextEdit</zorder>
    <zorder>deleteButton</zorder>
    <zorder>deleteTextEdit</zorder>
    <zorder>taListInfoTextEdit</zorder>
    <zorder>taskListInfoTextEdit</zorder>
    <zorder>createInfoTextEdit</zorder>
    <zorder>editInfoTextEdit</zorder>
-   <zorder>evaluateInfoTextEdit</zorder>
    <zorder>deleteInfoTextEdit</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -292,7 +256,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>448</width>
+     <width>414</width>
      <height>24</height>
     </rect>
    </property>

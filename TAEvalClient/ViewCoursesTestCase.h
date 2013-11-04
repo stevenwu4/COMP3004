@@ -13,6 +13,7 @@ public:
 
     int year() const;
     QString term() const;
+    bool match(const Course&, Course&) const;
 
 signals:
     void complete(bool success,int testCase) const;

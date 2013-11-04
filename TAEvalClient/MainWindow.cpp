@@ -23,7 +23,7 @@ MainWindow::MainWindow(TAEval* taEval) :
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    //this->setFixedSize(QWidget::minimumSizeHint());
+    this->resize(200,500);
     QSize testNotificationBox(70,25);
     int infoHeight = 50;
 
@@ -47,9 +47,11 @@ MainWindow::MainWindow(TAEval* taEval) :
     ui->editInfoTextEdit->setFixedHeight(infoHeight);
     ui->editInfoTextEdit->setText("Attempt to edit a task on the server.");
 
+    /*
     ui->evaluateTextEdit->setFixedSize(testNotificationBox);
     ui->evaluateInfoTextEdit->setFixedHeight(infoHeight);
     ui->evaluateInfoTextEdit->setText("Attempt to evaluate or edit an evaluation on the server.");
+    */
 
     ui->deleteTextEdit->setFixedSize(testNotificationBox);
     ui->deleteInfoTextEdit->setFixedHeight(infoHeight);
@@ -195,6 +197,7 @@ void MainWindow::on_editButton_clicked()
     controller->invoke(_taEval, testCase);
 }
 
+/*
 void MainWindow::on_evaluateButton_clicked()
 {
     EditTaskController* controller = new EditTaskController();
@@ -206,6 +209,7 @@ void MainWindow::on_evaluateButton_clicked()
 
     controller->invoke(_taEval, testCase);
 }
+*/
 
 void MainWindow::on_deleteButton_clicked()
 {
