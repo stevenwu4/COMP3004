@@ -35,6 +35,8 @@ public:
     void getCourseTA(int courseid);
     bool createTask(QString taskname, QString taskdesc, QString evaldesc, int evalrank, int studentnum, int courseid);
     bool deleteTask(int taskid);
+    bool modifyTask(int taskid, QString taskname, QString taskdesc, QString evaldesc, int evalrank);
+    void getTaskbyID(int taskid);
 
 private:
     QSqlDatabase db;

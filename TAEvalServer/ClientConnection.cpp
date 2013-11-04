@@ -61,9 +61,9 @@ void ClientConnection::startConnection() {
      case 4:
          processDeleteTask(packetData);
          break;
-     /*  case 5:
+     case 5:
          processEditTask(packetData);
-         break;*/
+         break;
      default:
          break;
      }
@@ -106,6 +106,24 @@ void ClientConnection::startConnection() {
      _network->sendPacket(3, message);
  }
 
+ void ClientConnection::sendTaskEditSuccess(bool success) {
+     QByteArray message;
+     QDataStream outputStream(&message, QIODevice::WriteOnly);
+     outputStream.setVersion(QDataStream::Qt_4_8);
+
+     outputStream << success;
+     if (success){
+        for (std::vector<Task>::iterator it = _dbManager->_taskList.begin() ; it != _dbManager->_taskList.end(); ++it){
+            outputStream <<  it->id();
+            outputStream <<  it->name();
+            outputStream <<  it->description();
+            outputStream <<  it->comment();
+            outputStream << it->rating();
+        }
+     }
+
+     _network->sendPacket(5, message);
+ }
 
  void ClientConnection::sendTaskDeleteSuccess(bool success) {
      QByteArray message;
@@ -214,6 +232,47 @@ void ClientConnection::startConnection() {
      sendTaskSuccess(success);
 
  }
+
+ void ClientConnection::processEditTask(const QByteArray& packetData) {
+
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+
+     bool success = false;
+
+
+     int taid = 0;
+     inputStream >> taid;
+
+     QString taskname;
+     inputStream >> taskname;
+
+     QString taskdesc;
+     inputStream >> taskdesc;
+
+     QString evalcomment;
+     inputStream >> evalcomment;
+
+     int rank = 0;
+     inputStream >> evalcomment;
+
+     qDebug() << "processEditTask";
+     qDebug() << "taid= " << taid;
+     qDebug() << "taskname= " << taskname;
+     qDebug() << "taskdesc= " << taskdesc;
+     qDebug() << "evalcomment= " << evalcomment;
+     qDebug() << "evalrating= " << rank;
+     success = _dbManager->modifyTask(taid,taskname,taskdesc,evalcomment,rank);
+
+     if (success){
+         qDebug() << "Failed Edit a task";
+        _dbManager->getTaskbyID(taid);
+        _dbManager->showTask();
+    }
+     sendTaskEditSuccess(success);
+
+ }
+
 
 
  void ClientConnection::processTeachingAssistantListRequest(const QByteArray& packetData) {

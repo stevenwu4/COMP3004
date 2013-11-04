@@ -291,6 +291,32 @@ void DBManager::getTask(int courseid, int taid)
 
   }
 
+void DBManager::getTaskbyID(int taskid)
+    {
+    clearServerState();
+    QSqlQuery query(QString("select * from task where taskid = %1").arg(taskid));
+    while (query.next()){
+            clearServerState();
+            int taskID = 0;
+            taskID = query.value(0).toInt();
+
+            QString taskName;
+            taskName = query.value(1).toString();
+
+            QString taskDesc;
+            taskDesc = query.value(2).toString();
+
+           QString evalComment;
+           evalComment = query.value(3).toString();
+
+           int evalRank = 0;
+           evalRank = query.value(4).toInt();
+           _taskList.push_back(Task(taskID, taskName, taskDesc, evalComment, evalRank));
+    }
+        qDebug() << "getTaskbyID query " << query.lastError();
+
+  }
+
 void DBManager::getCourseTA(int courseid)
     {
 
@@ -481,6 +507,41 @@ bool DBManager::createTask(QString taskname, QString taskdesc, QString evaldesc,
         }
     return ret;
 }
+
+bool DBManager::modifyTask(int taskid, QString taskname, QString taskdesc, QString evaldesc, int evalrank){
+    int newId = -1;
+    bool ret = false;
+
+    if (db.isOpen())
+        {
+
+        QSqlQuery query;
+        ret = query.exec(QString("update task set taskname = '%1', taskdesc = '%2', evaldesc = '%3', evalrank = %4 where taskid = %5)")
+                         .arg(taskname).arg(taskdesc).arg(evaldesc).arg(evalrank).arg(taskid));
+
+        //UPDATE names SET firstname = 'Nisse', lastname = 'Svensson' WHERE id = 7"
+        /*taskid integer primary key not null, "
+                          "taskname text, "
+                          "taskdesc text, "
+                          "evaldesc text, "
+                          "evalrank integer, "
+                          "studentnum integer not null, "
+                          "courseid integer not null, "*/
+
+
+
+        // Get database given autoincrement value
+        if (ret)
+            {
+            newId = query.lastInsertId().toInt();
+            ret = true;
+            }
+
+        }
+    return ret;
+}
+
+
 
 bool DBManager::deleteTask(int taskid){
     bool ret = false;

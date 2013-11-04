@@ -26,6 +26,7 @@ private:
     void sendTaskList();
     void sendTaskSuccess(bool success);
     void sendTaskDeleteSuccess(bool success);
+    void sendTaskEditSuccess(bool success);
 
 public:
     ClientConnection(int socketDescriptor, int timeoutSeconds);
@@ -36,6 +37,7 @@ public:
     void processTaskListRequest(const QByteArray& packetData);
     void processCreateTaskRequest(const QByteArray& packetData);
     void processDeleteTask(const QByteArray& packetData);
+    void processEditTask(const QByteArray& packetData);
 
 public slots:
     void startConnection();
