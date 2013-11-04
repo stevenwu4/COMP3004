@@ -254,7 +254,7 @@ void ClientConnection::startConnection() {
      inputStream >> evalcomment;
 
      int rank = 0;
-     inputStream >> evalcomment;
+     inputStream >> rank;
 
      qDebug() << "processEditTask";
      qDebug() << "taid= " << taid;
