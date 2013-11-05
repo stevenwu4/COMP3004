@@ -5,32 +5,29 @@
 EditTaskTestCase::EditTaskTestCase() {}
 
 Task EditTaskTestCase::task() const {
-    return Task(234, "Do Something", "Do it well", "Good job", 5); //(234, "Do Something", "Do it well", "Good job", 5)
+    return Task(1, "Marking Exam", "correct midterm", "Good job", 5); //(234, "Do Something", "Do it well", "Good job", 5)
 }
 
 void EditTaskTestCase::run(const Task* task) const {
     //Check to see that everything is edited properly
+    if (!task) {
+        emit complete(false, 4);
+        return;
+    }
 
-    Task edittedTask = Task(234, "Do Something", "Do it well", "Good job", 5);
+    Task edittedTask = Task(1, "Marking Exam", "correct midterm", "Good job", 5);
 
-    //dereferencing task crashes the client?
-
-    /*
     QTextStream out (stdout);
     out << task->name() << endl;
     out << task->description() << endl;
     out << task->comment() << endl;
     out << task->rating() << endl;
-    */
-    //bool result = (match(task,edittedTask));
+    
+    bool result = (match(task,edittedTask));
 
-    bool result;
     emit complete(result,4);
-
-    //the following complete signal is redundant, we rolled edit and evaluate into one button
-    //emit complete(result,5);
 }
-/*
+
 bool EditTaskTestCase::match(const Task* actual, Task& expected) const {
     bool result = true;
 
@@ -58,4 +55,4 @@ bool EditTaskTestCase::match(const Task* actual, Task& expected) const {
 
 
     return result;
-}*/
+}
