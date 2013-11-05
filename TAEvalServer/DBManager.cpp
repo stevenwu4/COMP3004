@@ -516,18 +516,10 @@ bool DBManager::modifyTask(int taskid, QString taskname, QString taskdesc, QStri
         {
 
         QSqlQuery query;
-        ret = query.exec(QString("update task set taskname = '%1', taskdesc = '%2', evaldesc = '%3', evalrank = %4 where taskid = %5)")
+        ret = query.exec(QString("update task set taskname = '%1', taskdesc = '%2', evaldesc = '%3', evalrank = %4 where taskid = %5")
                          .arg(taskname).arg(taskdesc).arg(evaldesc).arg(evalrank).arg(taskid));
 
-        //UPDATE names SET firstname = 'Nisse', lastname = 'Svensson' WHERE id = 7"
-        /*taskid integer primary key not null, "
-                          "taskname text, "
-                          "taskdesc text, "
-                          "evaldesc text, "
-                          "evalrank integer, "
-                          "studentnum integer not null, "
-                          "courseid integer not null, "*/
-
+ 
 
 
         // Get database given autoincrement value
