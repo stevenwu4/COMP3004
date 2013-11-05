@@ -9,15 +9,18 @@ Task EditTaskTestCase::task() const {
 }
 
 void EditTaskTestCase::run(const Task* task) const {
+    QTextStream out (stdout);
+
     //Check to see that everything is edited properly
     if (!task) {
+        out << "Task not found in database\n";
         emit complete(false, 4);
         return;
     }
 
     Task edittedTask = Task(1, "Marking Exam", "correct midterm", "Good job", 5);
 
-    QTextStream out (stdout);
+    out << "\nEDIT TASK TEST CASE:\n";
     out << task->name() << endl;
     out << task->description() << endl;
     out << task->comment() << endl;
@@ -26,6 +29,13 @@ void EditTaskTestCase::run(const Task* task) const {
     bool result = (match(task,edittedTask));
 
     emit complete(result,4);
+}
+
+void EditTaskTestCase::timeout() const {
+    QTextStream out(stdout);
+    out << "TEST CASE TIMED OUT!\n";
+
+    emit complete(false, 4);
 }
 
 bool EditTaskTestCase::match(const Task* actual, Task& expected) const {

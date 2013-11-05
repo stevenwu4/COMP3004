@@ -221,17 +221,15 @@ void DBManager::populateDB(){
     int instructID;
     int taID;
     int courseID;
-    bool tasksucceed;
-    int courseta;
 
     instructID = createInstructor(1, "Fred", "Flintstone", "Geology");
     taID = createTA(100, "Sean", "Benjamin", "BSc", "Comp Sci", 3);
     taID = 100;
     courseID = createCourse("Rocks", "GEOL100", 2009, "Fall", instructID);
-    courseta = createCourseTA(courseID,taID);
+    createCourseTA(courseID,taID);
     instructID = createInstructor(2, "Donald", "Knuth", "Computer Science");
     courseID = createCourse("Discrete Math", "COMP1805", 2009, "Fall", instructID);
-    tasksucceed = createTask("Marking Exam", "correct midterm", NULL, 0, taID, courseID);
+    createTask("Marking Exam", "correct midterm", NULL, 0, taID, courseID);
 
 
     //course with no TA in W2007 with tasks that aren't evaluated
@@ -239,29 +237,29 @@ void DBManager::populateDB(){
     instructID = createInstructor(3, "John", "Carmack", "Computer Science");
     courseID = createCourse("3D Game Engines", "COMP4002", 2007, "Winter", instructID);
     taID = createTA(105, "John", "Romero", "MSc", "Computer Science", 1);
-    courseta = createCourseTA(courseID,taID);
-    tasksucceed = createTask("Tutorial", "organize tutorial", NULL, 0, taID, courseID);
-    tasksucceed = createTask("Marking Test", "correct test", NULL, 0, taID, courseID);
+    createCourseTA(courseID,taID);
+    createTask("Tutorial", "organize tutorial", NULL, 0, taID, courseID);
+    createTask("Marking Test", "correct test", NULL, 0, taID, courseID);
     courseID = createCourse("Virtual Reality", "COMP4401", 2007, "Winter", instructID);
     taID = createTA(104, "Palmer", "Luckey", "BSc", "Computer Science", 4);
-    courseta = createCourseTA(courseID,taID);
-    tasksucceed = createTask("Tutorial", "organize tutorial", NULL, 0, taID, courseID);
-    tasksucceed = createTask("Marking Project", "evaluate projects", NULL, 0, taID, courseID);
+    createCourseTA(courseID,taID);
+    createTask("Tutorial", "organize tutorial", NULL, 0, taID, courseID);
+    createTask("Marking Project", "evaluate projects", NULL, 0, taID, courseID);
 
     //course with TA in W2007 with tasks that are evaluated
 
     instructID = createInstructor(4, "Jack", "Handey", "English");
     courseID = createCourse("Deep Thoughts", "ENGL9999", 2007, "Winter", instructID);
     taID = createTA(101, "Steve", "Martin", "M.A.", "English", 2);
-    courseta = createCourseTA(courseID,taID);
-    tasksucceed = createTask("Tutorial", "organize tutorial", "Well organized!", 5, taID, courseID);
+    createCourseTA(courseID,taID);
+    createTask("Tutorial", "organize tutorial", "Well organized!", 5, taID, courseID);
     taID = createTA(102, "Michael", "Nesmith", "M.A.", "English", 1);
-    courseta = createCourseTA(courseID,taID);
-    tasksucceed = createTask("Marking Exam", "correct final", "Satisfactory marking.", 3, taID, courseID);
+    createCourseTA(courseID,taID);
+    createTask("Marking Exam", "correct final", "Satisfactory marking.", 3, taID, courseID);
     courseID = createCourse("Comedic Writing", "ENGL3304", 2007, "Winter", instructID);
     taID = createTA(103, "Jim", "Borgman", "B.A.", "English", 2);
-    courseta = createCourseTA(courseID,taID);
-    tasksucceed = createTask("Marking Assignments", "evaluate comics", "Always on time!", 4, taID, courseID);
+    createCourseTA(courseID,taID);
+     createTask("Marking Assignments", "evaluate comics", "Always on time!", 4, taID, courseID);
 
 }
 
@@ -487,7 +485,6 @@ int DBManager::createCourse(QString coursename, QString coursecode, int year, QS
 }
 
 bool DBManager::createTask(QString taskname, QString taskdesc, QString evaldesc, int evalrank, int studentnum, int courseid){
-    int newId = -1;
     bool ret = false;
 
     if (db.isOpen())
@@ -500,7 +497,7 @@ bool DBManager::createTask(QString taskname, QString taskdesc, QString evaldesc,
         // Get database given autoincrement value
         if (ret)
             {
-            newId = query.lastInsertId().toInt();
+            query.lastInsertId().toInt();
             ret = true;
             }
 
@@ -509,7 +506,6 @@ bool DBManager::createTask(QString taskname, QString taskdesc, QString evaldesc,
 }
 
 bool DBManager::modifyTask(int taskid, QString taskname, QString taskdesc, QString evaldesc, int evalrank){
-    int newId = -1;
     bool ret = false;
 
     if (db.isOpen())
@@ -525,7 +521,7 @@ bool DBManager::modifyTask(int taskid, QString taskname, QString taskdesc, QStri
         // Get database given autoincrement value
         if (ret)
             {
-            newId = query.lastInsertId().toInt();
+            query.lastInsertId().toInt();
             ret = true;
             }
 

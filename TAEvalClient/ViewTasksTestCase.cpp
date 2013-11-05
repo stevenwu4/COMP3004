@@ -17,8 +17,9 @@ void ViewTasksTestCase::run(const std::vector<Task>& taskList) const {
     Task steveTask(6, "Tutorial", "organize tutorial", "Well organized!", 5);
 
     QTextStream out(stdout);
+    out << "\nVIEW TASKS TEST CASE:\n";
     out << "Number of Tasks  " << taskList.size() << endl;
-    for (int i = 0; i < taskList.size(); i++){
+    for (size_t i = 0; i < taskList.size(); i++){
         out << "Task Id " << taskList[i].id() << endl;
         out << "Task Name " << taskList[i].name() << endl;
         out << "Task Desc " << taskList[i].description() << endl;
@@ -31,6 +32,13 @@ void ViewTasksTestCase::run(const std::vector<Task>& taskList) const {
 
 
     emit complete(result,2);
+}
+
+void ViewTasksTestCase::timeout() const {
+    QTextStream out(stdout);
+    out << "TEST CASE TIMED OUT!\n";
+
+    emit complete(false, 2);
 }
 
 bool ViewTasksTestCase::match(const Task& actual, Task& expected) const {

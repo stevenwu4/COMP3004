@@ -12,17 +12,15 @@ QString ViewCoursesTestCase::term() const {
 
 void ViewCoursesTestCase::run(const std::vector<Course>& courseList) const {
     //Check to see that everything in courseList is correct
-
-    bool result;
-
     Course comp4002(3, "3D Game Engines", "COMP4002", 2007, "Winter");
     Course comp4401(4, "Virtual Reality", "COMP4401", 2007, "Winter");
     Course engl9999(5, "Deep Thoughts", "ENGL9999", 2007, "Winter");
     Course engl3304(6, "Comedic Writing", "ENGL3304", 2007, "Winter");
 
     QTextStream out(stdout);
+    out << "\nVIEW COURSES TEST CASE:\n";
     out << "Number of Courses  " << courseList.size() << endl;
-    for (int i = 0; i < courseList.size(); i++){
+    for (size_t i = 0; i < courseList.size(); i++){
         out << "Course Id " << courseList[i].id() << endl;
         out << "Course Name " << courseList[i].name() << endl;
         out << "Course Code " << courseList[i].code() << endl;
@@ -30,15 +28,21 @@ void ViewCoursesTestCase::run(const std::vector<Course>& courseList) const {
         out << "Term " << courseList[i].term() << endl;
     }
 
-    if(courseList.size() == 4 &&
-       match(courseList[0],comp4002)    &&
-       match(courseList[1],comp4401)    &&
-       match(courseList[2],engl9999)    &&
-       match(courseList[3],engl3304))   {
-        result = true;
-    }
+    bool result =
+        (courseList.size() == 4 &&
+        match(courseList[0],comp4002) &&
+        match(courseList[1],comp4401) &&
+        match(courseList[2],engl9999) &&
+        match(courseList[3],engl3304));
 
-    emit complete(result,0);
+    emit complete(result, 0);
+}
+
+void ViewCoursesTestCase::timeout() const {
+    QTextStream out(stdout);
+    out << "TEST CASE TIMED OUT!\n";
+
+    emit complete(false, 0);
 }
 
 bool ViewCoursesTestCase::match(const Course& actual, Course& expected) const {

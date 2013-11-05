@@ -19,6 +19,7 @@ signals:
 
 public slots:
     void run(bool success) const;
+    void timeout() const;
 };
 
 #endif // DELETETASKTESTCASE_H

@@ -22,6 +22,7 @@ signals:
 
 public slots:
     void run(const std::vector<Task>& taskList) const;
+    void timeout() const;
 };
 
 #endif // VIEWTASKSTESTCASE_H

@@ -25,6 +25,7 @@ signals:
 
 public slots:
     void run(const Task* task) const;
+    void timeout() const;
 };
 
 #endif // CREATETASKTESTCASE_H

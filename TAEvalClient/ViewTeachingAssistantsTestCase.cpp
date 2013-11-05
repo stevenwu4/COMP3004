@@ -14,8 +14,9 @@ void ViewTeachingAssistantsTestCase::run(const std::vector<TeachingAssistant>& t
 
     //TeachingAssistant
     QTextStream out(stdout);
+    out << "\nVIEW TEACHING ASSISTANTS TEST CASE:\n";
     out << "Number of TAs  " << teachingAssistantList.size() << endl;
-    for (int i = 0; i < teachingAssistantList.size(); i++){
+    for (size_t i = 0; i < teachingAssistantList.size(); i++){
         out << "TA Id " << teachingAssistantList[i].id() << endl;
         out << "First Name " << teachingAssistantList[i].firstName() << endl;
         out << "Last Name " << teachingAssistantList[i].lastName() << endl;
@@ -31,6 +32,13 @@ void ViewTeachingAssistantsTestCase::run(const std::vector<TeachingAssistant>& t
                    match(teachingAssistantList[1],michaelNesmith));
 
     emit complete(result,1);
+}
+
+void ViewTeachingAssistantsTestCase::timeout() const {
+    QTextStream out(stdout);
+    out << "TEST CASE TIMED OUT!\n";
+
+    emit complete(false, 1);
 }
 
 bool ViewTeachingAssistantsTestCase::match(const TeachingAssistant& actual, TeachingAssistant& expected) const {

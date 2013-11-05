@@ -8,6 +8,7 @@
 #include "Course.h"
 #include "TeachingAssistant.h"
 #include "Task.h"
+#include <QTimer>
 
 class NetworkConnection;
 
@@ -20,6 +21,10 @@ private:
 
     QTcpSocket* _socket;
     NetworkConnection* _network;
+
+    int _currentPacketId;
+    QTimer _requestTimer;
+    const unsigned int _requestTimeoutSeconds;
 
 private:
     std::vector<Course> _courseList;
@@ -47,6 +52,7 @@ signals:
     void taskCreated(const Task* task);
     void taskDeleted(bool success);
     void taskEdited(const Task* task);
+    void requestTimedOut();
 
 private:
     void processCourseListRequest(const QByteArray& packetData);
@@ -58,6 +64,7 @@ private:
 
 private slots:
     void processPacket(unsigned short packetId, const QByteArray& packetData);
+    void requestTimeout();
     
 public slots:
     void initialize();

@@ -19,6 +19,7 @@ signals:
 
 public slots:
     void run(const std::vector<TeachingAssistant>& teachingAssistantList) const;
+    void timeout() const;
 };
 
 #endif // VIEWTEACHINGASSISTANTSTESTCASE_H

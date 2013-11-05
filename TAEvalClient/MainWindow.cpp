@@ -23,39 +23,34 @@ MainWindow::MainWindow(TAEval* taEval) :
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    this->resize(200,500);
+    this->setWindowTitle("TAEval Test Client");
+    this->resize(640,480);
     QSize testNotificationBox(70,25);
-    int infoHeight = 50;
+    int infoHeight = 80;
 
     ui->courseListTextEdit->setFixedSize(testNotificationBox);
     ui->courseListInfotextEdit->setFixedHeight(infoHeight);
-    ui->courseListInfotextEdit->setText("Attempt to retreive a list of courses from the server.");
+    ui->courseListInfotextEdit->setText("Makes a request for a list of courses from the Winter 2007 semester from the server. If the list received matches the test case's expected list then this test will succeed. Any other response will result in failure. Details of any failure and the list of courses are logged to the console.");
 
     ui->taListTextEdit->setFixedSize(testNotificationBox);
     ui->taListInfoTextEdit->setFixedHeight(infoHeight);
-    ui->taListInfoTextEdit->setText("Attempt to retreive a list of TAs from the server.");
+    ui->taListInfoTextEdit->setText("Makes a request for a list of TAs from ENGL9999 course from the server. If the list received matches the test case's expected list then this test will succeed. Any other response results in failure. Details of any failure and the list of teaching assistants are logged to the console.");
 
     ui->taskListTextEdit->setFixedSize(testNotificationBox);
     ui->taskListInfoTextEdit->setFixedHeight(infoHeight);
-    ui->taskListInfoTextEdit->setText("Attempt to retreive a list of tasks from the server.");
+    ui->taskListInfoTextEdit->setText("Makes a request for a list of tasks from the ENGL9999 course from the server. If the list received matches the test case's expected list then this test will succeed. Any other response results in failure. Details of any failure and the list of tasks are logged to the console.");
 
     ui->createTextEdit->setFixedSize(testNotificationBox);
     ui->createInfoTextEdit->setFixedHeight(infoHeight);
-    ui->createInfoTextEdit->setText("Attempt to create a task on the server.");
+    ui->createInfoTextEdit->setText("Makes a request to create a task for the course COMP4401. The server adds the task to the database and responds with the created task. If the created task from the server matches the test case's then this test will succeed. Any other response results in failure. Details of any failure and the create task are logged to the console");
 
     ui->editTextEdit->setFixedSize(testNotificationBox);
     ui->editInfoTextEdit->setFixedHeight(infoHeight);
-    ui->editInfoTextEdit->setText("Attempt to edit a task on the server.");
-
-    /*
-    ui->evaluateTextEdit->setFixedSize(testNotificationBox);
-    ui->evaluateInfoTextEdit->setFixedHeight(infoHeight);
-    ui->evaluateInfoTextEdit->setText("Attempt to evaluate or edit an evaluation on the server.");
-    */
+    ui->editInfoTextEdit->setText("Makes a request to edit an existing task on the server. The server modifies the particular task and responds with the updated task. If the updated task information matches the expected task this test will succeed. Any other response results in failure. Details of any failure and the editted task are logged to the console.");
 
     ui->deleteTextEdit->setFixedSize(testNotificationBox);
     ui->deleteInfoTextEdit->setFixedHeight(infoHeight);
-    ui->deleteInfoTextEdit->setText("Attempt to delete a task on the server.");
+    ui->deleteInfoTextEdit->setText("Makes a request to delete a task on the server. If the task is successfully deleted or does not exist this test will succeed. Any other response results in failure. Any failures are logged to the console.");
 }
 
 MainWindow::~MainWindow() {
@@ -63,8 +58,6 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::testCaseFinished(bool success, int testCase){
-    std::cerr << "Test Case Finished: ";
-
     //Update the GUI here
     QPalette pass = ui->courseListTextEdit->palette();
     pass.setColor(QPalette::Base, QColor(0,255,0));
@@ -196,20 +189,6 @@ void MainWindow::on_editButton_clicked()
 
     controller->invoke(_taEval, testCase);
 }
-
-/*
-void MainWindow::on_evaluateButton_clicked()
-{
-    EditTaskController* controller = new EditTaskController();
-    EditTaskTestCase* testCase = new EditTaskTestCase();
-
-    QObject::connect(testCase, SIGNAL(complete(bool,int)), this, SLOT(testCaseFinished(bool,int)));
-    QObject::connect(testCase, SIGNAL(complete(bool,int)), controller, SLOT(deleteLater()));
-    QObject::connect(testCase, SIGNAL(complete(bool,int)), testCase, SLOT(deleteLater()));
-
-    controller->invoke(_taEval, testCase);
-}
-*/
 
 void MainWindow::on_deleteButton_clicked()
 {

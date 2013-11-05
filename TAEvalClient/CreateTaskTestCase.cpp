@@ -25,6 +25,7 @@ void CreateTaskTestCase::run(const Task* task) const {
 
     Task palmerTask(1,"Marking Project","evaluate projects", NULL, -1);
     QTextStream out (stdout);
+    out << "\nCREATE TASK TEST CASE:\n";
     out << task->id() << endl;
     out << task->name() << endl;
     out << task->description() << endl;
@@ -34,6 +35,13 @@ void CreateTaskTestCase::run(const Task* task) const {
     bool result = (match(task,palmerTask));
 
     emit complete(result,3);
+}
+
+void CreateTaskTestCase::timeout() const {
+    QTextStream out(stdout);
+    out << "TEST CASE TIMED OUT!\n";
+
+    emit complete(false, 3);
 }
 
 bool CreateTaskTestCase::match(const Task* actual, Task& expected) const{
