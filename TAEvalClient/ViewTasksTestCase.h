@@ -15,12 +15,14 @@ public:
 
     Course course() const;
     TeachingAssistant teachingAssistant() const;
+    bool match(const Task&, Task&) const;
 
 signals:
-    void complete(bool success) const;
+    void complete(bool success, int testCase) const;
 
 public slots:
     void run(const std::vector<Task>& taskList) const;
+    void timeout() const;
 };
 
 #endif // VIEWTASKSTESTCASE_H

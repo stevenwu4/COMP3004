@@ -21,8 +21,16 @@ private:
     Ui::MainWindow *ui;
 
 public slots:
-    void pretendWeClickedATestCaseButton();
-    void testCaseFinished(bool success);
+    void testCaseFinished(bool success,int testCase);
+
+private slots:
+    void on_courseListButton_clicked();
+    void on_taListButton_clicked();
+    void on_taskListButton_clicked();
+    void on_createButton_clicked();
+    void on_editButton_clicked();
+    //void on_evaluateButton_clicked();
+    void on_deleteButton_clicked();
 };
 
 #endif // MAINWINDOW_H

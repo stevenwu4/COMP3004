@@ -1,5 +1,5 @@
-#ifndef CREATETASKTESTCASE_H
-#define CREATETASKTESTCASE_H
+#ifndef EDITTASKTESTCASE_H
+#define EDITTASKTESTCASE_H
 
 #include <QObject>
 #include <QString>
@@ -8,16 +8,13 @@
 
 class Task;
 
-class CreateTaskTestCase : public QObject {
+class EditTaskTestCase : public QObject {
     Q_OBJECT
 
 public:
-    CreateTaskTestCase();
+    EditTaskTestCase();
 
-    Course course() const;
-    TeachingAssistant teachingAssistant() const;
-    QString taskName() const;
-    QString taskDescription() const;
+    Task task() const;
     bool match(const Task*, Task&) const;
 
 signals:
@@ -28,4 +25,4 @@ public slots:
     void timeout() const;
 };
 
-#endif // CREATETASKTESTCASE_H
+#endif // EDITTASKTESTCASE_H

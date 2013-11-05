@@ -1,9 +1,12 @@
 #ifndef CLIENTCONNECTION_H
 #define CLIENTCONNECTION_H
+
 #include <QtNetwork/QTcpSocket>
 #include <QTimer>
+#include "DBManager.h"
 
 class NetworkConnection;
+class DBManager;
 
 class ClientConnection : public QObject {
     Q_OBJECT
@@ -14,12 +17,27 @@ private:
     QTcpSocket* _socket;
     NetworkConnection* _network;
     QTimer* _timeoutTimer;
+    DBManager* _dbManager;
+
+private:
+
+    void sendCourseList();
+    void sendTAList();
+    void sendTaskList();
+    void sendTaskSuccess(bool success);
+    void sendTaskDeleteSuccess(bool success);
+    void sendTaskEditSuccess(bool success);
 
 public:
     ClientConnection(int socketDescriptor, int timeoutSeconds);
     ~ClientConnection();
 
-    void processTestRequest(const QByteArray& packetData);
+    void processCourseListRequest(const QByteArray& packetData);
+    void processTeachingAssistantListRequest(const QByteArray& packetData);
+    void processTaskListRequest(const QByteArray& packetData);
+    void processCreateTaskRequest(const QByteArray& packetData);
+    void processDeleteTask(const QByteArray& packetData);
+    void processEditTask(const QByteArray& packetData);
 
 public slots:
     void startConnection();
