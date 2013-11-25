@@ -1,0 +1,13 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww12600\viewh10660\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\f0\fs24 \cf0 As the development of our system progresses, it is necessary for our original design to evolve to accommodate the addition of new features.  However, due to careful planning, our original design has held up well, allowing new features to be seamlessly integrated into our existing system without having to make any significant changes to our current infrastructure.\
+\
+In the first phase we had a single user interface (UI) subsystem that contained the UI for a teaching assistant (TA) user.  The most significant design change reflected in the system decomposition is the addition of a new subsystem for both the instructor and admin UIs.  With this change we also had to add a new controller class named ViewInstructorsControl to the ListControl subsystem and a new subsystem, CourseManagement, for handling the controller classes associated with an admin user's functionality.\
+\
+In the first phase we designed and implemented our system to be scalable to any number of clients, limited only by hardware.  As a result, no design changes are required to reach the goal of handling four client concurrently.  We also worked to keep our user interface decoupled from the application logic by using the observer pattern so we could easily add new interfaces without any changes to the overall design.\
+\
+The only difference in design pattern usage in our new design is the addition of the Mediator pattern.  In the first phase of the project the TA UI was simply a set of buttons used for running test cases.  This basic interface did not require any sort of complex interaction between UI elements.  In phase two we are going to be replacing the TA  interface with a brand new interface and we will be adding two new interfaces for the instructor and admin users.  Instead of providing a simple view for running test cases, these new interfaces will allow all three user types to fully interact with TAEval to access all of it's functionality.  As a result, we will use the mediator pattern in each of the three UI subsystems for mediating the behaviour of the UI elements.  The details on our usage of the Mediator pattern will be further discussed in the section on design patterns.}
