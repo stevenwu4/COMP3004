@@ -9,29 +9,29 @@
 
 \f0\fs24 \cf0 Hardware/Software mapping:\
 \
-The TAEval system uses the Client Server architectural style.  Since the TAEval system has the client receiving inputs from the user via the Administrator, TA and Instructor interfaces and sending their request to a server via TCP/IP connection and then the server requests transactions from a central database, therefore it is considered a special case of the repository architectural style.\
+The TAEval system uses the Client/Server architectural style.  The TAEval client receives inputs from the users via the Administrator, TA and Instructor interfaces and send their requests to a server via TCP/IP connection.  Once a connection has been made to the server a transactional request is sent to a central database. This type of Client/Server setup is considered a special case of the repository architectural style.\
 \
-The TAEval system is based on the Client Server architectural style due to the following non-functional requirements:\
+The TAEval system is based on the Client/Server architectural style due to the following non-functional requirements:\
 \pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
 \ls1\ilvl0\cf0 {\listtext	\'95	}client processes must execute on a different machine than the server and support a single user.\
 {\listtext	\'95	}client processes must communicate with the central server using TCP/IP sockets.\
 {\listtext	\'95	}no client processes with execute on the server host.\
-{\listtext	\'95	}server process must execute on a central host and must manage updates and retrievals of the data.\
+{\listtext	\'95	}server processes must execute on a central host and must manage updates and retrievals of data.\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
 \cf0 \
 The TAEval system is broken down into two components: client and server as per the Client/Server architectural style.  There are 7 subsystems with in the client component and 2 subsystems within the server component.\
 \
-The user interface subsystems with in the client component: TAInterface, InstructorInterface and AdminInterface are the user interfaces which interact with the specific users.  \
+These are the user interface subsystems with in the client component: TAInterface, InstructorInterface and AdminInterface.  These interfaces allow the user to interact with the TAEval system.  \
 \
-The Control subsystems: CourseManagement, TaskManagement and ListControl interact with the user interface subsystems and the RequestSending subsystem within the client component.  The control subsystems provide the controls to request entity management actions such as; adding a course, deleting a task and adding an instructor.\
+These are the control subsystems with in the client component: CourseManagement, TaskManagement and ListControl .  These subsystem interact with the user interface subsystems and the RequestSending subsystem.  The control subsystems provide the controls to request entity management actions such as; adding a course, deleting a task and adding an instructor.\
 \
 The RequestSending subsystem communicates between the two components: client and server via TCP/IP sockets. This subsystem communicates with the RequestHandling subsystem in the server component.\
 \
-The RequestHandling subsystem handles the requests coming from the client component as requests database transactions to the DBManager subsystem.\
+The RequestHandling subsystem handles the requests coming from the client component and requests database transactions to the DBManager subsystem.\
 \
 The DBManager subsystem on the server provides the interface to the relational database.\
 \
-The client/server components create two separate executables: TAEvalClient and TAEvalServer.  The TAEvalClient executes as client on user machine with Ubuntu Linux.  The TAEvalServer executes on a server machine with Ubuntu Linux.\
+The client/server components are compiled into two separate executables: TAEvalClient and TAEvalServer.  The TAEvalClient executes as a client on an Ubuntu Linux user machine (node).  The TAEvalServer executes on an Ubuntu Linux server machine (node).\
 \
 \
 \pard\tx220\tx720\pardeftab720\li720\fi-720\sa260
