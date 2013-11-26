@@ -1,0 +1,116 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf400
+{\fonttbl\f0\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red191\green191\blue191;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}}
+\margl1440\margr1440\vieww33400\viewh17840\viewkind0
+\deftab720
+\pard\tx566\pardeftab720\sa240
+
+\f0\b\fs28 \cf0 Persistent Data Management: 
+\b0\fs26 \
+The TAEval system required some entities such as TA, Course, Instructor and Task to out live a single execution of the system.  The following were non-functional requirements that needed to be taken in consideration in make the decision of the type of persistent data management system that was needed:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240
+\ls1\ilvl0\cf0 {\listtext	\'95	}If TAEval system crashes it must be able to return to the last saved state\
+{\listtext	\'95	}There should not be any duplicate data anywhere in the system.\
+{\listtext	\'95	}TAEval must support a minimum of four concurrent processes.\
+{\listtext	\'95	}Data storage organization must be designed for ease of use, retrieval and efficient use of storage space.\
+{\listtext	\'95	}Queries to the server must return only the minimum about of necessary data.\
+{\listtext	\'95	}All data must be stored centrally on a single host.\
+\pard\tx566\pardeftab720\sa240
+\cf0 \
+The TAEval system stored the persistent data in a SQLite relation database for the following reasons:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240
+\ls2\ilvl0\cf0 {\listtext	\'95	}Relational database provides concurrency management, so it can be accessed by multiple clients.  The database handles multiple processes accessing the same relational tuple or relational table.\
+{\listtext	\'95	}Allows data to be queried easily using SQL commands.  Such queries as list courses by term and year, get task by TA student number and course ID, and get task by task ID.\
+{\listtext	\'95	}The relational database allows for crash recovery and access control.\
+{\listtext	\'95	}The entity objects that need to be persist in the TAEval system map onto relation tables.\
+{\listtext	\'95	}Properly created relation database schemas will not allow for duplicate data, by using unique primary keys and foreign keys within the relational tables.\
+\pard\tx566\pardeftab720\sa240
+
+\b \cf0 \
+How does the TAEval database reduce duplication?
+\b0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240
+\ls3\ilvl0\cf0 {\listtext	\'95	}Creating relational tables for many to many relationships between entities.  The Entity-Relation diagram shows a many to many relationship between courses and TAs a relation table was needed to connect both entities without duplicating data in both tables.\
+{\listtext	\'95	}The employee number foreign key in the course table allows the table to reference the instructor who instructs the course.  Without the foreign there would be an instructor tuple created for each course in the instructor table.\
+{\listtext	\'95	}The student number foreign key and course id foreign key in the task table allows each task to reference an existing student and course it is associated with.  If the foreign key did not exist we would have to create a relational tuple in the course table for each of the tasks for the course and the same would be true in the TA table.  The TA table would have to create a relational tuple for each task.\
+{\listtext	\'95	}On the creation of an instructor the TAEval system uses the DBManager class to look for duplicate first name, last name before entering a new instructor.  An auto generated employee number primary key is created for each instructor to allow for uniqueness of each instructor.\
+{\listtext	\'95	}On the creation of a TA the TAEval system in the DBManager class looks for duplicate first name, last name before entering a new TA.  An auto generated student number primary key is created for each TA to allow for uniqueness of each TA.\
+  \'95	On the creation of a task the TAEval system in the DBManager class creates an auto generated course id primary key is and a course id and student number foreign key is associated with the task.\
+\pard\tx566\pardeftab720\sa240
+
+\b \cf0 \
+Objects in the Relation database:
+\b0 \
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+
+\b \cf0 Rational Tables \cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 Purpose\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 Attributes
+\b0 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 TA\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 The TA table contains personal information about each TA within the TAEval system\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 Student Number (auto-generated primary key), First Name, Last Name, Degree, Major and Year.\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 INSTRUCTOR\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 The INSTRUCTOR table contains information about each instructor within the TAEval system\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 Employee Number (auto-generated primary key), First Name, Last Name and department\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 TASK\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 The TASK table contains information about the task created by an instructor for a specific TA.\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 Task ID (auto-generated primary key), Task Name, Evaluation Description, Evaluation Rank, Student Number of the student that the task is assigned to and Course ID with which the task is associated to.\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 COURSE\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 The COURSE table contains general information about the course.\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 Course ID (auto-generated primary key), Course Name, Year the course is given, Term the course is given and the Employee number of the Instructor teaching the course.\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 TACOURSE relationship\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 The TACOURSE table is the relationship between the course entity and TA entity.  This table is created because there is a many to many relationship between the two entities and the table will reduce repeat values in each table the may cause false information if both are not kept up to date.\cell 
+\pard\intbl\itap1\tx566\pardeftab720\sa240
+\cf0 Student Number (foreign key from the TA table) and Course ID (foreign key from the COURSE table).  Both these attributes are primary keys.\cell \lastrow\row
+}
