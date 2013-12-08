@@ -10,19 +10,19 @@ void DBManager::clearServerState() {
 
 }
 
-void DBManager::initializeDB(){
+void DBManager::initializeDB(unsigned int connectionId){
 
-    if (openDB()) {
+    if (openDB(connectionId)) {
         if (!createDB())
             std::cerr << "Failed to create tables.\n";
      }
 
 }
 
-bool DBManager::openDB()
+bool DBManager::openDB(unsigned int connectionId)
     {
     // Open SQLite3 database
-    db = QSqlDatabase::addDatabase("QSQLITE");
+    db = QSqlDatabase::addDatabase("QSQLITE", QString::number(connectionId));
 
     QString path(QDir::home().path());
     path.append(QDir::separator()).append("D2.db.sqlite");
