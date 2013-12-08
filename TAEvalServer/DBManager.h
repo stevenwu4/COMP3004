@@ -17,7 +17,7 @@ class DBManager : public QObject {
 public:
     explicit DBManager(QObject *parent = 0);
     ~DBManager(){}
-    bool openDB();
+    bool openDB(unsigned int connectionId);
     bool deleteDB();
     bool createDB();
     void populateDB();
@@ -27,7 +27,7 @@ public:
     std::vector<Course> _courses;
     std::vector<TeachingAssistant> _taList;
     std::vector<Task>_taskList;
-    void initializeDB();
+    void initializeDB(unsigned int connectionId);
     void showCourse();
     void showTAs();
     void showTask();

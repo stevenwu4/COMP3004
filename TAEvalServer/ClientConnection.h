@@ -19,6 +19,9 @@ private:
     QTimer* _timeoutTimer;
     DBManager* _dbManager;
 
+    const unsigned int _connectionId;
+    static unsigned int CONNECTION_ID_COUNTER;
+
 private:
 
     void sendCourseList();

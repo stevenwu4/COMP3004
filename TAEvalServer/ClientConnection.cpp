@@ -6,6 +6,8 @@
 #include "NetworkConnection.h"
 #include "DBManager.h"
 
+unsigned int ClientConnection::CONNECTION_ID_COUNTER = 0;
+
 //DO NOT MAKE ANY HEAP ALLOCATIONS IN THE CONSTRUCTOR
 //Heap allocations must be done in the startConnection() function since heap data
 //won't be moved between threads
@@ -15,7 +17,8 @@ ClientConnection::ClientConnection(int socketDescriptor, int timeoutSeconds) :
     _socket(0),
     _network(0),
     _timeoutTimer(0),
-    _dbManager(0) {}
+    _dbManager(0),
+    _connectionId(++CONNECTION_ID_COUNTER) {}
 
 ClientConnection::~ClientConnection() {
     delete _dbManager;
@@ -37,7 +40,7 @@ void ClientConnection::startConnection() {
     connect(_network, SIGNAL(processPacket(unsigned short, const QByteArray&)), this, SLOT(processPacket(unsigned short, const QByteArray&)));
 
     _dbManager = new DBManager();
-    _dbManager->initializeDB();
+    _dbManager->initializeDB(_connectionId);
 
     _timeoutTimer = new QTimer();
     connect(_timeoutTimer, SIGNAL(timeout()), this, SLOT(connectionTimeout()));
