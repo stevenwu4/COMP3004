@@ -31,6 +31,7 @@ private:
     void sendTaskDeleteSuccess(bool success);
     void sendTaskEditSuccess(bool success);
     void sendVerifiedTask(bool success);
+    void sendUserLogin(int usertype);
 
 public:
     ClientConnection(int socketDescriptor, int timeoutSeconds);
@@ -46,6 +47,7 @@ public:
     void processEvaluationsForCourse(const QByteArray& packetData);
     void processEvaluationsForTerm(const QByteArray& packetData);
     void processVerifyTask(const QByteArray& packetData);
+    void processVerifyLogin(const QByteArray& packetData);
 
 public slots:
     void startConnection();
