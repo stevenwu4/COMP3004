@@ -79,6 +79,8 @@ void ClientConnection::startConnection() {
      case 9:
          processVerifyTask(packetData);
          break;
+     case 11:
+     processVerifyLogin(packetData);
      default:
          break;
      }
@@ -211,6 +213,16 @@ void ClientConnection::startConnection() {
      _network->sendPacket(packetId, message);
  }
 
+ void ClientConnection::sendUserLogin(int usertype) {
+     QByteArray message;
+     QDataStream outputStream(&message, QIODevice::WriteOnly);
+     outputStream.setVersion(QDataStream::Qt_4_8);
+
+     outputStream << usertype;
+
+     _network->sendPacket(10, message);
+ }
+
  void ClientConnection::processCourseListRequest(const QByteArray& packetData) {
 
      QDataStream inputStream(packetData);
@@ -232,6 +244,8 @@ void ClientConnection::startConnection() {
      sendCourseList();
 
  }
+
+
 
  void ClientConnection::processCreateTaskRequest(const QByteArray& packetData) {
 
@@ -407,6 +421,20 @@ void ClientConnection::startConnection() {
      _dbManager->showTasks();
 
      sendTaskList(8);
+ }
+
+ void ClientConnection::processVerifyLogin(const QByteArray& packetData) {
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+     int usertype = 0;
+     QString loginname;
+     inputStream >> loginname;
+
+     qDebug() << "processVerifyLogin";
+     qDebug() << "loginname=  " << loginname;
+     usertype =  _dbManager->getUser(loginname);
+
+     sendUserLogin(usertype);
  }
 
  void ClientConnection::processVerifyTask(const QByteArray& packetData) {
