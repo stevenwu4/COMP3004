@@ -109,13 +109,18 @@ void ClientConnection::startConnection() {
      outputStream.setVersion(QDataStream::Qt_4_8);
 
      outputStream << success;
-     if (success){
+    /* if (success){
+     //   outputStream << 1;
         for (std::vector<Task>::iterator it = _dbManager->_taskList.begin() ; it != _dbManager->_taskList.end(); ++it){
             outputStream <<  it->id();
             outputStream <<  it->name();
             outputStream <<  it->description();
         }
-     }
+
+     }*/
+//else{
+      //  outputStream << 0;
+   // }
 
      _network->sendPacket(3, message);
  }
@@ -255,7 +260,7 @@ void ClientConnection::startConnection() {
      qDebug() << "taskdesc= " << taskdesc;
      success = _dbManager->createTask(taskname, taskdesc, NULL, 0, taid, courseid);
      if (success){
-         qDebug() << "Failed Creating a task";
+         qDebug() << "Created task.";
         _dbManager->getTasks(courseid, taid);
         _dbManager->showTasks();
     }
