@@ -3,15 +3,14 @@
 #include <iostream>
 #include <QtEndian>
 #include "NetworkConnection.h"
+#include <fstream>
 
 TAEval::TAEval() :
-    _hostname("127.0.0.1"),
-    _port(21234),
     _socket(0),
     _network(0),
-    _currentTask(0),
     _currentPacketId(-1),
-    _requestTimeoutSeconds(5) {}
+    _requestTimeoutSeconds(5),
+    _currentTask(0) {}
 
 TAEval::~TAEval() {
     delete _network;
@@ -31,6 +30,18 @@ void TAEval::clearClientState() {
 
     delete _currentTask;
     _currentTask = 0;
+}
+
+void TAEval::requestLogin(const QString& username) {
+    QByteArray message;
+    QDataStream outputStream(&message, QIODevice::WriteOnly);
+    outputStream.setVersion(QDataStream::Qt_4_8);
+
+    outputStream << username;
+
+    _currentPacketId = 10;
+    _requestTimer.start(_requestTimeoutSeconds * 1000);
+    _network->sendPacket(_currentPacketId, message);
 }
 
 void TAEval::requestCourseList(const QString& term, int year) {
@@ -67,6 +78,30 @@ void TAEval::requestTaskList(const Course& course, const TeachingAssistant& teac
     outputStream << teachingAssistant.id();
 
     _currentPacketId = 2;
+    _requestTimer.start(_requestTimeoutSeconds * 1000);
+    _network->sendPacket(_currentPacketId, message);
+}
+
+void TAEval::requestTaskList(const QString& term) {
+    QByteArray message;
+    QDataStream outputStream(&message, QIODevice::WriteOnly);
+    outputStream.setVersion(QDataStream::Qt_4_8);
+
+    outputStream << term;
+
+    _currentPacketId = 6;
+    _requestTimer.start(_requestTimeoutSeconds * 1000);
+    _network->sendPacket(_currentPacketId, message);
+}
+
+void TAEval::requestTaskList(const Course& course) {
+    QByteArray message;
+    QDataStream outputStream(&message, QIODevice::WriteOnly);
+    outputStream.setVersion(QDataStream::Qt_4_8);
+
+    outputStream << course.id();
+
+    _currentPacketId = 7;
     _requestTimer.start(_requestTimeoutSeconds * 1000);
     _network->sendPacket(_currentPacketId, message);
 }
@@ -114,7 +149,46 @@ void TAEval::editTask(const Task& task) {
     _network->sendPacket(_currentPacketId, message);
 }
 
+void TAEval::requestTermList(const QString& term) {
+    QByteArray message;
+    QDataStream outputStream(&message, QIODevice::WriteOnly);
+    outputStream.setVersion(QDataStream::Qt_4_8);
+
+    outputStream << term;
+
+    _currentPacketId = 8;
+    _requestTimer.start(_requestTimeoutSeconds * 1000);
+    _network->sendPacket(_currentPacketId, message);
+}
+
+void TAEval::requestUpdate(const Task& task) {
+    QByteArray message;
+    QDataStream outputStream(&message, QIODevice::WriteOnly);
+    outputStream.setVersion(QDataStream::Qt_4_8);
+
+    outputStream << task.id();
+
+    _currentPacketId = 9;
+    _requestTimer.start(_requestTimeoutSeconds * 1000);
+    _network->sendPacket(_currentPacketId, message);
+}
+
 void TAEval::initialize() {
+    std::fstream configFile("taeval.config", std::ios::in);
+
+    if (!configFile.is_open())
+        return;
+
+    std::string hostname;
+    unsigned short port;
+
+    std::getline(configFile, hostname);
+    configFile >> port;
+
+    configFile.close();
+
+    std::cerr << hostname << "\n" << port << "\n";
+
     _socket = new QTcpSocket();
 
     _network = new NetworkConnection(_socket);
@@ -122,7 +196,7 @@ void TAEval::initialize() {
 
     connect(&_requestTimer, SIGNAL(timeout()), this, SLOT(requestTimeout()));
 
-    _socket->connectToHost(QHostAddress(_hostname), _port);
+    _socket->connectToHost(QHostAddress(QString::fromStdString(hostname)), port);
 }
 
 void TAEval::processPacket(unsigned short packetId, const QByteArray& packetData) {
@@ -151,9 +225,53 @@ void TAEval::processPacket(unsigned short packetId, const QByteArray& packetData
     case 5:
         processEditTask(packetData);
         break;
+    case 6:
+        processTaskListRequest(packetData);
+        break;
+    case 7:
+        processTaskListRequest(packetData);
+        break;
+    case 8:
+        processTermListRequest(packetData);
+        break;
+    case 9:
+        processUpdateTask(packetData);
+        break;
+    case 10:
+        processLoginRequest(packetData);
+        break;
     default:
         break;
     }
+}
+
+void TAEval::processLoginRequest(const QByteArray& packetData) {
+    QDataStream inputStream(packetData);
+    inputStream.setVersion(QDataStream::Qt_4_8);
+
+    int result;
+    inputStream >> result;
+
+    emit loginComplete(result);
+}
+
+void TAEval::processTermListRequest(const QByteArray& packetData) {
+    clearClientState();
+
+    QDataStream inputStream(packetData);
+    inputStream.setVersion(QDataStream::Qt_4_8);
+
+    unsigned int numTerms;
+    inputStream >> numTerms;
+
+    for (unsigned int i = 0; i < numTerms; ++i) {
+        QString term = 0;
+        inputStream >> term;
+
+        _termList.push_back(term);
+    }
+
+    emit termListUpdated(_termList);
 }
 
 void TAEval::processCourseListRequest(const QByteArray& packetData) {
@@ -318,4 +436,35 @@ void TAEval::processEditTask(const QByteArray& packetData) {
     }
 
     emit taskEdited(_currentTask);
+}
+
+void TAEval::processUpdateTask(const QByteArray& packetData) {
+    clearClientState();
+
+    QDataStream inputStream(packetData);
+    inputStream.setVersion(QDataStream::Qt_4_8);
+
+    bool success;
+    inputStream >> success;
+
+    if (success) {
+        int id;
+        inputStream >> id;
+
+        QString name;
+        inputStream >> name;
+
+        QString description;
+        inputStream >> description;
+
+        QString evaluation;
+        inputStream >> evaluation;
+
+        int rating;
+        inputStream >> rating;
+
+        _currentTask = new Task(id, name, description, evaluation, rating);
+    }
+
+    emit taskCreated(_currentTask);
 }
