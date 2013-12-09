@@ -35,7 +35,8 @@ SOURCES +=\
     CourseSelect.cpp \
     TaskSelect.cpp \
     InstructorTaskForm.cpp \
-    QuitDialog.cpp
+    QuitDialog.cpp \
+    TATaskForm.cpp
 
 HEADERS  += MainWindow.h \
     TAEval.h \
@@ -60,7 +61,8 @@ HEADERS  += MainWindow.h \
     CourseSelect.h \
     TaskSelect.h \
     InstructorTaskForm.h \
-    QuitDialog.h
+    QuitDialog.h \
+    TATaskForm.h
 
 FORMS    += MainWindow.ui \
     loginwindow.ui \
@@ -68,4 +70,5 @@ FORMS    += MainWindow.ui \
     CourseSelect.ui \
     TaskSelect.ui \
     InstructorTaskForm.ui \
-    QuitDialog.ui
+    QuitDialog.ui \
+    TATaskForm.ui

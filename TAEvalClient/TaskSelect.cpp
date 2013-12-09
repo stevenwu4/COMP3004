@@ -11,8 +11,10 @@ TaskSelect::TaskSelect(QWidget *parent) :
     ui(new Ui::TaskSelect)
 {
     ui->setupUi(this);
-
     this->setWindowTitle("TAEval");
+
+    //ui->tableView->setModel(model);
+
 
     //if the current user is a TA then hide create/edit/evaluate/delete buttons
 }
