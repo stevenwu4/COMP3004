@@ -25,7 +25,7 @@ bool DBManager::openDB(unsigned int connectionId)
     db = QSqlDatabase::addDatabase("QSQLITE", QString::number(connectionId));
 
     QString path(QDir::home().path());
-    path.append(QDir::separator()).append("D2.db.sqlite");
+    path.append(QDir::separator()).append("D4.db.sqlite");
     path = QDir::toNativeSeparators(path);
     db.setDatabaseName(path);
 
@@ -54,6 +54,9 @@ bool DBManager::createDB(){
         }
         if (!createCourseTATable()){
             std::cerr << "Course TA relationship table not created.\n";
+        }
+        if (!createUsersTable()){
+            std::cerr << "Users table not created.\n";
         }
 
         populateDB();
@@ -106,7 +109,7 @@ bool DBManager::deleteDB()
     db.close();
 
     QString path(QDir::currentPath());
-    path.append(QDir::separator()).append("D2.db.sqlite");
+    path.append(QDir::separator()).append("D4.db.sqlite");
     path = QDir::toNativeSeparators(path);
     return QFile::remove(path);
 
@@ -151,6 +154,23 @@ bool DBManager::createTATable()
                   "major text, "
                   "year integer)");
    // std::cerr << "go here in TA\n";
+        }
+    return ret;
+    }
+
+
+bool DBManager::createUsersTable()
+    {
+    // Create table "users"
+    bool ret = false;
+    if (db.isOpen())
+        {
+        QSqlQuery query(db);
+        ret = query.exec("create table if not exists users "
+                  "(usernameid text primary key not null unique, "
+                  "userid integer, "
+                  "usertype integer)");
+    std::cerr << "go here in user\n";
         }
     return ret;
     }
@@ -219,6 +239,7 @@ void DBManager::populateDB(){
     int instructID;
     int taID;
     int courseID;
+    int userID;
 
     instructID = createInstructor(1, "Fred", "Flintstone", "Geology");
     taID = createTA(100, "Sean", "Benjamin", "BSc", "Comp Sci", 3);
@@ -257,8 +278,33 @@ void DBManager::populateDB(){
     courseID = createCourse("Comedic Writing", "ENGL3304", 2007, "Winter", instructID);
     taID = createTA(103, "Jim", "Borgman", "B.A.", "English", 2);
     createCourseTA(courseID,taID);
-     createTask("Marking Assignments", "evaluate comics", "Always on time!", 4, taID, courseID);
+    createTask("Marking Assignments", "evaluate comics", "Always on time!", 4, taID, courseID);
+    userID = createUsers("fred", 1, 1);
+    userID = createUsers("don", 2, 1);
+    userID = createUsers("john", 3, 1);
+    userID = createUsers("jack", 4, 1);
+    userID = createUsers("sean", 100, 2);
+    userID = createUsers("palmer", 104, 2);
+    userID = createUsers("romero", 105, 2);
 
+}
+
+int DBManager::getUser(QString username){
+    //clearServerState();
+    int ret =0;
+     QSqlQuery query(QString("select * from users where username = '%1'").arg(username), db);
+
+    if (query.size() == 0){
+       ret = 0;
+   } else {
+       while (query.next()) {
+
+          ret = query.value(2).toInt();
+
+       }
+       qDebug() << "getUser(QString username) query " << query.lastError();
+   }
+   return ret;
 }
 
 void DBManager::getTasks(QString term) {
@@ -520,7 +566,26 @@ int DBManager::createCourseTA(int courseid, int stdnum){
     return newId;
 }
 
+int DBManager::createUsers(QString username, int userid, int usertype){
+    int newId = -1;
+    bool ret = false;
 
+    if (db.isOpen())
+        {
+
+        QSqlQuery query(db);
+        ret = query.exec(QString("insert into users values('%1',%2,%3)")
+                         .arg(username).arg(userid).arg(usertype));
+
+        // Get database given autoincrement value
+        if (ret)
+            {
+            newId = query.lastInsertId().toInt();
+            }
+
+        }
+    return newId;
+}
 
 int DBManager::createCourse(QString coursename, QString coursecode, int year, QString term, int instructor){
     int newId = -1;
