@@ -29,7 +29,8 @@ SOURCES +=\
     EditTaskTestCase.cpp \
     EditTaskController.cpp \
     DeleteTaskTestCase.cpp \
-    DeleteTaskController.cpp
+    DeleteTaskController.cpp \
+    Instructor.cpp
 
 HEADERS  += MainWindow.h \
     TAEval.h \
@@ -48,6 +49,7 @@ HEADERS  += MainWindow.h \
     EditTaskTestCase.h \
     EditTaskController.h \
     DeleteTaskTestCase.h \
-    DeleteTaskController.h
+    DeleteTaskController.h \
+    Instructor.h
 
 FORMS    += MainWindow.ui
