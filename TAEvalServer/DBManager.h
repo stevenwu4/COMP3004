@@ -40,6 +40,7 @@ public:
     bool deleteTask(int taskid);
     bool modifyTask(int taskid, QString taskname, QString taskdesc, QString evaldesc, int evalrank);
     void getTaskbyID(int taskid);
+    int getUser(QString username);
 
 private:
     QSqlDatabase db;
@@ -48,11 +49,14 @@ private:
     bool createCourseTable();
     bool createInstructorTable();
     bool createCourseTATable();
+    bool createCourseUsersTable();
+    bool createUsersTable();
     int createInstructor(int emplynum, QString fname, QString lname, QString dept);
     int createTA(int stdnum, QString fname, QString lname, QString degree, QString major, int year);
     int createCourse(QString coursename, QString coursecode, int year, QString term, int instructor);
     void clearServerState();
     int createCourseTA(int courseid, int stdnum);
+    int createUsers(QString username, int userid, int usertype);
 };
 
 #endif // DBMANAGER_H
