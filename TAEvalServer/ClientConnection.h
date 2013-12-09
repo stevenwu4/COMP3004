@@ -27,9 +27,10 @@ private:
     void sendCourseList();
     void sendTAList();
     void sendTaskList();
-    void sendTaskSuccess(bool success);
+    void sendTaskCreatedSuccess(bool success);
     void sendTaskDeleteSuccess(bool success);
     void sendTaskEditSuccess(bool success);
+    void sendVerifiedTask(bool success);
 
 public:
     ClientConnection(int socketDescriptor, int timeoutSeconds);
@@ -44,6 +45,7 @@ public:
     void processEvaluationsForTA(const QByteArray& packetData);
     void processEvaluationsForCourse(const QByteArray& packetData);
     void processEvaluationsForTerm(const QByteArray& packetData);
+    void processVerifyTask(const QByteArray& packetData);
 
 public slots:
     void startConnection();

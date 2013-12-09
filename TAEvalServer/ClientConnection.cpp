@@ -67,12 +67,23 @@ void ClientConnection::startConnection() {
      case 5:
          processEditTask(packetData);
          break;
+     case 6:
+         processEvaluationsForTA(packetData);
+         break;
+     case 7:
+         processEvaluationsForCourse(packetData);
+         break;
+     case 8:
+         processEvaluationsForTerm(packetData);
+         break;
+     case 9:
+         processVerifyTask(packetData);
+         break;
      default:
          break;
      }
 
  }
-
 
  void ClientConnection::sendCourseList() {
      QByteArray message;
@@ -92,7 +103,7 @@ void ClientConnection::startConnection() {
      _network->sendPacket(0, message);
  }
 
- void ClientConnection::sendTaskSuccess(bool success) {
+ void ClientConnection::sendTaskCreatedSuccess(bool success) {
      QByteArray message;
      QDataStream outputStream(&message, QIODevice::WriteOnly);
      outputStream.setVersion(QDataStream::Qt_4_8);
@@ -138,6 +149,23 @@ void ClientConnection::startConnection() {
      _network->sendPacket(4, message);
  }
 
+
+ void ClientConnection::sendVerifiedTask(bool success) {
+     QByteArray message;
+     QDataStream outputStream(&message, QIODevice::WriteOnly);
+     outputStream.setVersion(QDataStream::Qt_4_8);
+
+     outputStream << success;
+
+     for (std::vector<Task>::iterator it = _dbManager->_taskList.begin() ; it != _dbManager->_taskList.end(); ++it){
+         outputStream << it->id();
+         outputStream << it->name();
+         outputStream << it->description();
+         outputStream << it->comment();
+         outputStream << it->rating();
+     }
+     _network->sendPacket(9, message)
+ }
 
  void ClientConnection::sendTAList() {
      QByteArray message;
@@ -193,8 +221,8 @@ void ClientConnection::startConnection() {
      qDebug() << "processCourseListRequest";
      qDebug() << "year=  " << year;
      qDebug() << "term= " << term;
-     _dbManager->getCourse(term, year);
-     _dbManager->showCourse();
+     _dbManager->getCourses(term, year);
+     _dbManager->showCourses();
 
      sendCourseList();
 
@@ -228,10 +256,10 @@ void ClientConnection::startConnection() {
      success = _dbManager->createTask(taskname, taskdesc, NULL, 0, taid, courseid);
      if (success){
          qDebug() << "Failed Creating a task";
-        _dbManager->getTask(courseid, taid);
-        _dbManager->showTask();
+        _dbManager->getTasks(courseid, taid);
+        _dbManager->showTasks();
     }
-     sendTaskSuccess(success);
+     sendTaskCreatedSuccess(success);
 
  }
 
@@ -243,8 +271,8 @@ void ClientConnection::startConnection() {
      bool success = false;
 
 
-     int taid = 0;
-     inputStream >> taid;
+     int taskid = 0;
+     inputStream >> taskid;
 
      QString taskname;
      inputStream >> taskname;
@@ -259,18 +287,18 @@ void ClientConnection::startConnection() {
      inputStream >> rank;
 
      qDebug() << "processEditTask";
-     qDebug() << "taid= " << taid;
+     qDebug() << "taskid= " << taskid;
      qDebug() << "taskname= " << taskname;
      qDebug() << "taskdesc= " << taskdesc;
      qDebug() << "evalcomment= " << evalcomment;
      qDebug() << "evalrating= " << rank;
      
-     success = _dbManager->modifyTask(taid,taskname,taskdesc,evalcomment,rank);
+     success = _dbManager->modifyTask(taskid,taskname,taskdesc,evalcomment,rank);
 
      if (success){
          qDebug() << "Failed Edit a task";
-        _dbManager->getTaskbyID(taid);
-        _dbManager->showTask();
+        _dbManager->getTaskbyID(taskid);
+        _dbManager->showTasks();
     }
      sendTaskEditSuccess(success);
 
@@ -286,7 +314,7 @@ void ClientConnection::startConnection() {
 
      qDebug() << "processTAListRequest";
      qDebug() << "courseid=  " << courseid;
-     _dbManager->getCourseTA(courseid);
+     _dbManager->getCourseTAs(courseid);
      _dbManager->showTAs();
 
      sendTAList();
@@ -324,14 +352,14 @@ void ClientConnection::startConnection() {
      qDebug() << "processTaskListRequest";
      qDebug() << "courseid= " << courseid;
      qDebug() << "taid=  " << taid;
-     _dbManager->getTask(courseid,taid);
-     _dbManager->showTask();
+     _dbManager->getTasks(courseid,taid);
+     _dbManager->showTasks();
 
      sendTaskList(2);
 
  }
 
- void ClientConnection::processEvaluationsForTA(const QByteARray& packetData) {
+ void ClientConnection::processEvaluationsForTA(const QByteArray& packetData) {
      QDataStream inputStream(packetData);
      inputStream.setVersion(QDataStream::Qt_4_8);
 
@@ -340,13 +368,13 @@ void ClientConnection::startConnection() {
 
      qDebug() << "processEvaluationsForTA";
      qDebug() << "taid=  " << taid;
-     _dbManager->getTask(taid);
-     _dbManager->showTask();
+     _dbManager->getTasks(taid);
+     _dbManager->showTasks();
 
      sendTaskList(6);
  }
 
- void ClientConnection::processEvaluationsForCourse(const QByteARray& packetData) {
+ void ClientConnection::processEvaluationsForCourse(const QByteArray& packetData) {
      QDataStream inputStream(packetData);
      inputStream.setVersion(QDataStream::Qt_4_8);
 
@@ -355,13 +383,13 @@ void ClientConnection::startConnection() {
 
      qDebug() << "processEvaluationsForCourse";
      qDebug() << "courseid=  " << courseid;
-     _dbManager->getTask(courseid);
-     _dbManager->showTask();
+     _dbManager->getTasks(courseid);
+     _dbManager->showTasks();
 
      sendTaskList(7);
  }
 
- void ClientConnection::processEvaluationsForTerm(const QByteARray& packetData) {
+ void ClientConnection::processEvaluationsForTerm(const QByteArray& packetData) {
      QDataStream inputStream(packetData);
      inputStream.setVersion(QDataStream::Qt_4_8);
 
@@ -370,10 +398,29 @@ void ClientConnection::startConnection() {
 
      qDebug() << "processEvaluationsForTerm";
      qDebug() << "term=  " << term;
-     _dbManager->getTask(term);
-     _dbManager->showTask();
+     _dbManager->getTasks(term);
+     _dbManager->showTasks();
 
      sendTaskList(8);
+ }
+
+ void ClientConnection::processVerifyTask(const QByteArray& packetData) {
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+
+     int taskID = 0;
+     inputStream >> taskID;
+
+     qDebug() << "processVerifyTask";
+     qDebug() << "taskID = " << taskID;
+
+     bool success = False;
+     _dbManager->getTaskbyID(taskID);
+     if (_dbManager->_taskList.size() > 0) {
+         _dbManager->showTasks();
+         success = True;
+     }
+     sendVerifiedTask(success);
  }
 
  void ClientConnection::connectionTimeout() {

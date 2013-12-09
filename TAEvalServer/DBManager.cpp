@@ -87,8 +87,6 @@ void DBManager::showTasks(){
         }
 }
 
-
-
 void DBManager::showTAs(){
         QTextStream out(stdout);
         out << "Number of TAs  " << _taList.size() << endl;
@@ -590,8 +588,6 @@ bool DBManager::modifyTask(int taskid, QString taskname, QString taskdesc, QStri
     return ret;
 }
 
-
-
 bool DBManager::deleteTask(int taskid){
     bool ret = false;
 
@@ -608,7 +604,6 @@ bool DBManager::deleteTask(int taskid){
     }
     return ret;
 }
-
 
 QSqlError DBManager::lastError()
  {
