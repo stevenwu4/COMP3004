@@ -70,7 +70,6 @@ void ClientConnection::startConnection() {
      default:
          break;
      }
-
  }
 
 
