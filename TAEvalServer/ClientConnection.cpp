@@ -79,6 +79,8 @@ void ClientConnection::startConnection() {
      case 9:
          processVerifyTask(packetData);
          break;
+     case 10:
+         processTermListRequest(packetData);
      default:
          break;
      }
@@ -209,6 +211,19 @@ void ClientConnection::startConnection() {
      }
 
      _network->sendPacket(packetId, message);
+ }
+
+ void ClientConnection::sendTermList(std::vector<QString> listOfCompleteTerms) {
+     QByteArray message;
+     QDataStream outputStream(&message, QIODevice::WriteOnly);
+     outputStream.setVersion(QDataStream::Qt_4_8);
+
+     outputStream << listOfCompleteTerms.size();
+
+     for (std::vector<QString>::iterator it = listOfCompleteTerms.begin(); it != listOfCompleteTerms.end(); ++it) {
+         outputStream << *it;
+     }
+     _network->sendPacket(10, message);
  }
 
  void ClientConnection::processCourseListRequest(const QByteArray& packetData) {
@@ -426,6 +441,29 @@ void ClientConnection::startConnection() {
          success = true;
      }
      sendVerifiedTask(success);
+ }
+
+ void ClientConnection::processTermListRequest(const QByteArray& packetData) {
+     //QDataStream inputStream(packetData);
+     //inputStream.setVersion((QDataStream::Qt_4_8));
+     std::vector<QString> _completeTerms;
+
+     qDebug() << "processTermListRequest";
+
+     _dbManager->getCourses();
+
+     for (std::vector<Course>::iterator it = _dbManager->_courses.begin() ; it != _dbManager->_courses.end(); ++it) {
+         QString term = it->term;
+         QString year = it->year;
+         QString completeTerm = year.append(term);
+         _completeTerms.push_back(completeTerm);
+     }
+     //Convert to a set then back to a vector to remove duplicates
+     std::set<QString> _setOfTerms(_completeTerms.begin(), _completeTerms.end());
+     _completeTerms.assign(_setOfTerms.begin(), _setOfTerms.end());
+     //Sort the list alphabetically
+     std::sort(_completeTerms.begin(), _completeTerms.end());
+     sendTermList(_completeTerms);
  }
 
  void ClientConnection::connectionTimeout() {

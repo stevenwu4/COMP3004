@@ -435,8 +435,6 @@ void DBManager::getCourseTAs(int courseid)
 
     }
         qDebug() << "getCourseTA query" << query.lastError();
-
-
 }
 
 void DBManager::getTAs(int studentnum){
@@ -498,9 +496,32 @@ void DBManager::getCourses(QString courseterm, int courseyear)
            term = query.value(4).toString();
            _courses.push_back(Course(courseID, courseName, courseCode, year, term));
     }
-        qDebug() << "getCourse query " << query.lastError();
+    qDebug() << "getCourses(courseterm, courseyear) query " << query.lastError();
+}
 
+void DBManager::getCourses() {
+    clearServerState();
+    QSqlQuery query(QString("select * from course"), db);
 
+    while (query.next()) {
+        int courseID = 0;
+        courseID = query.value(0).toInt();
+
+        QString courseName;
+        courseName = query.value(1).toString();
+
+        QString courseCode;
+        courseCode = query.value(2).toString();
+
+        int year = 0;
+        year = query.value(3).toInt();
+
+        QString term;
+        term = query.value(4).toString();
+
+        _courses.push_back(Course(courseID, courseName, courseCode, year, term))
+    }
+    qDebug() << "getCourses() query " << query.lastError();
 }
 
 int DBManager::createInstructor(int emplynum, QString fname, QString lname, QString dept){
