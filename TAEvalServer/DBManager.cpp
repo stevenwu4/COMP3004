@@ -519,7 +519,7 @@ void DBManager::getCourses() {
         QString term;
         term = query.value(4).toString();
 
-        _courses.push_back(Course(courseID, courseName, courseCode, year, term))
+        _courses.push_back(Course(courseID, courseName, courseCode, year, term));
     }
     qDebug() << "getCourses() query " << query.lastError();
 }

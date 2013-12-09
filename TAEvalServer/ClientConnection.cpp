@@ -1,5 +1,6 @@
 #include "ClientConnection.h"
 #include <iostream>
+#include <set>
 #include <QDir>
 #include <QSqlDatabase>
 #include <QtEndian>
@@ -453,8 +454,8 @@ void ClientConnection::startConnection() {
      _dbManager->getCourses();
 
      for (std::vector<Course>::iterator it = _dbManager->_courses.begin() ; it != _dbManager->_courses.end(); ++it) {
-         QString term = it->term;
-         QString year = it->year;
+         QString term = it->term();
+         QString year = QString::number(it->year());
          QString completeTerm = year.append(term);
          _completeTerms.push_back(completeTerm);
      }
