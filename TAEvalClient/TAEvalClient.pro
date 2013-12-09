@@ -29,7 +29,14 @@ SOURCES +=\
     EditTaskTestCase.cpp \
     EditTaskController.cpp \
     DeleteTaskTestCase.cpp \
-    DeleteTaskController.cpp
+    DeleteTaskController.cpp \
+    loginwindow.cpp \
+    semesterselect.cpp \
+    CourseSelect.cpp \
+    TaskSelect.cpp \
+    InstructorTaskForm.cpp \
+    QuitDialog.cpp \
+    TATaskForm.cpp
 
 HEADERS  += MainWindow.h \
     TAEval.h \
@@ -48,6 +55,20 @@ HEADERS  += MainWindow.h \
     EditTaskTestCase.h \
     EditTaskController.h \
     DeleteTaskTestCase.h \
-    DeleteTaskController.h
+    DeleteTaskController.h \
+    loginwindow.h \
+    semesterselect.h \
+    CourseSelect.h \
+    TaskSelect.h \
+    InstructorTaskForm.h \
+    QuitDialog.h \
+    TATaskForm.h
 
-FORMS    += MainWindow.ui
+FORMS    += MainWindow.ui \
+    loginwindow.ui \
+    semesterselect.ui \
+    CourseSelect.ui \
+    TaskSelect.ui \
+    InstructorTaskForm.ui \
+    QuitDialog.ui \
+    TATaskForm.ui
