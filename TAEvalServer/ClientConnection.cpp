@@ -159,7 +159,7 @@ void ClientConnection::startConnection() {
      _network->sendPacket(1, message);
  }
 
- void ClientConnection::sendTaskList() {
+ void ClientConnection::sendTaskList(int packetId) {
      QByteArray message;
      QDataStream outputStream(&message, QIODevice::WriteOnly);
      outputStream.setVersion(QDataStream::Qt_4_8);
@@ -175,9 +175,8 @@ void ClientConnection::startConnection() {
 
      }
 
-     _network->sendPacket(2, message);
+     _network->sendPacket(packetId, message);
  }
-
 
  void ClientConnection::processCourseListRequest(const QByteArray& packetData) {
 
@@ -277,8 +276,6 @@ void ClientConnection::startConnection() {
 
  }
 
-
-
  void ClientConnection::processTeachingAssistantListRequest(const QByteArray& packetData) {
 
      QDataStream inputStream(packetData);
@@ -315,7 +312,6 @@ void ClientConnection::startConnection() {
 
  }
 
-
  void ClientConnection::processTaskListRequest(const QByteArray& packetData) {
 
      QDataStream inputStream(packetData);
@@ -331,10 +327,54 @@ void ClientConnection::startConnection() {
      _dbManager->getTask(courseid,taid);
      _dbManager->showTask();
 
-     sendTaskList();
+     sendTaskList(2);
 
  }
 
+ void ClientConnection::processEvaluationsForTA(const QByteARray& packetData) {
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+
+     int taid = 0;
+     inputStream >> taid;
+
+     qDebug() << "processEvaluationsForTA";
+     qDebug() << "taid=  " << taid;
+     _dbManager->getTask(taid);
+     _dbManager->showTask();
+
+     sendTaskList(6);
+ }
+
+ void ClientConnection::processEvaluationsForCourse(const QByteARray& packetData) {
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+
+     int courseid = 0;
+     inputStream >> courseid;
+
+     qDebug() << "processEvaluationsForCourse";
+     qDebug() << "courseid=  " << courseid;
+     _dbManager->getTask(courseid);
+     _dbManager->showTask();
+
+     sendTaskList(7);
+ }
+
+ void ClientConnection::processEvaluationsForTerm(const QByteARray& packetData) {
+     QDataStream inputStream(packetData);
+     inputStream.setVersion(QDataStream::Qt_4_8);
+
+     QString term;
+     inputStream >> term;
+
+     qDebug() << "processEvaluationsForTerm";
+     qDebug() << "term=  " << term;
+     _dbManager->getTask(term);
+     _dbManager->showTask();
+
+     sendTaskList(8);
+ }
 
  void ClientConnection::connectionTimeout() {
     std::cerr << "Client Connection Timed Out!\n";

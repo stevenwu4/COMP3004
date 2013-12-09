@@ -41,6 +41,9 @@ public:
     void processCreateTaskRequest(const QByteArray& packetData);
     void processDeleteTask(const QByteArray& packetData);
     void processEditTask(const QByteArray& packetData);
+    void processEvaluationsForTA(const QByteArray& packetData);
+    void processEvaluationsForCourse(const QByteArray& packetData);
+    void processEvaluationsForTerm(const QByteArray& packetData);
 
 public slots:
     void startConnection();

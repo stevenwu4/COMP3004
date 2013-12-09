@@ -63,7 +63,7 @@ bool DBManager::createDB(){
         return true;
     }
 
-void DBManager::showCourse(){
+void DBManager::showCourses(){
         QTextStream out(stdout);
         out << "Number of Courses  " << _courses.size() << endl;
         for (std::vector<Course>::iterator it = _courses.begin() ; it != _courses.end(); ++it){
@@ -75,7 +75,7 @@ void DBManager::showCourse(){
         }
 }
 
-void DBManager::showTask(){
+void DBManager::showTasks(){
         QTextStream out(stdout);
         out << "Number of Tasks  " << _taskList.size() << endl;
         for (std::vector<Task>::iterator it = _taskList.begin() ; it != _taskList.end(); ++it){
@@ -263,12 +263,74 @@ void DBManager::populateDB(){
 
 }
 
-void DBManager::getTask(int courseid, int taid)
+void DBManager::getTasks(QString term) {
+    clearServerState();
+    QSqlQuery query(QString("select * from course where term = %1").arg(term));
+
+    while (query.next()) {
+        int courseID = 0;
+        courseID = query.value(0).toInt();
+
+        getTask(courseID);
+    }
+    qDebug() << "getTask(QString term) query " << query.lastError();
+}
+
+void DBManager::getTasks(int courseid) {
+    clearServerState();
+    QSqlQuery query(QString("select * from task where courseid = %1").arg(courseid));
+
+    while (query.next()) {
+        int taskID = 0;
+        taskID = query.value(0).toInt();
+
+        QString taskName;
+        taskName = query.value(1).toString();
+
+        QString taskDesc;
+        taskDesc = query.value(2).toString();
+
+        QString evalComment;
+        evalComment = query.value(3).toString();
+
+        int evalRank;
+        evalRank = query.value(4).toInt();
+
+        _taskList.push_back(Task(taskID, taskName, taskDesc, evalComment, evalRank));
+    }
+    qDebug() << "getTask(int courseid) query " << query.lastError();
+}
+
+void DBManager::getTasks(int taid) {
+    clearServerState();
+    QSqlQuery query(QString("select * from task where studentnum = %1").arg(taid));
+
+    while (query.next()) {
+        int taskID = 0;
+        taskID = query.value(0).toInt();
+
+        QString taskName;
+        taskName = query.value(1).toString();
+
+        QString taskDesc;
+        taskDesc = query.value(2).toString();
+
+        QString evalComment;
+        evalComment = query.value(3).toString();
+
+        int evalRank;
+        evalRank = query.value(4).toInt();
+
+        _taskList.push_back(Task(taskID, taskName, taskDesc, evalComment, evalRank));
+    }
+    qDebug() << "getTask(int taid) query " << query.lastError();
+}
+
+void DBManager::getTasks(int courseid, int taid)
     {
     clearServerState();
     QSqlQuery query(QString("select * from task where courseid = %1 AND studentnum = %2").arg(courseid).arg(taid));
     while (query.next()){
-            clearServerState();
             int taskID = 0;
             taskID = query.value(0).toInt();
 
@@ -285,7 +347,7 @@ void DBManager::getTask(int courseid, int taid)
            evalRank = query.value(4).toInt();
            _taskList.push_back(Task(taskID, taskName, taskDesc, evalComment, evalRank));
     }
-        qDebug() << "getTask query " << query.lastError();
+    qDebug() << "getTask(int courseid, int taid) query " << query.lastError();
 
   }
 
@@ -294,7 +356,6 @@ void DBManager::getTaskbyID(int taskid)
     clearServerState();
     QSqlQuery query(QString("select * from task where taskid = %1").arg(taskid));
     while (query.next()){
-            clearServerState();
             int taskID = 0;
             taskID = query.value(0).toInt();
 
@@ -315,7 +376,7 @@ void DBManager::getTaskbyID(int taskid)
 
   }
 
-void DBManager::getCourseTA(int courseid)
+void DBManager::getCourseTAs(int courseid)
     {
     clearServerState();
     QSqlQuery query(QString("select * from courseta where courseid=%1").arg(courseid));
@@ -334,7 +395,7 @@ void DBManager::getCourseTA(int courseid)
 
 }
 
-void DBManager::getTA(int studentnum){
+void DBManager::getTAs(int studentnum){
 
     qDebug() << "getTA studentnum = " << studentnum;
     QSqlQuery query(QString("select * from ta where studentno=%1").arg(studentnum));
@@ -370,7 +431,7 @@ void DBManager::getTA(int studentnum){
 }
 
 
-void DBManager::getCourse(QString courseterm, int courseyear)
+void DBManager::getCourses(QString courseterm, int courseyear)
     {
     clearServerState();
     QSqlQuery query(QString("select * from course where term = '%1' AND year=%2").arg(courseterm).arg(courseyear));
