@@ -26,7 +26,7 @@ private:
 
     void sendCourseList();
     void sendTAList();
-    void sendTaskList();
+    void sendTaskList(int packetId);
     void sendTaskCreatedSuccess(bool success);
     void sendTaskDeleteSuccess(bool success);
     void sendTaskEditSuccess(bool success);

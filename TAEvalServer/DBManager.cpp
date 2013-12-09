@@ -269,12 +269,12 @@ void DBManager::getTasks(QString term) {
         int courseID = 0;
         courseID = query.value(0).toInt();
 
-        getTask(courseID);
+        getTasksByCourseID(courseID);
     }
     qDebug() << "getTask(QString term) query " << query.lastError();
 }
 
-void DBManager::getTasks(int courseid) {
+void DBManager::getTasksByCourseID(int courseid) {
     clearServerState();
     QSqlQuery query(QString("select * from task where courseid = %1").arg(courseid));
 
@@ -299,7 +299,7 @@ void DBManager::getTasks(int courseid) {
     qDebug() << "getTask(int courseid) query " << query.lastError();
 }
 
-void DBManager::getTasks(int taid) {
+void DBManager::getTasksByStudentID(int taid) {
     clearServerState();
     QSqlQuery query(QString("select * from task where studentnum = %1").arg(taid));
 
@@ -384,7 +384,7 @@ void DBManager::getCourseTAs(int courseid)
             int studentID = 0;
             studentID = query.value(1).toInt();
             qDebug() << "Passed Student ID " << studentID;
-            getTA(studentID);
+            getTAs(studentID);
 
 
     }

@@ -23,7 +23,8 @@ SOURCES += \
     DBManager.cpp \
     Course.cpp \
     TeachingAssistant.cpp \
-    Task.cpp
+    Task.cpp \
+    Instructor.cpp
 
 HEADERS += \
     Server.h \
@@ -32,4 +33,5 @@ HEADERS += \
     DBManager.h \
     Course.h \
     TeachingAssistant.h \
-    Task.h
+    Task.h \
+    Instructor.h

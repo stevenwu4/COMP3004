@@ -164,7 +164,7 @@ void ClientConnection::startConnection() {
          outputStream << it->comment();
          outputStream << it->rating();
      }
-     _network->sendPacket(9, message)
+     _network->sendPacket(9, message);
  }
 
  void ClientConnection::sendTAList() {
@@ -368,7 +368,7 @@ void ClientConnection::startConnection() {
 
      qDebug() << "processEvaluationsForTA";
      qDebug() << "taid=  " << taid;
-     _dbManager->getTasks(taid);
+     _dbManager->getTasksByStudentID(taid);
      _dbManager->showTasks();
 
      sendTaskList(6);
@@ -383,7 +383,7 @@ void ClientConnection::startConnection() {
 
      qDebug() << "processEvaluationsForCourse";
      qDebug() << "courseid=  " << courseid;
-     _dbManager->getTasks(courseid);
+     _dbManager->getTasksByCourseID(courseid);
      _dbManager->showTasks();
 
      sendTaskList(7);
@@ -414,11 +414,11 @@ void ClientConnection::startConnection() {
      qDebug() << "processVerifyTask";
      qDebug() << "taskID = " << taskID;
 
-     bool success = False;
+     bool success = false;
      _dbManager->getTaskbyID(taskID);
      if (_dbManager->_taskList.size() > 0) {
          _dbManager->showTasks();
-         success = True;
+         success = true;
      }
      sendVerifiedTask(success);
  }

@@ -22,8 +22,8 @@ public:
     bool createDB();
     void populateDB();
     void getTasks(QString term);
-    void getTasks(int courseid);
-    void getTasks(int taid);
+    void getTasksByCourseID(int courseid);
+    void getTasksByStudentID(int taid);
     void getTasks(int courseid,int taid);
     void getCourses(QString term, int year);
     QSqlError lastError();
