@@ -37,7 +37,8 @@ SOURCES +=\
     InstructorTaskForm.cpp \
     QuitDialog.cpp \
     TATaskForm.cpp \
-    DeleteDialog.cpp
+    DeleteDialog.cpp \
+    TaskSelectController.cpp
 
 HEADERS  += MainWindow.h \
     TAEval.h \
@@ -64,7 +65,8 @@ HEADERS  += MainWindow.h \
     InstructorTaskForm.h \
     QuitDialog.h \
     TATaskForm.h \
-    DeleteDialog.h
+    DeleteDialog.h \
+    TaskSelectController.h
 
 FORMS    += MainWindow.ui \
     loginwindow.ui \

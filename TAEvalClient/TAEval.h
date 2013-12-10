@@ -48,6 +48,8 @@ public:
     void requestTermList(const QString& term);
     void requestUpdate(const Task& task);
 
+    std::vector<Task> getTaskList();
+
 signals:
     void loginComplete(int result);
     void termListUpdated(const std::vector<QString>& termList);

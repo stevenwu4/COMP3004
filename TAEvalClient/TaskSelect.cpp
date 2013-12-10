@@ -21,7 +21,33 @@ TaskSelect::TaskSelect(QWidget *parent) :
     model->setHorizontalHeaderItem(0, new QStandardItem(QString("Teaching Assistant")));
     model->setHorizontalHeaderItem(1, new QStandardItem(QString("Task")));
     model->setHorizontalHeaderItem(2, new QStandardItem(QString("Rating")));
-    //ui->TaskSelect->
+
+    QStandardItem *taName = new QStandardItem(QString("John Romero"));
+    QStandardItem *taskName = new QStandardItem(QString("Make Tests"));
+    QStandardItem *rating = new QStandardItem(QString("4/5"));
+
+    QStandardItem *taName1 = new QStandardItem(QString("John Carmack"));
+    QStandardItem *taskName1 = new QStandardItem(QString("Mark Tests"));
+    QStandardItem *rating1 = new QStandardItem(QString("5/5"));
+
+    QStandardItem *taName2 = new QStandardItem(QString("John Blake"));
+    QStandardItem *taskName2 = new QStandardItem(QString("Mark Assignments"));
+    QStandardItem *rating2 = new QStandardItem(QString("3/5"));
+
+    model->setItem(0,0, taName);
+    model->setItem(0,1,taskName);
+    model->setItem(0,2,rating);
+
+    model->setItem(1,0, taName1);
+    model->setItem(1,1,taskName1);
+    model->setItem(1,2,rating1);
+
+    model->setItem(2,0, taName2);
+    model->setItem(2,1,taskName2);
+    model->setItem(2,2,rating2);
+
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     ui->tableView->horizontalHeader()->setDefaultSectionSize(142);
 
     ui->tableView->setModel(model);
@@ -66,20 +92,22 @@ void TaskSelect::on_createButton_clicked()
     //create the task form with this information filled in
 
     alert("No task selected");
-
+    /*
     InstructorTaskForm *taskForm = new InstructorTaskForm();
     taskForm->show();
     this->close();
+    */
 }
 
 void TaskSelect::on_editButton_clicked()
 {
     //get the the info for the selected task
     //create the task form with this information filled in
-
+    /*
     InstructorTaskForm *taskForm = new InstructorTaskForm();
     taskForm->show();
     this->close();
+    */
 }
 
 void TaskSelect::on_evalButton_clicked()
@@ -88,10 +116,11 @@ void TaskSelect::on_evalButton_clicked()
     //create the task form with this information filled in
 
 
-
+    /*
     InstructorTaskForm *taskForm = new InstructorTaskForm();
     taskForm->show();
     this->close();
+    */
 }
 
 void TaskSelect::on_deleteButton_clicked()

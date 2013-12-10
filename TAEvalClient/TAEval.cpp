@@ -468,3 +468,7 @@ void TAEval::processUpdateTask(const QByteArray& packetData) {
 
     emit taskCreated(_currentTask);
 }
+
+std::vector<Task> TAEval::getTaskList() {
+    return _taskList;
+}
