@@ -3,21 +3,25 @@
 
 #include <QMainWindow>
 
+class TAEval;
+
 namespace Ui {
 class LoginWindow;
 }
 
-class LoginWindow : public QMainWindow
-{
+class LoginWindow : public QMainWindow {
     Q_OBJECT
+
+private:
+    TAEval* _taEval;
     
 public:
-    explicit LoginWindow(QWidget *parent = 0);
+    explicit LoginWindow(QWidget *parent, TAEval* taEval);
     ~LoginWindow();
-    
+    QString usernameText() const;
+
 private slots:
     void on_quitButton_clicked();
-
     void on_loginButton_clicked();
 
 private:

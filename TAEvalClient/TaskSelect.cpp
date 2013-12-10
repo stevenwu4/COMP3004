@@ -29,7 +29,7 @@ void TaskSelect::on_semesterButton_clicked()
     //get the course list of the user logged in
     //the semester select dialog will ask the user to select a course again
 
-    SemesterSelect *semesterSelect = new SemesterSelect(this);
+    SemesterSelect *semesterSelect = new SemesterSelect(this, 0);
     semesterSelect->setModal(true);
     semesterSelect->show();
 
@@ -41,7 +41,7 @@ void TaskSelect::on_courseButton_clicked()
     //get the course list of the user logged in
     //the Ok button here creates a new task window right now, it should instead return to this one and update the fields and tables
 
-    CourseSelect *courseSelect = new CourseSelect(this);
+    CourseSelect *courseSelect = new CourseSelect(this, 0);
     courseSelect->setModal(true);
     courseSelect->show();
 

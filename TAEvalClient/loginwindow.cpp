@@ -2,29 +2,31 @@
 #include "ui_loginwindow.h"
 #include "semesterselect.h"
 #include <QtGui>
-LoginWindow::LoginWindow(QWidget *parent) :
-    QMainWindow(0),
-    ui(new Ui::LoginWindow)
-{
-    ui->setupUi(this);
+#include "LoginController.h"
 
+LoginWindow::LoginWindow(QWidget *parent, TAEval* taEval) :
+    QMainWindow(parent),
+    _taEval(taEval),
+    ui(new Ui::LoginWindow) {
+    ui->setupUi(this);
     this->setWindowTitle("TAEval");
 }
 
-LoginWindow::~LoginWindow()
-{
+LoginWindow::~LoginWindow() {
     delete ui;
 }
 
-void LoginWindow::on_quitButton_clicked()
-{
+void LoginWindow::on_quitButton_clicked() {
     this->close();
 }
 
-void LoginWindow::on_loginButton_clicked()
-{
-    //get the semester list of the user logged in
-    SemesterSelect *semesterSelect = new SemesterSelect(this);
-    this->close();
-    semesterSelect->show();
+void LoginWindow::on_loginButton_clicked() {
+    LoginController* loginController = new LoginController(this, _taEval);
+    loginController->invoke();
 }
+
+QString LoginWindow::usernameText() const {
+    return ui->usernameText->text();
+}
+
+

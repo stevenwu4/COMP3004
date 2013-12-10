@@ -10,12 +10,25 @@ TAEval::TAEval() :
     _network(0),
     _currentPacketId(-1),
     _requestTimeoutSeconds(5),
+    _userType(0),
     _currentTask(0) {}
 
 TAEval::~TAEval() {
     delete _network;
     delete _socket;
     delete _currentTask;
+}
+
+void TAEval::setUserType(int type) {
+    _userType = type;
+}
+
+bool TAEval::userIsInstructor() const {
+    return (_userType == 1);
+}
+
+bool TAEval::userIsTA() const {
+    return (_userType == 2);
 }
 
 void TAEval::requestTimeout() {
@@ -42,6 +55,8 @@ void TAEval::requestLogin(const QString& username) {
     _currentPacketId = 10;
     _requestTimer.start(_requestTimeoutSeconds * 1000);
     _network->sendPacket(_currentPacketId, message);
+
+    emit loginComplete(1);
 }
 
 void TAEval::requestCourseList(const QString& term, int year) {
@@ -149,12 +164,10 @@ void TAEval::editTask(const Task& task) {
     _network->sendPacket(_currentPacketId, message);
 }
 
-void TAEval::requestTermList(const QString& term) {
+void TAEval::requestTermList() {
     QByteArray message;
     QDataStream outputStream(&message, QIODevice::WriteOnly);
     outputStream.setVersion(QDataStream::Qt_4_8);
-
-    outputStream << term;
 
     _currentPacketId = 8;
     _requestTimer.start(_requestTimeoutSeconds * 1000);
@@ -268,7 +281,10 @@ void TAEval::processTermListRequest(const QByteArray& packetData) {
         QString term = 0;
         inputStream >> term;
 
-        _termList.push_back(term);
+        int year = 0;
+        inputStream >> year;
+
+        _termList.push_back(Term(term, year));
     }
 
     emit termListUpdated(_termList);
@@ -379,20 +395,7 @@ void TAEval::processCreateTask(const QByteArray& packetData) {
     bool success;
     inputStream >> success;
 
-    if (success) {
-        int id;
-        inputStream >> id;
-
-        QString name;
-        inputStream >> name;
-
-        QString description;
-        inputStream >> description;
-
-        _currentTask = new Task(id, name, description, QString(), -1);
-    }
-
-    emit taskCreated(_currentTask);
+    emit taskCreated(success);
 }
 
 void TAEval::processDeleteTask(const QByteArray &packetData) {
@@ -467,4 +470,8 @@ void TAEval::processUpdateTask(const QByteArray& packetData) {
     }
 
     emit taskCreated(_currentTask);
+}
+
+const std::vector<Term>& TAEval::termList() const {
+    return _termList;
 }

@@ -9,6 +9,7 @@
 #include "TeachingAssistant.h"
 #include "Task.h"
 #include <QTimer>
+#include "Term.h"
 
 class NetworkConnection;
 
@@ -23,8 +24,10 @@ private:
     QTimer _requestTimer;
     const unsigned int _requestTimeoutSeconds;
 
+    int _userType;
+
 private:
-    std::vector<QString> _termList;
+    std::vector<Term> _termList;
     std::vector<Course> _courseList;
     std::vector<TeachingAssistant> _teachingAssistantList;
     std::vector<Task> _taskList;
@@ -36,6 +39,10 @@ public:
     TAEval();
     ~TAEval();
 
+    void setUserType(int type);
+    bool userIsInstructor() const;
+    bool userIsTA() const;
+
     void requestLogin(const QString& username);
     void requestCourseList(const QString& term, int year);
     void requestTeachingAssistantList(const Course& course);
@@ -45,16 +52,18 @@ public:
     void createTask(const Course& course, const TeachingAssistant& teachingAssistant, const QString& taskName, const QString& taskDescription);
     void deleteTask(const Task& task);
     void editTask(const Task& task);
-    void requestTermList(const QString& term);
+    void requestTermList();
     void requestUpdate(const Task& task);
+
+    const std::vector<Term>& termList() const;
 
 signals:
     void loginComplete(int result);
-    void termListUpdated(const std::vector<QString>& termList);
+    void termListUpdated(const std::vector<Term>& termList);
     void courseListUpdated(const std::vector<Course>& courseList);
     void teachingAssistantListUpdated(const std::vector<TeachingAssistant>& teachingAssistantList);
     void taskListUpdated(const std::vector<Task>& taskList);
-    void taskCreated(const Task* task);
+    void taskCreated(bool success);
     void taskDeleted(bool success);
     void taskEdited(const Task* task);
     void taskUpdated(const Task* task);

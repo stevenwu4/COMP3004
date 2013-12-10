@@ -3,21 +3,24 @@
 
 #include <QDialog>
 
+class TAEval;
+
 namespace Ui {
 class SemesterSelect;
 }
 
-class SemesterSelect : public QDialog
-{
+class SemesterSelect : public QDialog {
     Q_OBJECT
     
+private:
+    TAEval* _taEval;
+
 public:
-    explicit SemesterSelect(QWidget *parent = 0);
+    explicit SemesterSelect(QWidget *parent, TAEval* taEval);
     ~SemesterSelect();
     
 private slots:
     void on_okButton_clicked();
-
     void on_cancelButton_clicked();
 
 private:
