@@ -4,7 +4,7 @@
 #include <QSqlDatabase>
 #include <QtEndian>
 #include "NetworkConnection.h"
-#include "DBManager.h"
+//#include "DBManager.h"
 
 unsigned int ClientConnection::CONNECTION_ID_COUNTER = 0;
 
@@ -25,6 +25,7 @@ ClientConnection::~ClientConnection() {
     delete _timeoutTimer;
     delete _network;
     delete _socket;
+    delete _dbManager->_login;
 }
 
 void ClientConnection::startConnection() {
@@ -39,7 +40,9 @@ void ClientConnection::startConnection() {
     _network = new NetworkConnection(_socket);
     connect(_network, SIGNAL(processPacket(unsigned short, const QByteArray&)), this, SLOT(processPacket(unsigned short, const QByteArray&)));
 
+
     _dbManager = new DBManager();
+    _dbManager->_login = new User();
     _dbManager->initializeDB(_connectionId);
 
     _timeoutTimer = new QTimer();

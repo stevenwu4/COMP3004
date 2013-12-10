@@ -9,6 +9,7 @@
 #include "Course.h"
 #include "TeachingAssistant.h"
 #include "Task.h"
+#include "User.h"
 
 #ifndef DBMANAGER_H
 #define DBMANAGER_H
@@ -30,6 +31,7 @@ public:
     std::vector<Course> _courses;
     std::vector<TeachingAssistant> _taList;
     std::vector<Task>_taskList;
+    User* _login;
     void initializeDB(unsigned int connectionId);
     void showCourses();
     void showTAs();
