@@ -298,8 +298,13 @@ int DBManager::getUser(QString username){
        ret = 0;
    } else {
        while (query.next()) {
-
-          ret = query.value(2).toInt();
+          QString name = username;
+          int usertype = query.value(2).toInt();
+          int userid = query.value(1).toInt();
+          ret = usertype;
+      _login->setUserType(usertype);
+          _login->setLoginName(username);
+          _login->setID(userid);
 
        }
        qDebug() << "getUser(QString username) query " << query.lastError();
