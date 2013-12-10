@@ -20,7 +20,7 @@ void LoginController::loginFinished(int result) {
     if (result == 1 || result == 2) {
         _taEval->setUserType(result);
 
-        QObject::connect(_taEval, SIGNAL(termListUpdated(std::vector<QString>)), this, SLOT(termListReady()));
+        QObject::connect(_taEval, SIGNAL(termListUpdated(std::vector<Term>)), this, SLOT(termListReady()));
         _taEval->requestTermList();
     } else {
         //LOGIN FAILED
