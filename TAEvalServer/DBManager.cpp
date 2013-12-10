@@ -483,10 +483,10 @@ void DBManager::getCourses() {
     QSqlQuery query;
 
     if (_login->userType() == 1) {
-        QSqlQuery query(QString("select * from course where employeenum=%1").arg(_login->id()));
+        QSqlQuery query(QString("select * from course where employeenum=%1").arg(_login->id()), db);
     }
     else if (_login->userType() == 2) {
-        QSqlQuery query(QString("select year, term from course join courseta on (course.courseid = courseta.courseid) where taid=%1").arg(_login->id()));
+        QSqlQuery query(QString("select year, term from course join courseta on (course.courseid = courseta.courseid) where taid=%1").arg(_login->id()), db);
     }
 
     while (query.next()) {
