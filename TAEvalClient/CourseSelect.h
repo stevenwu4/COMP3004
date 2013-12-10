@@ -22,6 +22,7 @@ public:
 private slots:
     void on_okButton_clicked();
     void on_cancelButton_clicked();
+    void alert(QString);
 
 private:
     Ui::CourseSelect *ui;

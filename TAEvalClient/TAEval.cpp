@@ -475,3 +475,11 @@ void TAEval::processUpdateTask(const QByteArray& packetData) {
 const std::vector<Term>& TAEval::termList() const {
     return _termList;
 }
+
+const std::vector<Course>& TAEval::courseList() const {
+    return _courseList;
+}
+
+const std::vector<Task>& TAEval::taskList() const {
+    return _taskList;
+}

@@ -29,4 +29,9 @@ QString LoginWindow::usernameText() const {
     return ui->usernameText->text();
 }
 
+void LoginWindow::alert(QString m) {
+    QMessageBox msgBox;
+    msgBox.setText(m);
+    msgBox.exec();
+}
 

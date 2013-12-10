@@ -20,6 +20,8 @@ public:
     ~LoginWindow();
     QString usernameText() const;
 
+    void alert(QString m);
+
 private slots:
     void on_quitButton_clicked();
     void on_loginButton_clicked();

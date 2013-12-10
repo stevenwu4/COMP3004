@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'TATaskForm.ui'
 **
-** Created: Mon Dec 9 22:17:40 2013
+** Created: Tue Dec 10 02:13:35 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -29,7 +29,7 @@ QT_BEGIN_NAMESPACE
 class Ui_TATaskForm
 {
 public:
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout;
@@ -60,32 +60,32 @@ public:
         if (TATaskForm->objectName().isEmpty())
             TATaskForm->setObjectName(QString::fromUtf8("TATaskForm"));
         TATaskForm->resize(480, 399);
-        widget = new QWidget(TATaskForm);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(10, 10, 461, 379));
-        verticalLayout_5 = new QVBoxLayout(widget);
+        layoutWidget = new QWidget(TATaskForm);
+        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+        layoutWidget->setGeometry(QRect(10, 10, 461, 379));
+        verticalLayout_5 = new QVBoxLayout(layoutWidget);
         verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
         verticalLayout_5->setContentsMargins(0, 0, 0, 0);
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        semesterLabel = new QLabel(widget);
+        semesterLabel = new QLabel(layoutWidget);
         semesterLabel->setObjectName(QString::fromUtf8("semesterLabel"));
 
         verticalLayout->addWidget(semesterLabel);
 
-        courseLabel = new QLabel(widget);
+        courseLabel = new QLabel(layoutWidget);
         courseLabel->setObjectName(QString::fromUtf8("courseLabel"));
 
         verticalLayout->addWidget(courseLabel);
 
-        taLabel = new QLabel(widget);
+        taLabel = new QLabel(layoutWidget);
         taLabel->setObjectName(QString::fromUtf8("taLabel"));
 
         verticalLayout->addWidget(taLabel);
 
-        taskNameLabel = new QLabel(widget);
+        taskNameLabel = new QLabel(layoutWidget);
         taskNameLabel->setObjectName(QString::fromUtf8("taskNameLabel"));
 
         verticalLayout->addWidget(taskNameLabel);
@@ -95,27 +95,31 @@ public:
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        semesterText = new QLineEdit(widget);
+        semesterText = new QLineEdit(layoutWidget);
         semesterText->setObjectName(QString::fromUtf8("semesterText"));
-        semesterText->setEnabled(false);
+        semesterText->setEnabled(true);
+        semesterText->setReadOnly(true);
 
         verticalLayout_2->addWidget(semesterText);
 
-        courseText = new QLineEdit(widget);
+        courseText = new QLineEdit(layoutWidget);
         courseText->setObjectName(QString::fromUtf8("courseText"));
-        courseText->setEnabled(false);
+        courseText->setEnabled(true);
+        courseText->setReadOnly(true);
 
         verticalLayout_2->addWidget(courseText);
 
-        instructorNameText = new QLineEdit(widget);
+        instructorNameText = new QLineEdit(layoutWidget);
         instructorNameText->setObjectName(QString::fromUtf8("instructorNameText"));
-        instructorNameText->setEnabled(false);
+        instructorNameText->setEnabled(true);
+        instructorNameText->setReadOnly(true);
 
         verticalLayout_2->addWidget(instructorNameText);
 
-        taskNameText = new QLineEdit(widget);
+        taskNameText = new QLineEdit(layoutWidget);
         taskNameText->setObjectName(QString::fromUtf8("taskNameText"));
-        taskNameText->setEnabled(false);
+        taskNameText->setEnabled(true);
+        taskNameText->setReadOnly(true);
 
         verticalLayout_2->addWidget(taskNameText);
 
@@ -131,15 +135,16 @@ public:
 
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        taskDescriptionLabel = new QLabel(widget);
+        taskDescriptionLabel = new QLabel(layoutWidget);
         taskDescriptionLabel->setObjectName(QString::fromUtf8("taskDescriptionLabel"));
 
         verticalLayout_3->addWidget(taskDescriptionLabel);
 
-        descriptionText = new QPlainTextEdit(widget);
+        descriptionText = new QPlainTextEdit(layoutWidget);
         descriptionText->setObjectName(QString::fromUtf8("descriptionText"));
-        descriptionText->setEnabled(false);
+        descriptionText->setEnabled(true);
         descriptionText->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        descriptionText->setReadOnly(true);
 
         verticalLayout_3->addWidget(descriptionText);
 
@@ -148,15 +153,16 @@ public:
 
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
-        feedbackLabel = new QLabel(widget);
+        feedbackLabel = new QLabel(layoutWidget);
         feedbackLabel->setObjectName(QString::fromUtf8("feedbackLabel"));
 
         verticalLayout_4->addWidget(feedbackLabel);
 
-        feedbackText = new QPlainTextEdit(widget);
+        feedbackText = new QPlainTextEdit(layoutWidget);
         feedbackText->setObjectName(QString::fromUtf8("feedbackText"));
-        feedbackText->setEnabled(false);
+        feedbackText->setEnabled(true);
         feedbackText->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        feedbackText->setReadOnly(true);
 
         verticalLayout_4->addWidget(feedbackText);
 
@@ -165,12 +171,12 @@ public:
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        ratingLabel = new QLabel(widget);
+        ratingLabel = new QLabel(layoutWidget);
         ratingLabel->setObjectName(QString::fromUtf8("ratingLabel"));
 
         horizontalLayout_2->addWidget(ratingLabel);
 
-        rating = new QLabel(widget);
+        rating = new QLabel(layoutWidget);
         rating->setObjectName(QString::fromUtf8("rating"));
         rating->setFrameShadow(QFrame::Plain);
 
@@ -180,7 +186,7 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer_2);
 
-        okButton = new QPushButton(widget);
+        okButton = new QPushButton(layoutWidget);
         okButton->setObjectName(QString::fromUtf8("okButton"));
         okButton->setAutoDefault(true);
         okButton->setDefault(true);
@@ -212,7 +218,7 @@ public:
         feedbackLabel->setText(QApplication::translate("TATaskForm", "Feedback:", 0, QApplication::UnicodeUTF8));
         feedbackText->setPlainText(QApplication::translate("TATaskForm", "text text text text text text text text text text text text text text text text text text text text text text text", 0, QApplication::UnicodeUTF8));
         ratingLabel->setText(QApplication::translate("TATaskForm", "Rating:", 0, QApplication::UnicodeUTF8));
-        rating->setText(QApplication::translate("TATaskForm", "4/5 - Good", 0, QApplication::UnicodeUTF8));
+        rating->setText(QApplication::translate("TATaskForm", "4/5 - Very Good", 0, QApplication::UnicodeUTF8));
         okButton->setText(QApplication::translate("TATaskForm", "Ok", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 

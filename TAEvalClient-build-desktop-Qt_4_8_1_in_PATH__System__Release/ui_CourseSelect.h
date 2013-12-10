@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CourseSelect.ui'
 **
-** Created: Mon Dec 9 22:17:40 2013
+** Created: Tue Dec 10 01:32:34 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -18,7 +18,7 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
-#include <QtGui/QListView>
+#include <QtGui/QListWidget>
 #include <QtGui/QPushButton>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QVBoxLayout>
@@ -32,7 +32,7 @@ public:
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
     QLabel *label;
-    QListView *listView;
+    QListWidget *courseList;
     QHBoxLayout *horizontalLayout;
     QPushButton *cancelButton;
     QSpacerItem *horizontalSpacer;
@@ -54,11 +54,13 @@ public:
 
         verticalLayout->addWidget(label);
 
-        listView = new QListView(layoutWidget);
-        listView->setObjectName(QString::fromUtf8("listView"));
-        listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        courseList = new QListWidget(layoutWidget);
+        courseList->setObjectName(QString::fromUtf8("courseList"));
+        courseList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        courseList->setAlternatingRowColors(true);
+        courseList->setSortingEnabled(true);
 
-        verticalLayout->addWidget(listView);
+        verticalLayout->addWidget(courseList);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));

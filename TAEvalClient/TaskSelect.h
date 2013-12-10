@@ -3,16 +3,20 @@
 
 #include <QWidget>
 
+class TAEval;
+
 namespace Ui {
 class TaskSelect;
 }
 
-class TaskSelect : public QWidget
-{
+class TaskSelect : public QWidget {
     Q_OBJECT
+
+private:
+    TAEval* _taEval;
     
 public:
-    explicit TaskSelect(QWidget *parent = 0);
+    explicit TaskSelect(QWidget *parent, TAEval* taEval);
     ~TaskSelect();
     
 private slots:
@@ -29,6 +33,8 @@ private slots:
     void on_deleteButton_clicked();
 
     void on_quitButton_clicked();
+
+    void alert(QString m);
 
 private:
     Ui::TaskSelect *ui;

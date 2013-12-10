@@ -3,6 +3,7 @@
 #include "CourseSelect.h"
 #include "TAEval.h"
 #include "SemesterSelectController.h"
+#include <QtGui>
 
 SemesterSelect::SemesterSelect(QWidget *parent, TAEval* taEval) :
     QDialog(parent),
@@ -30,4 +31,11 @@ void SemesterSelect::on_okButton_clicked() {
 void SemesterSelect::on_cancelButton_clicked() {
     this->close();
     p->show();
+}
+
+void SemesterSelect::alert(QString m)
+{
+    QMessageBox msgBox;
+    msgBox.setText(m);
+    msgBox.exec();
 }

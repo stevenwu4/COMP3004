@@ -1,5 +1,6 @@
 #include "TATaskForm.h"
 #include "ui_TATaskForm.h"
+#include <QtGui>
 
 TATaskForm::TATaskForm(QWidget *parent) :
     QWidget(parent),
@@ -18,4 +19,11 @@ TATaskForm::~TATaskForm()
 void TATaskForm::on_okButton_clicked()
 {
     this->close();
+}
+
+void TATaskForm::alert(QString m)
+{
+    QMessageBox msgBox;
+    msgBox.setText(m);
+    msgBox.exec();
 }

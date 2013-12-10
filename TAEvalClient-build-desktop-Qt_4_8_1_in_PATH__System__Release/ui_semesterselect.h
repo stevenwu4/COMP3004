@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'semesterselect.ui'
 **
-** Created: Mon Dec 9 22:17:40 2013
+** Created: Tue Dec 10 01:32:33 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -62,6 +62,7 @@ public:
         semesterList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         semesterList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         semesterList->setAlternatingRowColors(true);
+        semesterList->setSortingEnabled(true);
 
         verticalLayout->addWidget(semesterList);
 

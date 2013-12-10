@@ -1,14 +1,14 @@
 /********************************************************************************
-** Form generated from reading UI file 'QuitDialog.ui'
+** Form generated from reading UI file 'DeleteDialog.ui'
 **
-** Created: Tue Dec 10 02:13:35 2013
+** Created: Tue Dec 10 01:55:40 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_QUITDIALOG_H
-#define UI_QUITDIALOG_H
+#ifndef UI_DELETEDIALOG_H
+#define UI_DELETEDIALOG_H
 
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
@@ -25,10 +25,10 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_QuitDialog
+class Ui_DeleteDialog
 {
 public:
-    QWidget *layoutWidget;
+    QWidget *widget;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
@@ -36,17 +36,18 @@ public:
     QSpacerItem *horizontalSpacer_2;
     QHBoxLayout *horizontalLayout;
     QPushButton *cancelButton;
-    QPushButton *quitButton;
+    QSpacerItem *horizontalSpacer_3;
+    QPushButton *confirmButton;
 
-    void setupUi(QDialog *QuitDialog)
+    void setupUi(QDialog *DeleteDialog)
     {
-        if (QuitDialog->objectName().isEmpty())
-            QuitDialog->setObjectName(QString::fromUtf8("QuitDialog"));
-        QuitDialog->resize(203, 79);
-        layoutWidget = new QWidget(QuitDialog);
-        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
-        layoutWidget->setGeometry(QRect(10, 10, 180, 59));
-        verticalLayout = new QVBoxLayout(layoutWidget);
+        if (DeleteDialog->objectName().isEmpty())
+            DeleteDialog->setObjectName(QString::fromUtf8("DeleteDialog"));
+        DeleteDialog->resize(271, 80);
+        widget = new QWidget(DeleteDialog);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(10, 10, 251, 59));
+        verticalLayout = new QVBoxLayout(widget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_2 = new QHBoxLayout();
@@ -55,7 +56,7 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
-        label = new QLabel(layoutWidget);
+        label = new QLabel(widget);
         label->setObjectName(QString::fromUtf8("label"));
 
         horizontalLayout_2->addWidget(label);
@@ -69,40 +70,44 @@ public:
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        cancelButton = new QPushButton(layoutWidget);
+        cancelButton = new QPushButton(widget);
         cancelButton->setObjectName(QString::fromUtf8("cancelButton"));
         cancelButton->setDefault(true);
 
         horizontalLayout->addWidget(cancelButton);
 
-        quitButton = new QPushButton(layoutWidget);
-        quitButton->setObjectName(QString::fromUtf8("quitButton"));
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout->addWidget(quitButton);
+        horizontalLayout->addItem(horizontalSpacer_3);
+
+        confirmButton = new QPushButton(widget);
+        confirmButton->setObjectName(QString::fromUtf8("confirmButton"));
+
+        horizontalLayout->addWidget(confirmButton);
 
 
         verticalLayout->addLayout(horizontalLayout);
 
 
-        retranslateUi(QuitDialog);
+        retranslateUi(DeleteDialog);
 
-        QMetaObject::connectSlotsByName(QuitDialog);
+        QMetaObject::connectSlotsByName(DeleteDialog);
     } // setupUi
 
-    void retranslateUi(QDialog *QuitDialog)
+    void retranslateUi(QDialog *DeleteDialog)
     {
-        QuitDialog->setWindowTitle(QApplication::translate("QuitDialog", "Dialog", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("QuitDialog", "Really quit?", 0, QApplication::UnicodeUTF8));
-        cancelButton->setText(QApplication::translate("QuitDialog", "Cancel", 0, QApplication::UnicodeUTF8));
-        quitButton->setText(QApplication::translate("QuitDialog", "Quit", 0, QApplication::UnicodeUTF8));
+        DeleteDialog->setWindowTitle(QApplication::translate("DeleteDialog", "Dialog", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("DeleteDialog", "Really delete? This can't be undone.", 0, QApplication::UnicodeUTF8));
+        cancelButton->setText(QApplication::translate("DeleteDialog", "No", 0, QApplication::UnicodeUTF8));
+        confirmButton->setText(QApplication::translate("DeleteDialog", "Yes", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class QuitDialog: public Ui_QuitDialog {};
+    class DeleteDialog: public Ui_DeleteDialog {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // UI_QUITDIALOG_H
+#endif // UI_DELETEDIALOG_H

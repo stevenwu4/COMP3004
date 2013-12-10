@@ -56,6 +56,8 @@ public:
     void requestUpdate(const Task& task);
 
     const std::vector<Term>& termList() const;
+    const std::vector<Course>& courseList() const;
+    const std::vector<Task>& taskList() const;
 
 signals:
     void loginComplete(int result);

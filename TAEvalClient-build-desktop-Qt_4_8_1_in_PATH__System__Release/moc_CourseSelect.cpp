@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'CourseSelect.h'
 **
-** Created: Mon Dec 9 23:12:17 2013
+** Created: Tue Dec 10 01:56:00 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_CourseSelect[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -33,13 +33,14 @@ static const uint qt_meta_data_CourseSelect[] = {
  // slots: signature, parameters, type, tag, flags
       14,   13,   13,   13, 0x08,
       36,   13,   13,   13, 0x08,
+      62,   13,   13,   13, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_CourseSelect[] = {
     "CourseSelect\0\0on_okButton_clicked()\0"
-    "on_cancelButton_clicked()\0"
+    "on_cancelButton_clicked()\0alert(QString)\0"
 };
 
 void CourseSelect::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -50,10 +51,10 @@ void CourseSelect::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         switch (_id) {
         case 0: _t->on_okButton_clicked(); break;
         case 1: _t->on_cancelButton_clicked(); break;
+        case 2: _t->alert((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObjectExtraData CourseSelect::staticMetaObjectExtraData = {
@@ -88,9 +89,9 @@ int CourseSelect::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }

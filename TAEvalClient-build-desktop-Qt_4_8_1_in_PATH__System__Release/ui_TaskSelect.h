@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'TaskSelect.ui'
 **
-** Created: Mon Dec 9 22:17:40 2013
+** Created: Tue Dec 10 02:13:35 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -29,7 +29,7 @@ QT_BEGIN_NAMESPACE
 class Ui_TaskSelect
 {
 public:
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_4;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer_3;
@@ -58,10 +58,10 @@ public:
         if (TaskSelect->objectName().isEmpty())
             TaskSelect->setObjectName(QString::fromUtf8("TaskSelect"));
         TaskSelect->resize(478, 419);
-        widget = new QWidget(TaskSelect);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(10, 10, 461, 401));
-        verticalLayout_4 = new QVBoxLayout(widget);
+        layoutWidget = new QWidget(TaskSelect);
+        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+        layoutWidget->setGeometry(QRect(10, 10, 461, 401));
+        verticalLayout_4 = new QVBoxLayout(layoutWidget);
         verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
         verticalLayout_4->setContentsMargins(0, 0, 0, 0);
         horizontalLayout = new QHBoxLayout();
@@ -72,12 +72,12 @@ public:
 
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        label = new QLabel(widget);
+        label = new QLabel(layoutWidget);
         label->setObjectName(QString::fromUtf8("label"));
 
         verticalLayout_3->addWidget(label);
 
-        label_2 = new QLabel(widget);
+        label_2 = new QLabel(layoutWidget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
 
         verticalLayout_3->addWidget(label_2);
@@ -87,13 +87,13 @@ public:
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        lineEdit_2 = new QLineEdit(widget);
+        lineEdit_2 = new QLineEdit(layoutWidget);
         lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
         lineEdit_2->setEnabled(false);
 
         verticalLayout_2->addWidget(lineEdit_2);
 
-        lineEdit = new QLineEdit(widget);
+        lineEdit = new QLineEdit(layoutWidget);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
         lineEdit->setEnabled(false);
 
@@ -104,12 +104,12 @@ public:
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        semesterButton = new QPushButton(widget);
+        semesterButton = new QPushButton(layoutWidget);
         semesterButton->setObjectName(QString::fromUtf8("semesterButton"));
 
         verticalLayout->addWidget(semesterButton);
 
-        courseButton = new QPushButton(widget);
+        courseButton = new QPushButton(layoutWidget);
         courseButton->setObjectName(QString::fromUtf8("courseButton"));
 
         verticalLayout->addWidget(courseButton);
@@ -126,24 +126,24 @@ public:
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        createButton = new QPushButton(widget);
+        createButton = new QPushButton(layoutWidget);
         createButton->setObjectName(QString::fromUtf8("createButton"));
         createButton->setAutoDefault(true);
         createButton->setDefault(true);
 
         horizontalLayout_2->addWidget(createButton);
 
-        editButton = new QPushButton(widget);
+        editButton = new QPushButton(layoutWidget);
         editButton->setObjectName(QString::fromUtf8("editButton"));
 
         horizontalLayout_2->addWidget(editButton);
 
-        evalButton = new QPushButton(widget);
+        evalButton = new QPushButton(layoutWidget);
         evalButton->setObjectName(QString::fromUtf8("evalButton"));
 
         horizontalLayout_2->addWidget(evalButton);
 
-        deleteButton = new QPushButton(widget);
+        deleteButton = new QPushButton(layoutWidget);
         deleteButton->setObjectName(QString::fromUtf8("deleteButton"));
 
         horizontalLayout_2->addWidget(deleteButton);
@@ -151,10 +151,15 @@ public:
 
         verticalLayout_4->addLayout(horizontalLayout_2);
 
-        tableView = new QTableView(widget);
+        tableView = new QTableView(layoutWidget);
         tableView->setObjectName(QString::fromUtf8("tableView"));
         tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         tableView->setAlternatingRowColors(true);
+        tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+        tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        tableView->setSortingEnabled(true);
+        tableView->horizontalHeader()->setDefaultSectionSize(100);
+        tableView->horizontalHeader()->setMinimumSectionSize(50);
 
         verticalLayout_4->addWidget(tableView);
 
@@ -164,7 +169,7 @@ public:
 
         horizontalLayout_3->addItem(horizontalSpacer_2);
 
-        quitButton = new QPushButton(widget);
+        quitButton = new QPushButton(layoutWidget);
         quitButton->setObjectName(QString::fromUtf8("quitButton"));
 
         horizontalLayout_3->addWidget(quitButton);

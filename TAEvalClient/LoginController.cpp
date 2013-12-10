@@ -17,6 +17,8 @@ void LoginController::invoke() const {
 }
 
 void LoginController::loginFinished(int result) {
+    //
+
     if (result == 1 || result == 2) {
         _taEval->setUserType(result);
 

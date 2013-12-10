@@ -18,6 +18,8 @@ private:
 public:
     explicit SemesterSelect(QWidget *parent, TAEval* taEval);
     ~SemesterSelect();
+
+    void alert(QString m);
     
 private slots:
     void on_okButton_clicked();

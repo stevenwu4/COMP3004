@@ -18,6 +18,7 @@ void SemesterSelectController::invoke(const Term& term) const {
 }
 
 void SemesterSelectController::termRetrieved() {
+    QObject::disconnect(_taEval, SIGNAL(courseListUpdated(std::vector<Course>)), this, SLOT(termRetrieved()));
     QObject::disconnect(_taEval, SIGNAL(requestTimedOut()), this, SLOT(timeout()));
     CourseSelect *courseSelect = new CourseSelect(_semesterSelect, _taEval);
     _semesterSelect->close();

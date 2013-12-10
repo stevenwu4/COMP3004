@@ -14,6 +14,8 @@ class TATaskForm : public QWidget
 public:
     explicit TATaskForm(QWidget *parent = 0);
     ~TATaskForm();
+
+    void alert(QString m);
     
 private slots:
     void on_okButton_clicked();

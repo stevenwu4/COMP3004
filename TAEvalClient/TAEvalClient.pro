@@ -32,7 +32,10 @@ SOURCES +=\
     TATaskForm.cpp \
     LoginController.cpp \
     SemesterSelectController.cpp \
-    Term.cpp
+    Term.cpp \
+    CourseSelectController.cpp \
+    DeleteDialog.cpp \
+    TaskSelectController.cpp
 
 HEADERS  += \
     TAEval.h \
@@ -56,7 +59,10 @@ HEADERS  += \
     LoginController.h \
     SemesterSelectController.h \
     Term.h \
-    LoginController.h
+    LoginController.h \
+    CourseSelectController.h \
+    DeleteDialog.h \
+    TaskSelectController.h
 
 FORMS    += \
     loginwindow.ui \
@@ -65,4 +71,5 @@ FORMS    += \
     TaskSelect.ui \
     InstructorTaskForm.ui \
     QuitDialog.ui \
-    TATaskForm.ui
+    TATaskForm.ui \
+    DeleteDialog.ui
