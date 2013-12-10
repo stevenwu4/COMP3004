@@ -484,7 +484,7 @@ QSqlQuery DBManager::getQueryFromUserType() {
         return query;
     }
     else if (_login->userType() == 2) {
-        QSqlQuery query(QString("select year, term from course join courseta on (course.courseid = courseta.courseid) where taid=%1").arg(_login->id()), db);
+        QSqlQuery query(QString("select course.courseid, coursename, coursecode, year, term from course join courseta on (course.courseid = courseta.courseid) where taid=%1").arg(_login->id()), db);
         return query;
     }
 }
