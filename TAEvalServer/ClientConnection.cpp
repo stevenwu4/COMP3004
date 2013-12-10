@@ -75,22 +75,22 @@ void ClientConnection::startConnection() {
      case 5:
          processEditTask(packetData);
          break;
-     case 6:
+     /*case 6:
          processEvaluationsForTA(packetData);
-         break;
-     case 7:
+         break;*/
+     case 6:
          processEvaluationsForCourse(packetData);
          break;
-     case 8:
+     case 7:
          processEvaluationsForTerm(packetData);
+         break;
+     case 8:
+         processTermListRequest();
          break;
      case 9:
          processVerifyTask(packetData);
          break;
      case 10:
-         processTermListRequest();
-         break;
-     case 11:
          processVerifyLogin(packetData);
      default:
          break;
@@ -108,7 +108,7 @@ void ClientConnection::startConnection() {
          outputStream << it->year();
      }
 
-     _network->sendPacket(10, message);
+     _network->sendPacket(8, message);
  }
 
  void ClientConnection::sendCourseList() {
@@ -402,7 +402,7 @@ void ClientConnection::startConnection() {
 
  }
 
- void ClientConnection::processEvaluationsForTA(const QByteArray& packetData) {
+ /*void ClientConnection::processEvaluationsForTA(const QByteArray& packetData) {
      QDataStream inputStream(packetData);
      inputStream.setVersion(QDataStream::Qt_4_8);
 
@@ -415,7 +415,7 @@ void ClientConnection::startConnection() {
      _dbManager->showTasks();
 
      sendTaskList(6);
- }
+ }*/
 
  void ClientConnection::processEvaluationsForCourse(const QByteArray& packetData) {
      QDataStream inputStream(packetData);
@@ -429,7 +429,7 @@ void ClientConnection::startConnection() {
      _dbManager->getTasksByCourseID(courseid);
      _dbManager->showTasks();
 
-     sendTaskList(7);
+     sendTaskList(6);
  }
 
  void ClientConnection::processEvaluationsForTerm(const QByteArray& packetData) {
@@ -444,7 +444,7 @@ void ClientConnection::startConnection() {
      _dbManager->getTasks(term);
      _dbManager->showTasks();
 
-     sendTaskList(8);
+     sendTaskList(7);
  }
 
  void ClientConnection::processVerifyLogin(const QByteArray& packetData) {
