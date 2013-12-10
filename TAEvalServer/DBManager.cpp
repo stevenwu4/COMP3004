@@ -478,16 +478,20 @@ void DBManager::getTAs(int studentnum){
     qDebug() << "getTA query " << query.lastError();
 }
 
-void DBManager::getCourses() {
-    clearServerState();
-    QSqlQuery query;
-
+QSqlQuery DBManager::getQueryFromUserType() {
     if (_login->userType() == 1) {
         QSqlQuery query(QString("select * from course where employeenum=%1").arg(_login->id()), db);
+        return query;
     }
     else if (_login->userType() == 2) {
         QSqlQuery query(QString("select year, term from course join courseta on (course.courseid = courseta.courseid) where taid=%1").arg(_login->id()), db);
+        return query;
     }
+}
+
+void DBManager::getCourses() {
+    clearServerState();
+    QSqlQuery query = getQueryFromUserType();
 
     while (query.next()) {
         int courseID = 0;

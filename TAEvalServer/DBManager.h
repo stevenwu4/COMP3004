@@ -28,6 +28,7 @@ public:
     void getTasksByStudentID(int taid);
     void getTasks(int courseid,int taid);
     void getCourses(QString term, int year);
+    QSqlQuery getQueryFromUserType();
     void getCourses();
     QSqlError lastError();
     std::vector<Course> _courses;
