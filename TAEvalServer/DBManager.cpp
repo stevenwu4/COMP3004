@@ -7,8 +7,7 @@ void DBManager::clearServerState() {
     _courses.clear();
     _taList.clear();
     _taskList.clear();
-
-}
+    _termList.clear();}
 
 void DBManager::initializeDB(unsigned int connectionId){
 
@@ -479,6 +478,39 @@ void DBManager::getTAs(int studentnum){
     qDebug() << "getTA query " << query.lastError();
 }
 
+void DBManager::getCourses() {
+    clearServerState();
+    QSqlQuery query;
+
+    if (_login->userType() == 1) {
+        QSqlQuery query(QString("select * from course where employeenum=%1").arg(_login->id()));
+    }
+    else if (_login->userType() == 2) {
+        QSqlQuery query(QString("select year, term from course join courseta on (course.courseid = courseta.courseid) where taid=%1").arg(_login->id()));
+    }
+
+    while (query.next()) {
+        int courseID = 0;
+        courseID = query.value(0).toInt();
+
+        QString courseName;
+        courseName = query.value(1).toString();
+
+        QString courseCode;
+        courseCode = query.value(2).toString();
+
+        int year = 0;
+        year = query.value(3).toInt();
+
+        QString term;
+        term = query.value(4).toString();
+
+        _courses.push_back(Course(courseID, courseName, courseCode, year, term));
+
+    }
+    qDebug() << "getCourses() query " << query.lastError();
+}
+
 
 void DBManager::getCourses(QString courseterm, int courseyear)
     {
@@ -503,9 +535,7 @@ void DBManager::getCourses(QString courseterm, int courseyear)
            term = query.value(4).toString();
            _courses.push_back(Course(courseID, courseName, courseCode, year, term));
     }
-        qDebug() << "getCourse query " << query.lastError();
-
-
+    qDebug() << "getCourse(courseterm, courseyear) query " << query.lastError();
 }
 
 int DBManager::createInstructor(int emplynum, QString fname, QString lname, QString dept){

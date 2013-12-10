@@ -24,7 +24,9 @@ SOURCES += \
     Course.cpp \
     TeachingAssistant.cpp \
     Task.cpp \
-    Instructor.cpp
+    Instructor.cpp \
+    Term.cpp \
+    User.cpp
 
 HEADERS += \
     Server.h \
@@ -34,4 +36,6 @@ HEADERS += \
     Course.h \
     TeachingAssistant.h \
     Task.h \
-    Instructor.h
+    Instructor.h \
+    Term.h \
+    User.h

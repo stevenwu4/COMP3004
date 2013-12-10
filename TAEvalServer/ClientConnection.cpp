@@ -1,10 +1,15 @@
 #include "ClientConnection.h"
 #include <iostream>
+#include <set>
 #include <QDir>
 #include <QSqlDatabase>
 #include <QtEndian>
 #include "NetworkConnection.h"
 //#include "DBManager.h"
+
+struct sortByYear {
+    bool operator() (Term const &t_one, Term const &t_two) { return t_one.year() < t_two.year(); }
+};
 
 unsigned int ClientConnection::CONNECTION_ID_COUNTER = 0;
 
@@ -82,12 +87,28 @@ void ClientConnection::startConnection() {
      case 9:
          processVerifyTask(packetData);
          break;
+     case 10:
+         processTermListRequest();
+         break;
      case 11:
-     processVerifyLogin(packetData);
+         processVerifyLogin(packetData);
      default:
          break;
      }
 
+ }
+
+ void ClientConnection::sendTermList() {
+     QByteArray message;
+     QDataStream outputStream(&message, QIODevice::WriteOnly);
+     outputStream.setVersion(QDataStream::Qt_4_8);
+
+     for (std::vector<Term>::iterator it = _dbManager->_termList.begin(); it != _dbManager->_termList.end(); ++it) {
+         outputStream << it->season();
+         outputStream << it->year();
+     }
+
+     _network->sendPacket(10, message);
  }
 
  void ClientConnection::sendCourseList() {
@@ -457,6 +478,26 @@ void ClientConnection::startConnection() {
          success = true;
      }
      sendVerifiedTask(success);
+ }
+
+ void ClientConnection::processTermListRequest() {
+    std::vector<QString> _completeTerms;
+
+    qDebug() << "processTermListRequest";
+
+    _dbManager->getCourses();
+
+    for (std::vector<Course>::iterator it = _dbManager->_courses.begin(); it != _dbManager->_courses.end(); ++it) {
+        QString term = it->term();
+        QString year = QString::number(it->year());
+        QString completeTerm = year.append(term);
+        if (std::find(_completeTerms.begin(), _completeTerms.end(), completeTerm) == _completeTerms.end()) {
+            _completeTerms.push_back(completeTerm);
+            _dbManager->_termList.push_back(Term(it->term(), it->year()));
+        }
+    }
+    std::sort(_dbManager->_termList.begin(), _dbManager->_termList.end(), sortByYear());
+    sendTermList();
  }
 
  void ClientConnection::connectionTimeout() {

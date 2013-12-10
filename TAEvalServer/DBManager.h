@@ -8,6 +8,7 @@
 #include <QVector>
 #include "Course.h"
 #include "TeachingAssistant.h"
+#include "Term.h"
 #include "Task.h"
 #include "User.h"
 
@@ -27,10 +28,12 @@ public:
     void getTasksByStudentID(int taid);
     void getTasks(int courseid,int taid);
     void getCourses(QString term, int year);
+    void getCourses();
     QSqlError lastError();
     std::vector<Course> _courses;
     std::vector<TeachingAssistant> _taList;
     std::vector<Task>_taskList;
+    std::vector<Term> _termList;
     User* _login;
     void initializeDB(unsigned int connectionId);
     void showCourses();
