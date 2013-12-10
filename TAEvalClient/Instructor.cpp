@@ -19,5 +19,5 @@ const QString& Instructor::lastName() const {
 }
 
 const QString& Instructor::department() const {
-    return _department;
+	return department;
 }

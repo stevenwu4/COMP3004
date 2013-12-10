@@ -7,10 +7,10 @@ class Instructor {
 private:
 	int _id;
 	QString _firstName, _lastName;
-    QString _department;
+	QString department;
 
 public:
-    Instructor(int id, const QString& firstName, const QString& lastName, const QString& department);
+	Instructor(int id, const QString& firstName, const QString& lastName, const QString& department)
 
 	int id() const;
 	const QString& firstName() const;
