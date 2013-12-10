@@ -16,6 +16,7 @@ CourseSelect::~CourseSelect() {
 }
 
 void CourseSelect::on_okButton_clicked() {
+    //CourseSelectController* controller = new Course
     //get list of tasks for course
     TaskSelect *tasks = new TaskSelect(0);
     this->close();
@@ -25,9 +26,4 @@ void CourseSelect::on_okButton_clicked() {
 void CourseSelect::on_cancelButton_clicked() {
     this->close();
     p->show();
-
-}
-
-void CourseSelect::timeout() {
-
 }

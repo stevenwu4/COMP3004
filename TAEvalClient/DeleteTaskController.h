@@ -4,7 +4,6 @@
 #include <QObject>
 
 class TAEval;
-class DeleteTaskTestCase;
 
 class DeleteTaskController : public QObject {
     Q_OBJECT
@@ -12,7 +11,7 @@ class DeleteTaskController : public QObject {
 public:
     DeleteTaskController();
 
-    void invoke(TAEval* taEval, const DeleteTaskTestCase* testCase) const;
+    void invoke() const;
 };
 
 #endif // DELETETASKCONTROLLER_H

@@ -4,7 +4,6 @@
 #include <QObject>
 
 class TAEval;
-class ViewTasksTestCase;
 
 class ViewTasksController : public QObject {
     Q_OBJECT
@@ -12,7 +11,7 @@ class ViewTasksController : public QObject {
 public:
     ViewTasksController();
 
-    void invoke(TAEval* taEval, const ViewTasksTestCase* testCase) const;
+    void invoke() const;
 };
 
 #endif // VIEWTASKSCONTROLLER_H

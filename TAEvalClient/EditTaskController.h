@@ -4,7 +4,6 @@
 #include <QObject>
 
 class TAEval;
-class EditTaskTestCase;
 
 class EditTaskController : public QObject {
     Q_OBJECT
@@ -12,7 +11,7 @@ class EditTaskController : public QObject {
 public:
     EditTaskController();
 
-    void invoke(TAEval* taEval, const EditTaskTestCase* testCase) const;
+    void invoke() const;
 };
 
 #endif // EDITTASKCONTROLLER_H

@@ -24,12 +24,10 @@ SemesterSelect::~SemesterSelect() {
 
 void SemesterSelect::on_okButton_clicked() {
     SemesterSelectController* semesterController = new SemesterSelectController(this, _taEval);
-    semesterController->invoke();
-    ui->semesterList->currentItem()->text();
+    semesterController->invoke(_taEval->termList()[ui->semesterList->currentRow()]);
 }
 
-void SemesterSelect::on_cancelButton_clicked()
-{
+void SemesterSelect::on_cancelButton_clicked() {
     this->close();
     p->show();
 }

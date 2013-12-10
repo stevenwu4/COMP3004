@@ -22,7 +22,6 @@ public:
 private slots:
     void on_okButton_clicked();
     void on_cancelButton_clicked();
-    void timeout();
 
 private:
     Ui::CourseSelect *ui;
