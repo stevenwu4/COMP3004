@@ -11,45 +11,57 @@ TEMPLATE = app
 
 
 SOURCES +=\
-        MainWindow.cpp \
     Main.cpp \
     TAEval.cpp \
     NetworkConnection.cpp \
-    CreateTaskTestCase.cpp \
     CreateTaskController.cpp \
     Course.cpp \
-    ViewTeachingAssistantsTestCase.cpp \
     ViewTeachingAssistantsController.cpp \
-    ViewTasksTestCase.cpp \
     ViewTasksController.cpp \
-    ViewCoursesTestCase.cpp \
     ViewCoursesController.cpp \
     TeachingAssistant.cpp \
     Task.cpp \
-    EditTaskTestCase.cpp \
     EditTaskController.cpp \
-    DeleteTaskTestCase.cpp \
     DeleteTaskController.cpp \
-    Instructor.cpp
+    loginwindow.cpp \
+    semesterselect.cpp \
+    CourseSelect.cpp \
+    TaskSelect.cpp \
+    InstructorTaskForm.cpp \
+    QuitDialog.cpp \
+    TATaskForm.cpp \
+    LoginController.cpp \
+    SemesterSelectController.cpp \
+    Term.cpp
 
-HEADERS  += MainWindow.h \
+HEADERS  += \
     TAEval.h \
     NetworkConnection.h \
-    CreateTaskTestCase.h \
     CreateTaskController.h \
     Course.h \
-    ViewTeachingAssistantsTestCase.h \
     ViewTeachingAssistantsController.h \
-    ViewTasksTestCase.h \
     ViewTasksController.h \
-    ViewCoursesTestCase.h \
     ViewCoursesController.h \
     TeachingAssistant.h \
     Task.h \
-    EditTaskTestCase.h \
     EditTaskController.h \
-    DeleteTaskTestCase.h \
     DeleteTaskController.h \
-    Instructor.h
+    loginwindow.h \
+    semesterselect.h \
+    CourseSelect.h \
+    TaskSelect.h \
+    InstructorTaskForm.h \
+    QuitDialog.h \
+    TATaskForm.h \
+    LoginController.h \
+    SemesterSelectController.h \
+    Term.h
 
-FORMS    += MainWindow.ui
+FORMS    += MainWindow.ui \
+    loginwindow.ui \
+    semesterselect.ui \
+    CourseSelect.ui \
+    TaskSelect.ui \
+    InstructorTaskForm.ui \
+    QuitDialog.ui \
+    TATaskForm.ui
