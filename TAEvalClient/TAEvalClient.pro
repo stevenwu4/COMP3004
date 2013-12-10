@@ -55,9 +55,10 @@ HEADERS  += \
     TATaskForm.h \
     LoginController.h \
     SemesterSelectController.h \
-    Term.h
+    Term.h \
+    LoginController.h
 
-FORMS    += MainWindow.ui \
+FORMS    += \
     loginwindow.ui \
     semesterselect.ui \
     CourseSelect.ui \
