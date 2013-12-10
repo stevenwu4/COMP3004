@@ -5,7 +5,7 @@
 
 Server::Server() :
     _hostname("127.0.0.1"),
-    _port(21234),
+    _port(60001),
     _connectionTimeoutSeconds(300) {}
 
 void Server::run() {

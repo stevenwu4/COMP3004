@@ -7,8 +7,7 @@ void DBManager::clearServerState() {
     _courses.clear();
     _taList.clear();
     _taskList.clear();
-
-}
+    _termList.clear();}
 
 void DBManager::initializeDB(unsigned int connectionId){
 
@@ -25,7 +24,7 @@ bool DBManager::openDB(unsigned int connectionId)
     db = QSqlDatabase::addDatabase("QSQLITE", QString::number(connectionId));
 
     QString path(QDir::home().path());
-    path.append(QDir::separator()).append("D2.db.sqlite");
+    path.append(QDir::separator()).append("D4.db.sqlite");
     path = QDir::toNativeSeparators(path);
     db.setDatabaseName(path);
 
@@ -55,6 +54,9 @@ bool DBManager::createDB(){
         if (!createCourseTATable()){
             std::cerr << "Course TA relationship table not created.\n";
         }
+        if (!createUsersTable()){
+            std::cerr << "Users table not created.\n";
+        }
 
         populateDB();
 
@@ -63,7 +65,7 @@ bool DBManager::createDB(){
         return true;
     }
 
-void DBManager::showCourse(){
+void DBManager::showCourses(){
         QTextStream out(stdout);
         out << "Number of Courses  " << _courses.size() << endl;
         for (std::vector<Course>::iterator it = _courses.begin() ; it != _courses.end(); ++it){
@@ -75,7 +77,7 @@ void DBManager::showCourse(){
         }
 }
 
-void DBManager::showTask(){
+void DBManager::showTasks(){
         QTextStream out(stdout);
         out << "Number of Tasks  " << _taskList.size() << endl;
         for (std::vector<Task>::iterator it = _taskList.begin() ; it != _taskList.end(); ++it){
@@ -86,8 +88,6 @@ void DBManager::showTask(){
             out << "Eval Rank " << it->rating() << endl;
         }
 }
-
-
 
 void DBManager::showTAs(){
         QTextStream out(stdout);
@@ -108,7 +108,7 @@ bool DBManager::deleteDB()
     db.close();
 
     QString path(QDir::currentPath());
-    path.append(QDir::separator()).append("D2.db.sqlite");
+    path.append(QDir::separator()).append("D4.db.sqlite");
     path = QDir::toNativeSeparators(path);
     return QFile::remove(path);
 
@@ -157,6 +157,23 @@ bool DBManager::createTATable()
     return ret;
     }
 
+
+bool DBManager::createUsersTable()
+    {
+    // Create table "users"
+    bool ret = false;
+    if (db.isOpen())
+        {
+        QSqlQuery query(db);
+        ret = query.exec("create table if not exists users "
+                  "(username text primary key not null unique, "
+                  "userid integer, "
+                  "usertype integer)");
+    std::cerr << "go here in user\n";
+        }
+    return ret;
+    }
+
 bool DBManager::createInstructorTable()
 {
 // Create table "Instructor"
@@ -183,7 +200,7 @@ bool ret = false;
 if (db.isOpen())
     {
 
-    QSqlQuery query(db);
+        QSqlQuery query(db);
         ret = query.exec("create table if not exists course "
               "(courseid integer primary key not null, "
               "coursename text, "
@@ -205,7 +222,7 @@ bool ret = false;
 if (db.isOpen())
     {
 
-    QSqlQuery query(db);
+        QSqlQuery query(db);
         ret = query.exec("create table if not exists courseta "
                          "(courseid integer not null references course(courseid), "
                          "taid integer not null references ta(studentno), "
@@ -221,6 +238,7 @@ void DBManager::populateDB(){
     int instructID;
     int taID;
     int courseID;
+    int userID;
 
     instructID = createInstructor(1, "Fred", "Flintstone", "Geology");
     taID = createTA(100, "Sean", "Benjamin", "BSc", "Comp Sci", 3);
@@ -259,16 +277,108 @@ void DBManager::populateDB(){
     courseID = createCourse("Comedic Writing", "ENGL3304", 2007, "Winter", instructID);
     taID = createTA(103, "Jim", "Borgman", "B.A.", "English", 2);
     createCourseTA(courseID,taID);
-     createTask("Marking Assignments", "evaluate comics", "Always on time!", 4, taID, courseID);
+    createTask("Marking Assignments", "evaluate comics", "Always on time!", 4, taID, courseID);
+    userID = createUsers("fred", 1, 1);
+    userID = createUsers("don", 2, 1);
+    userID = createUsers("john", 3, 1);
+    userID = createUsers("jack", 4, 1);
+    userID = createUsers("sean", 100, 2);
+    userID = createUsers("palmer", 104, 2);
+    userID = createUsers("romero", 105, 2);
 
 }
 
-void DBManager::getTask(int courseid, int taid)
+int DBManager::getUser(QString username){
+    //clearServerState();
+    int ret =0;
+     QSqlQuery query(QString("select * from users where username = '%1'").arg(username), db);
+
+    if (query.size() == 0){
+       ret = 0;
+    } else {
+       while (query.next()) {
+          QString name = username;
+          int usertype = query.value(2).toInt();
+          int userid = query.value(1).toInt();
+          ret = usertype;
+          _login->setUserType(usertype);
+          _login->setLoginName(username);
+          _login->setID(userid);
+
+       }
+       qDebug() << "getUser(QString username) query " << query.lastError();
+   }
+   return ret;
+}
+
+void DBManager::getTasks(QString term) {
+    clearServerState();
+    QSqlQuery query(QString("select * from course where term ='%1'").arg(term), db);
+
+    while (query.next()) {
+        int courseID = 0;
+        courseID = query.value(0).toInt();
+
+        getTasksByCourseID(courseID);
+    }
+    qDebug() << "getTask(QString term) query " << query.lastError();
+}
+
+void DBManager::getTasksByCourseID(int courseid) {
+    clearServerState();
+    QSqlQuery query(QString("select * from task where courseid = %1").arg(courseid), db);
+
+    while (query.next()) {
+        int taskID = 0;
+        taskID = query.value(0).toInt();
+
+        QString taskName;
+        taskName = query.value(1).toString();
+
+        QString taskDesc;
+        taskDesc = query.value(2).toString();
+
+        QString evalComment;
+        evalComment = query.value(3).toString();
+
+        int evalRank;
+        evalRank = query.value(4).toInt();
+
+        _taskList.push_back(Task(taskID, taskName, taskDesc, evalComment, evalRank));
+    }
+    qDebug() << "getTask(int courseid) query " << query.lastError();
+}
+
+void DBManager::getTasksByStudentID(int taid) {
+    clearServerState();
+    QSqlQuery query(QString("select * from task where studentnum = %1").arg(taid), db);
+
+    while (query.next()) {
+        int taskID = 0;
+        taskID = query.value(0).toInt();
+
+        QString taskName;
+        taskName = query.value(1).toString();
+
+        QString taskDesc;
+        taskDesc = query.value(2).toString();
+
+        QString evalComment;
+        evalComment = query.value(3).toString();
+
+        int evalRank;
+        evalRank = query.value(4).toInt();
+
+        _taskList.push_back(Task(taskID, taskName, taskDesc, evalComment, evalRank));
+    }
+    qDebug() << "getTask(int taid) query " << query.lastError();
+}
+
+void DBManager::getTasks(int courseid, int taid)
     {
     clearServerState();
     QSqlQuery query(QString("select * from task where courseid = %1 AND studentnum = %2").arg(courseid).arg(taid), db);
     while (query.next()){
-            clearServerState();
             int taskID = 0;
             taskID = query.value(0).toInt();
 
@@ -285,7 +395,7 @@ void DBManager::getTask(int courseid, int taid)
            evalRank = query.value(4).toInt();
            _taskList.push_back(Task(taskID, taskName, taskDesc, evalComment, evalRank));
     }
-        qDebug() << "getTask query " << query.lastError();
+    qDebug() << "getTask(int courseid, int taid) query " << query.lastError();
 
   }
 
@@ -294,7 +404,6 @@ void DBManager::getTaskbyID(int taskid)
     clearServerState();
     QSqlQuery query(QString("select * from task where taskid = %1").arg(taskid), db);
     while (query.next()){
-            clearServerState();
             int taskID = 0;
             taskID = query.value(0).toInt();
 
@@ -315,7 +424,7 @@ void DBManager::getTaskbyID(int taskid)
 
   }
 
-void DBManager::getCourseTA(int courseid)
+void DBManager::getCourseTAs(int courseid)
     {
     clearServerState();
     QSqlQuery query(QString("select * from courseta where courseid=%1").arg(courseid), db);
@@ -325,7 +434,7 @@ void DBManager::getCourseTA(int courseid)
             int studentID = 0;
             studentID = query.value(1).toInt();
             qDebug() << "Passed Student ID " << studentID;
-            getTA(studentID);
+            getTAs(studentID);
 
 
     }
@@ -334,7 +443,7 @@ void DBManager::getCourseTA(int courseid)
 
 }
 
-void DBManager::getTA(int studentnum){
+void DBManager::getTAs(int studentnum){
 
     qDebug() << "getTA studentnum = " << studentnum;
     QSqlQuery query(QString("select * from ta where studentno=%1").arg(studentnum), db);
@@ -369,8 +478,45 @@ void DBManager::getTA(int studentnum){
     qDebug() << "getTA query " << query.lastError();
 }
 
+QSqlQuery DBManager::getQueryFromUserType() {
+    if (_login->userType() == 1) {
+        QSqlQuery query(QString("select * from course where employeenum=%1").arg(_login->id()), db);
+        return query;
+    }
+    else if (_login->userType() == 2) {
+        QSqlQuery query(QString("select course.courseid, coursename, coursecode, year, term from course join courseta on (course.courseid = courseta.courseid) where taid=%1").arg(_login->id()), db);
+        return query;
+    }
+}
 
-void DBManager::getCourse(QString courseterm, int courseyear)
+void DBManager::getCourses() {
+    clearServerState();
+    QSqlQuery query = getQueryFromUserType();
+
+    while (query.next()) {
+        int courseID = 0;
+        courseID = query.value(0).toInt();
+
+        QString courseName;
+        courseName = query.value(1).toString();
+
+        QString courseCode;
+        courseCode = query.value(2).toString();
+
+        int year = 0;
+        year = query.value(3).toInt();
+
+        QString term;
+        term = query.value(4).toString();
+
+        _courses.push_back(Course(courseID, courseName, courseCode, year, term));
+
+    }
+    qDebug() << "getCourses() query " << query.lastError();
+}
+
+
+void DBManager::getCourses(QString courseterm, int courseyear)
     {
     clearServerState();
     QSqlQuery query(QString("select * from course where term = '%1' AND year=%2").arg(courseterm).arg(courseyear), db);
@@ -393,9 +539,7 @@ void DBManager::getCourse(QString courseterm, int courseyear)
            term = query.value(4).toString();
            _courses.push_back(Course(courseID, courseName, courseCode, year, term));
     }
-        qDebug() << "getCourse query " << query.lastError();
-
-
+    qDebug() << "getCourse(courseterm, courseyear) query " << query.lastError();
 }
 
 int DBManager::createInstructor(int emplynum, QString fname, QString lname, QString dept){
@@ -461,7 +605,26 @@ int DBManager::createCourseTA(int courseid, int stdnum){
     return newId;
 }
 
+int DBManager::createUsers(QString username, int userid, int usertype){
+    int newId = -1;
+    bool ret = false;
 
+    if (db.isOpen())
+        {
+
+        QSqlQuery query(db);
+        ret = query.exec(QString("insert into users values('%1',%2,%3)")
+                         .arg(username).arg(userid).arg(usertype));
+
+        // Get database given autoincrement value
+        if (ret)
+            {
+            newId = query.lastInsertId().toInt();
+            }
+
+        }
+    return newId;
+}
 
 int DBManager::createCourse(QString coursename, QString coursecode, int year, QString term, int instructor){
     int newId = -1;
@@ -515,7 +678,7 @@ bool DBManager::modifyTask(int taskid, QString taskname, QString taskdesc, QStri
         ret = query.exec(QString("update task set taskname = '%1', taskdesc = '%2', evaldesc = '%3', evalrank = %4 where taskid = %5")
                          .arg(taskname).arg(taskdesc).arg(evaldesc).arg(evalrank).arg(taskid));
 
- 
+
 
 
         // Get database given autoincrement value
@@ -528,8 +691,6 @@ bool DBManager::modifyTask(int taskid, QString taskname, QString taskdesc, QStri
         }
     return ret;
 }
-
-
 
 bool DBManager::deleteTask(int taskid){
     bool ret = false;
@@ -547,7 +708,6 @@ bool DBManager::deleteTask(int taskid){
     }
     return ret;
 }
-
 
 QSqlError DBManager::lastError()
  {

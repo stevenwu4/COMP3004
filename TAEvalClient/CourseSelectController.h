@@ -13,13 +13,15 @@ class CourseSelectController : public QObject {
 private:
     CourseSelect* _courseSelect;
     TAEval* _taEval;
+    const Course* _course;
 
 public:
     CourseSelectController(CourseSelect* semesterSelect, TAEval* taEval);
-    void invoke(const Course& course) const;
+    void invoke(const Course& course);
 
 private slots:
     void courseRetrieved();
+    void taListRetrieved();
     void timeout();
 };
 

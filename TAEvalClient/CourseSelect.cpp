@@ -13,6 +13,8 @@ CourseSelect::CourseSelect(QWidget *parent, TAEval* taEval) :
     ui->setupUi(this);
     p = parent;
 
+    ui->courseList->clear();
+
     for (std::vector<Course>::const_iterator i = _taEval->courseList().begin(); i != _taEval->courseList().end(); ++i) {
         ui->courseList->addItem(i->code());
     }
@@ -25,8 +27,12 @@ CourseSelect::~CourseSelect() {
 }
 
 void CourseSelect::on_okButton_clicked() {
+
     CourseSelectController* controller = new CourseSelectController(this, _taEval);
     controller->invoke(_taEval->courseList()[ui->courseList->currentRow()]);
+
+
+
 }
 
 void CourseSelect::on_cancelButton_clicked() {

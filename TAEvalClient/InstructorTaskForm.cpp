@@ -16,13 +16,7 @@ InstructorTaskForm::InstructorTaskForm(QWidget *parent, TAEval *taEval) :
     this->setWindowTitle("Task Form");
     QStringList ratings = (QStringList() << "N/A" << "5/5 - Excellent" << "4/5 - Very Good" << "3/5 - Good" << "2/5 - Fair" << "1/5 - Poor");
     QStringList tas;
-    ui->feedbackText->toPlainText();
-    ui->descriptionText->toPlainText();
-    ui->taskEdit->text();
-    ui->ratingBox->currentText();
-    ui->taBox->currentText();
-    ui->semesterEdit->text();
-    ui->courseEdit->text();
+
     for (std::vector<TeachingAssistant>::const_iterator i = _taEval->taList().begin(); i != _taEval->taList().end(); ++i)
         tas << (i->firstName() + " " + i->lastName() + " " + i->id());
 

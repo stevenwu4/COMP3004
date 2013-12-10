@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'TaskSelect.ui'
 **
-** Created: Tue Dec 10 02:13:35 2013
+** Created: Tue Dec 10 07:35:04 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -37,8 +37,8 @@ public:
     QLabel *label;
     QLabel *label_2;
     QVBoxLayout *verticalLayout_2;
-    QLineEdit *lineEdit_2;
-    QLineEdit *lineEdit;
+    QLineEdit *semesterEdit;
+    QLineEdit *courseEdit;
     QVBoxLayout *verticalLayout;
     QPushButton *semesterButton;
     QPushButton *courseButton;
@@ -87,17 +87,17 @@ public:
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        lineEdit_2 = new QLineEdit(layoutWidget);
-        lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
-        lineEdit_2->setEnabled(false);
+        semesterEdit = new QLineEdit(layoutWidget);
+        semesterEdit->setObjectName(QString::fromUtf8("semesterEdit"));
+        semesterEdit->setEnabled(false);
 
-        verticalLayout_2->addWidget(lineEdit_2);
+        verticalLayout_2->addWidget(semesterEdit);
 
-        lineEdit = new QLineEdit(layoutWidget);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setEnabled(false);
+        courseEdit = new QLineEdit(layoutWidget);
+        courseEdit->setObjectName(QString::fromUtf8("courseEdit"));
+        courseEdit->setEnabled(false);
 
-        verticalLayout_2->addWidget(lineEdit);
+        verticalLayout_2->addWidget(courseEdit);
 
 
         horizontalLayout->addLayout(verticalLayout_2);
@@ -157,7 +157,7 @@ public:
         tableView->setAlternatingRowColors(true);
         tableView->setSelectionMode(QAbstractItemView::SingleSelection);
         tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-        tableView->setSortingEnabled(true);
+        tableView->setSortingEnabled(false);
         tableView->horizontalHeader()->setDefaultSectionSize(100);
         tableView->horizontalHeader()->setMinimumSectionSize(50);
 
@@ -188,8 +188,8 @@ public:
         TaskSelect->setWindowTitle(QApplication::translate("TaskSelect", "Form", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("TaskSelect", "Semester:", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("TaskSelect", "Course:", 0, QApplication::UnicodeUTF8));
-        lineEdit_2->setText(QApplication::translate("TaskSelect", "select a semester", 0, QApplication::UnicodeUTF8));
-        lineEdit->setText(QApplication::translate("TaskSelect", "select a course", 0, QApplication::UnicodeUTF8));
+        semesterEdit->setText(QApplication::translate("TaskSelect", "select a semester", 0, QApplication::UnicodeUTF8));
+        courseEdit->setText(QApplication::translate("TaskSelect", "select a course", 0, QApplication::UnicodeUTF8));
         semesterButton->setText(QApplication::translate("TaskSelect", "Change Semester", 0, QApplication::UnicodeUTF8));
         courseButton->setText(QApplication::translate("TaskSelect", "Change Course", 0, QApplication::UnicodeUTF8));
         createButton->setText(QApplication::translate("TaskSelect", "Create", 0, QApplication::UnicodeUTF8));

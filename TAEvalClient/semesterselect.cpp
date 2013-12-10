@@ -12,8 +12,10 @@ SemesterSelect::SemesterSelect(QWidget *parent, TAEval* taEval) :
     ui->setupUi(this);
     p = parent;
 
+    ui->semesterList->clear();
+
     for (std::vector<Term>::const_iterator i = _taEval->termList().begin(); i != _taEval->termList().end(); ++i) {
-        ui->semesterList->addItem(i->season() + " " + i->year());
+        ui->semesterList->addItem(i->season() + " " + QString::number(i->year()));
     }
 
     this->setWindowTitle("TAEval");

@@ -4,14 +4,23 @@
 #include <QObject>
 
 class TAEval;
+class TaskSelect;
+class TeachingAssistant;
 
 class CreateTaskController : public QObject {
     Q_OBJECT
 
-public:
-    CreateTaskController();
+private:
+    TaskSelect* _taskSelect;
+    TAEval* _taEval;
 
-    void invoke() const;
+public:
+    CreateTaskController(TaskSelect* taskSelect, TAEval* taEval);
+    void invoke(const TeachingAssistant&) const;
+
+private slots:
+    void taskCreated();
+    void timeout();
 };
 
 #endif // CREATETASKCONTROLLER_H

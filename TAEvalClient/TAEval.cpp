@@ -11,7 +11,8 @@ TAEval::TAEval() :
     _currentPacketId(-1),
     _requestTimeoutSeconds(5),
     _userType(0),
-    _currentTask(0) {}
+    _currentTask(0),
+    _currentCourse(0) {}
 
 TAEval::~TAEval() {
     delete _network;
@@ -40,6 +41,7 @@ void TAEval::clearClientState() {
     _courseList.clear();
     _teachingAssistantList.clear();
     _taskList.clear();
+    _termList.clear();
 
     delete _currentTask;
     _currentTask = 0;
@@ -55,8 +57,6 @@ void TAEval::requestLogin(const QString& username) {
     _currentPacketId = 10;
     _requestTimer.start(_requestTimeoutSeconds * 1000);
     _network->sendPacket(_currentPacketId, message);
-
-    emit loginComplete(1);
 }
 
 void TAEval::requestCourseList(const QString& term, int year) {
@@ -269,7 +269,7 @@ void TAEval::processLoginRequest(const QByteArray& packetData) {
 }
 
 void TAEval::processTermListRequest(const QByteArray& packetData) {
-    clearClientState();
+    _termList.clear();
 
     QDataStream inputStream(packetData);
     inputStream.setVersion(QDataStream::Qt_4_8);
@@ -291,7 +291,7 @@ void TAEval::processTermListRequest(const QByteArray& packetData) {
 }
 
 void TAEval::processCourseListRequest(const QByteArray& packetData) {
-    clearClientState();
+    _courseList.clear();
 
     QDataStream inputStream(packetData);
     inputStream.setVersion(QDataStream::Qt_4_8);
@@ -322,7 +322,7 @@ void TAEval::processCourseListRequest(const QByteArray& packetData) {
 }
 
 void TAEval::processTeachingAssistantListRequest(const QByteArray& packetData) {
-    clearClientState();
+    _teachingAssistantList.clear();
 
     QDataStream inputStream(packetData);
     inputStream.setVersion(QDataStream::Qt_4_8);
@@ -356,7 +356,7 @@ void TAEval::processTeachingAssistantListRequest(const QByteArray& packetData) {
 }
 
 void TAEval::processTaskListRequest(const QByteArray& packetData) {
-    clearClientState();
+    _taskList.clear();
 
     QDataStream inputStream(packetData);
     inputStream.setVersion(QDataStream::Qt_4_8);
@@ -387,7 +387,8 @@ void TAEval::processTaskListRequest(const QByteArray& packetData) {
 }
 
 void TAEval::processCreateTask(const QByteArray& packetData) {
-    clearClientState();
+    delete _currentTask;
+    _currentTask = 0;
 
     QDataStream inputStream(packetData);
     inputStream.setVersion(QDataStream::Qt_4_8);
@@ -399,7 +400,8 @@ void TAEval::processCreateTask(const QByteArray& packetData) {
 }
 
 void TAEval::processDeleteTask(const QByteArray &packetData) {
-    clearClientState();
+    delete _currentTask;
+    _currentTask = 0;
 
     QDataStream inputStream(packetData);
     inputStream.setVersion(QDataStream::Qt_4_8);
@@ -411,7 +413,8 @@ void TAEval::processDeleteTask(const QByteArray &packetData) {
 }
 
 void TAEval::processEditTask(const QByteArray& packetData) {
-    clearClientState();
+    delete _currentTask;
+    _currentTask = 0;
 
     QDataStream inputStream(packetData);
     inputStream.setVersion(QDataStream::Qt_4_8);
@@ -442,7 +445,8 @@ void TAEval::processEditTask(const QByteArray& packetData) {
 }
 
 void TAEval::processUpdateTask(const QByteArray& packetData) {
-    clearClientState();
+    delete _currentTask;
+    _currentTask = 0;
 
     QDataStream inputStream(packetData);
     inputStream.setVersion(QDataStream::Qt_4_8);
@@ -490,4 +494,12 @@ const std::vector<TeachingAssistant>& TAEval::taList() const {
 
 Task* TAEval::currentTask() {
     return _currentTask;
+}
+
+Course* TAEval::currentCourse() {
+    return _currentCourse;
+}
+
+void TAEval::setCurrentCourse(Course* course) {
+    _currentCourse = course;
 }

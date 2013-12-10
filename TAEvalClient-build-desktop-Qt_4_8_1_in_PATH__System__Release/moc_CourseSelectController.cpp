@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'CourseSelectController.h'
 **
-** Created: Tue Dec 10 01:33:51 2013
+** Created: Tue Dec 10 07:16:36 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_CourseSelectController[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -33,13 +33,14 @@ static const uint qt_meta_data_CourseSelectController[] = {
  // slots: signature, parameters, type, tag, flags
       24,   23,   23,   23, 0x08,
       42,   23,   23,   23, 0x08,
+      60,   23,   23,   23, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_CourseSelectController[] = {
     "CourseSelectController\0\0courseRetrieved()\0"
-    "timeout()\0"
+    "taListRetrieved()\0timeout()\0"
 };
 
 void CourseSelectController::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -49,7 +50,8 @@ void CourseSelectController::qt_static_metacall(QObject *_o, QMetaObject::Call _
         CourseSelectController *_t = static_cast<CourseSelectController *>(_o);
         switch (_id) {
         case 0: _t->courseRetrieved(); break;
-        case 1: _t->timeout(); break;
+        case 1: _t->taListRetrieved(); break;
+        case 2: _t->timeout(); break;
         default: ;
         }
     }
@@ -88,9 +90,9 @@ int CourseSelectController::qt_metacall(QMetaObject::Call _c, int _id, void **_a
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }

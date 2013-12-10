@@ -5,6 +5,10 @@
 #include "QuitDialog.h"
 #include "DeleteDialog.h"
 #include "InstructorTaskForm.h"
+#include "TaskSelectController.h"
+#include "CreateTaskController.h"
+#include "Task.h"
+#include "TAEval.h"
 
 #include <QtGui>
 
@@ -47,13 +51,19 @@ TaskSelect::TaskSelect(QWidget *parent, TAEval* taEval) :
     model->setItem(2,1,taskName2);
     model->setItem(2,2,rating2);
 
+
+
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     ui->tableView->horizontalHeader()->setDefaultSectionSize(142);
 
     ui->tableView->setModel(model);
 
+    ui->courseEdit->setText(_taEval->currentCourse()->name());
 
+    ui->semesterEdit->setText(_taEval->currentCourse()->term()+_taEval->currentCourse()->year());
+
+    alert("asdf");
     //if the current user is a TA then hide create/edit/evaluate/delete buttons
 }
 
@@ -91,8 +101,27 @@ void TaskSelect::on_createButton_clicked()
     //get the selected TA from the list
     //get the selected course and semester
     //create the task form with this information filled in
+    /*
+    QItemSelectionModel *selectionModel = ui->tableView->selectionModel();
 
-    alert("No task selected");
+    QModelIndexList list = selectionModel->selectedRows();
+
+    QModelIndex index = model->index(list[0],0,QModelIndex());
+
+    ui->tableView->model()->data(index).toString();
+    */
+    CreateTaskController* controller = new CreateTaskController(this, _taEval);
+    for (std::vector<TeachingAssistant>::const_iterator i = _taEval->taList().begin(); i != _taEval->taList().end(); ++i) {
+        if("Sean" == i->firstName())
+            controller->invoke(*i);
+    }
+    /*
+    //_taEval->createTask();
+    this->ui->semesterEdit->text();
+    ui->semesterEdit->text();
+    ui->courseEdit->text();
+    */
+
     /*
     InstructorTaskForm *taskForm = new InstructorTaskForm();
     taskForm->show();
@@ -104,6 +133,14 @@ void TaskSelect::on_editButton_clicked()
 {
     //get the the info for the selected task
     //create the task form with this information filled in
+    /*
+    if((int)ui->tableView->currentIndex() >= 0) {
+        TaskSelectController* controller = new TaskSelectController(this, _taEval);
+        controller->invoke(_taEval->taskList()[ui->tableView->currentIndex().row()]);
+    } else {
+    alert("No task selected");
+    }
+    */
     /*
     InstructorTaskForm *taskForm = new InstructorTaskForm();
     taskForm->show();
