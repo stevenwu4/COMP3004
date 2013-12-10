@@ -35,7 +35,8 @@ SOURCES +=\
     Term.cpp \
     CourseSelectController.cpp \
     DeleteDialog.cpp \
-    TaskSelectController.cpp
+    TaskSelectController.cpp \
+    InstructorTaskFormController.cpp
 
 HEADERS  += \
     TAEval.h \
@@ -62,7 +63,8 @@ HEADERS  += \
     LoginController.h \
     CourseSelectController.h \
     DeleteDialog.h \
-    TaskSelectController.h
+    TaskSelectController.h \
+    InstructorTaskFormController.h
 
 FORMS    += \
     loginwindow.ui \

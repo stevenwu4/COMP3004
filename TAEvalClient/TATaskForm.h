@@ -3,16 +3,20 @@
 
 #include <QWidget>
 
+class TAEval;
+
 namespace Ui {
 class TATaskForm;
 }
 
-class TATaskForm : public QWidget
-{
+class TATaskForm : public QWidget {
     Q_OBJECT
+
+private:
+    TAEval* _taEval;
     
 public:
-    explicit TATaskForm(QWidget *parent = 0);
+    explicit TATaskForm(QWidget *parent, TAEval* taEval);
     ~TATaskForm();
 
     void alert(QString m);

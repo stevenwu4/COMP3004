@@ -2,7 +2,7 @@
 #include "ui_TATaskForm.h"
 #include <QtGui>
 
-TATaskForm::TATaskForm(QWidget *parent) :
+TATaskForm::TATaskForm(QWidget *parent, TAEval* taEval) :
     QWidget(parent),
     ui(new Ui::TATaskForm)
 {

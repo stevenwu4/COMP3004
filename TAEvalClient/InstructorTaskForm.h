@@ -2,6 +2,7 @@
 #define INSTRUCTORTASKFORM_H
 
 #include <QWidget>
+#include "Task.h"
 
 class TAEval;
 
@@ -9,13 +10,17 @@ namespace Ui {
 class InstructorTaskForm;
 }
 
-class InstructorTaskForm : public QWidget
-{
+class InstructorTaskForm : public QWidget {
     Q_OBJECT
+
+private:
+    TAEval* _taEval;
 
 public:
     explicit InstructorTaskForm(QWidget *parent, TAEval *taEval);
     ~InstructorTaskForm();
+
+    Task task() const;
 
 private slots:
 
@@ -23,8 +28,6 @@ private slots:
     void on_cancelButton_clicked();
 
     void on_okButton_clicked();
-
-    void fillFields(TAEval*);
 
     void alert(QString);
 

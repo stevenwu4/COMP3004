@@ -483,3 +483,11 @@ const std::vector<Course>& TAEval::courseList() const {
 const std::vector<Task>& TAEval::taskList() const {
     return _taskList;
 }
+
+const std::vector<TeachingAssistant>& TAEval::taList() const {
+    return _teachingAssistantList;
+}
+
+Task* TAEval::currentTask() {
+    return _currentTask;
+}

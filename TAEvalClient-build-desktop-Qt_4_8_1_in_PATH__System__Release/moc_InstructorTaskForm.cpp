@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'InstructorTaskForm.h'
 **
-** Created: Tue Dec 10 02:18:09 2013
+** Created: Tue Dec 10 05:04:41 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_InstructorTaskForm[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,15 +34,13 @@ static const uint qt_meta_data_InstructorTaskForm[] = {
       20,   19,   19,   19, 0x08,
       46,   19,   19,   19, 0x08,
       68,   19,   19,   19, 0x08,
-      88,   19,   19,   19, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_InstructorTaskForm[] = {
     "InstructorTaskForm\0\0on_cancelButton_clicked()\0"
-    "on_okButton_clicked()\0fillFields(TAEval*)\0"
-    "alert(QString)\0"
+    "on_okButton_clicked()\0alert(QString)\0"
 };
 
 void InstructorTaskForm::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -53,8 +51,7 @@ void InstructorTaskForm::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
         switch (_id) {
         case 0: _t->on_cancelButton_clicked(); break;
         case 1: _t->on_okButton_clicked(); break;
-        case 2: _t->fillFields((*reinterpret_cast< TAEval*(*)>(_a[1]))); break;
-        case 3: _t->alert((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: _t->alert((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -92,9 +89,9 @@ int InstructorTaskForm::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 3;
     }
     return _id;
 }

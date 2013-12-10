@@ -1,4 +1,5 @@
 #include "InstructorTaskForm.h"
+#include "InstructorTaskFormController.h"
 #include "ui_InstructorTaskForm.h"
 #include "TAEval.h"
 #include "Task.h"
@@ -7,51 +8,69 @@
 
 InstructorTaskForm::InstructorTaskForm(QWidget *parent, TAEval *taEval) :
     QWidget(parent),
+    _taEval(taEval),
     ui(new Ui::InstructorTaskForm)
 {
     ui->setupUi(this);
 
     this->setWindowTitle("Task Form");
     QStringList ratings = (QStringList() << "N/A" << "5/5 - Excellent" << "4/5 - Very Good" << "3/5 - Good" << "2/5 - Fair" << "1/5 - Poor");
+    QStringList tas;
+    ui->feedbackText->toPlainText();
+    ui->descriptionText->toPlainText();
+    ui->taskEdit->text();
+    ui->ratingBox->currentText();
+    ui->taBox->currentText();
+    ui->semesterEdit->text();
+    ui->courseEdit->text();
+    for (std::vector<TeachingAssistant>::const_iterator i = _taEval->taList().begin(); i != _taEval->taList().end(); ++i)
+        tas << (i->firstName() + " " + i->lastName() + " " + i->id());
+
     ui->taskEdit->setPlaceholderText("Enter the task name");
     ui->ratingBox->addItems(ratings);
-
-    this->fillFields(taEval);
-
-    //ui->descriptionText->setPlainText("Enter the task description of the task here");
-    //ui->feedbackText->setPlainText("Enter the task feedback here");
-
+    ui->taBox->addItems(tas);
 
     p = parent;
 }
 
-InstructorTaskForm::~InstructorTaskForm()
-{
+Task InstructorTaskForm::task() const {
+    int rating = 0;
+
+    QString rate = ui->ratingBox->currentText();
+
+    if (rate == "N/A")
+        rating = 0;
+    else if (rate == "5/5 - Excelent")
+        rating = 5;
+    else if (rate == "4/5 - Very Good")
+        rating = 4;
+    else if (rate == "3/5 - Good")
+        rating = 3;
+    else if (rate == "2/5 - Fair")
+        rating = 2;
+    else
+        rating = 1;
+
+    return Task(_taEval->currentTask()->id(), ui->taskEdit->text(), ui->descriptionText->toPlainText(), ui->feedbackText->toPlainText(), rating);
+}
+
+
+
+InstructorTaskForm::~InstructorTaskForm() {
     delete ui;
 }
 
 
 void InstructorTaskForm::on_cancelButton_clicked()
 {
-    //go back to task form
     this->close();
-    //p->show();
+    p->show();
 }
 
 void InstructorTaskForm::on_okButton_clicked()
 {
-    //check the input, send it off to the server
-    //grab the server information and update the task select when we return to it
-    this->close();
-    //p->show();
-}
-
-void InstructorTaskForm::fillFields(TAEval *taEval)
-{
-    for (std::vector<Task>::const_iterator i = taEval->taskList().begin(); i != taEval->taskList().end(); ++i) {
-        Task theTask = *i;
-        alert(theTask.name());
-    }
+    InstructorTaskFormController* controller = new InstructorTaskFormController(this, _taEval);
+    controller->invoke();
 }
 
 void InstructorTaskForm::alert(QString m)

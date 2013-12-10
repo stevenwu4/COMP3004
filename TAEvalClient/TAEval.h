@@ -58,6 +58,8 @@ public:
     const std::vector<Term>& termList() const;
     const std::vector<Course>& courseList() const;
     const std::vector<Task>& taskList() const;
+    const std::vector<TeachingAssistant>& taList() const;
+    Task* currentTask();
 
 signals:
     void loginComplete(int result);
