@@ -20,6 +20,8 @@ private slots:
 
     void on_cancelButton_clicked();
 
+    void alert(QString);
+
 private:
     Ui::SemesterSelect *ui;
     QWidget *p;

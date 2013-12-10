@@ -20,8 +20,11 @@ private slots:
 
     void on_loginButton_clicked();
 
+    void alert(QString);
+
 private:
     Ui::LoginWindow *ui;
+
 };
 
 #endif // LOGINWINDOW_H

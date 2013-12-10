@@ -30,6 +30,8 @@ private slots:
 
     void on_quitButton_clicked();
 
+    void alert(QString);
+
 private:
     Ui::TaskSelect *ui;
 };

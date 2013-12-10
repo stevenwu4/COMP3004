@@ -18,6 +18,8 @@ public:
 private slots:
     void on_okButton_clicked();
 
+    void alert(QString);
+
 private:
     Ui::TATaskForm *ui;
 };
