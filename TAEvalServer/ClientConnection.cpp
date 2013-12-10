@@ -484,6 +484,7 @@ void ClientConnection::startConnection() {
     std::vector<QString> _completeTerms;
 
     qDebug() << "processTermListRequest";
+    qDebug() << _dbManager->_login->loginName();
 
     _dbManager->getCourses();
 

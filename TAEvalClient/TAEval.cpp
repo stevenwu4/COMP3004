@@ -55,8 +55,6 @@ void TAEval::requestLogin(const QString& username) {
     _currentPacketId = 10;
     _requestTimer.start(_requestTimeoutSeconds * 1000);
     _network->sendPacket(_currentPacketId, message);
-
-    emit loginComplete(1);
 }
 
 void TAEval::requestCourseList(const QString& term, int year) {

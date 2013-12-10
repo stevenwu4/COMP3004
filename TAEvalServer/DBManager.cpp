@@ -166,7 +166,7 @@ bool DBManager::createUsersTable()
         {
         QSqlQuery query(db);
         ret = query.exec("create table if not exists users "
-                  "(usernameid text primary key not null unique, "
+                  "(username text primary key not null unique, "
                   "userid integer, "
                   "usertype integer)");
     std::cerr << "go here in user\n";
@@ -295,13 +295,13 @@ int DBManager::getUser(QString username){
 
     if (query.size() == 0){
        ret = 0;
-   } else {
+    } else {
        while (query.next()) {
           QString name = username;
           int usertype = query.value(2).toInt();
           int userid = query.value(1).toInt();
           ret = usertype;
-      _login->setUserType(usertype);
+          _login->setUserType(usertype);
           _login->setLoginName(username);
           _login->setID(userid);
 

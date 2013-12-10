@@ -19,6 +19,7 @@ void LoginController::invoke() const {
 void LoginController::loginFinished(int result) {
     if (result == 1 || result == 2) {
         _taEval->setUserType(result);
+        qDebug() << "Logged in";
 
         QObject::connect(_taEval, SIGNAL(termListUpdated(std::vector<Term>)), this, SLOT(termListReady()));
         _taEval->requestTermList();
@@ -31,6 +32,7 @@ void LoginController::termListReady() {
     QObject::disconnect(_taEval, SIGNAL(requestTimedOut()), this, SLOT(loginTimedOut()));
     SemesterSelect* semesterSelect = new SemesterSelect(_loginWindow, _taEval);
     _loginWindow->close();
+    qDebug() << "Should have closed window by now";
     semesterSelect->show();
 }
 
