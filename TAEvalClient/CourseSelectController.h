@@ -13,6 +13,7 @@ class CourseSelectController : public QObject {
 private:
     CourseSelect* _courseSelect;
     TAEval* _taEval;
+    Course* _course;
 
 public:
     CourseSelectController(CourseSelect* semesterSelect, TAEval* taEval);
@@ -20,6 +21,7 @@ public:
 
 private slots:
     void courseRetrieved();
+    void taListRetrieved();
     void timeout();
 };
 

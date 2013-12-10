@@ -11,7 +11,8 @@ TAEval::TAEval() :
     _currentPacketId(-1),
     _requestTimeoutSeconds(5),
     _userType(0),
-    _currentTask(0) {}
+    _currentTask(0),
+    _currentCourse(0) {}
 
 TAEval::~TAEval() {
     delete _network;
@@ -55,8 +56,6 @@ void TAEval::requestLogin(const QString& username) {
     _currentPacketId = 10;
     _requestTimer.start(_requestTimeoutSeconds * 1000);
     _network->sendPacket(_currentPacketId, message);
-
-    emit loginComplete(1);
 }
 
 void TAEval::requestCourseList(const QString& term, int year) {
@@ -482,4 +481,16 @@ const std::vector<Course>& TAEval::courseList() const {
 
 const std::vector<Task>& TAEval::taskList() const {
     return _taskList;
+}
+
+const std::vector<TeachingAssistant>& TAEval::taList() const {
+    return _teachingAssistantList;
+}
+
+const Course& TAEval::currentCourse() const{
+    return *_currentCourse;
+}
+
+void TAEval::setCurrentCourse(Course &course) {
+    *_currentCourse = course;
 }

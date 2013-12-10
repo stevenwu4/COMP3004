@@ -12,13 +12,16 @@ TaskSelectController::TaskSelectController(TaskSelect* taskSelect, TAEval* taEva
     _taskSelect(taskSelect),
     _taEval(taEval) {}
 
-void TaskSelectController::invoke(const Course& course) const
+void TaskSelectController::invoke(const Task& task) const
 {
-    QObject::connect(_taEval, SIGNAL(taskListUpdated(std::vector<Task>)), this, SLOT(taskRetrieved()));
+
+    /*
+    QObject::connect(_taEval, SIGNAL(taskUpdated(const Task*)), this, SLOT(taskRetrieved()));
 
     QObject::connect(_taEval, SIGNAL(requestTimedOut()), this, SLOT(timeout()));
 
-    _taEval->requestTaskList(course);
+    _taEval->updateTask
+    */
 }
 
 void TaskSelectController::taskRetrieved()
@@ -31,6 +34,7 @@ void TaskSelectController::taskRetrieved()
     _taskSelect->close();
     taskForm->show();
 }
+
 
 void TaskSelectController::timeout()
 {

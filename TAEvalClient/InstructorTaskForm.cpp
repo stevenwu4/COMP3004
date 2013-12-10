@@ -17,7 +17,7 @@ InstructorTaskForm::InstructorTaskForm(QWidget *parent, TAEval *taEval) :
     ui->ratingBox->addItems(ratings);
 
     this->fillFields(taEval);
-
+    ui->feedbackText->toPlainText();
     //ui->descriptionText->setPlainText("Enter the task description of the task here");
     //ui->feedbackText->setPlainText("Enter the task feedback here");
 

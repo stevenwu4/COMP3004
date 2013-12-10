@@ -17,7 +17,7 @@ void LoginController::invoke() const {
 }
 
 void LoginController::loginFinished(int result) {
-    //
+    qDebug() << "FUCK\n";
 
     if (result == 1 || result == 2) {
         _taEval->setUserType(result);
@@ -26,6 +26,7 @@ void LoginController::loginFinished(int result) {
         _taEval->requestTermList();
     } else {
         //LOGIN FAILED
+        _loginWindow->alert("Username not found");
     }
 }
 

@@ -32,6 +32,7 @@ private:
     std::vector<TeachingAssistant> _teachingAssistantList;
     std::vector<Task> _taskList;
     Task* _currentTask;
+    Course* _currentCourse;
 
     void clearClientState();
 
@@ -58,6 +59,9 @@ public:
     const std::vector<Term>& termList() const;
     const std::vector<Course>& courseList() const;
     const std::vector<Task>& taskList() const;
+    const std::vector<TeachingAssistant>& taList() const;
+    const Course& currentCourse() const;
+    void setCurrentCourse(Course&);
 
 signals:
     void loginComplete(int result);

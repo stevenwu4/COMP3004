@@ -5,7 +5,7 @@
 
 class TAEval;
 class TaskSelect;
-class Course;
+class Task;
 
 class TaskSelectController : public QObject {
     Q_OBJECT
@@ -16,7 +16,7 @@ private:
 
 public:
     TaskSelectController(TaskSelect* taskSelect, TAEval* taEval);
-    void invoke(const Course& course) const;
+    void invoke(const Task& task) const;
 
 private slots:
     void taskRetrieved();
