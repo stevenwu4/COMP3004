@@ -103,6 +103,8 @@ void ClientConnection::startConnection() {
      QDataStream outputStream(&message, QIODevice::WriteOnly);
      outputStream.setVersion(QDataStream::Qt_4_8);
 
+     outputStream << _dbManager->_termList.size();
+
      for (std::vector<Term>::iterator it = _dbManager->_termList.begin(); it != _dbManager->_termList.end(); ++it) {
          outputStream << it->season();
          outputStream << it->year();
@@ -486,7 +488,9 @@ void ClientConnection::startConnection() {
     qDebug() << "processTermListRequest";
     qDebug() << _dbManager->_login->loginName();
 
+    //_dbManager->getCourses("Winter", 2007);
     _dbManager->getCourses();
+    _dbManager->showCourses();
 
     for (std::vector<Course>::iterator it = _dbManager->_courses.begin(); it != _dbManager->_courses.end(); ++it) {
         QString term = it->term();

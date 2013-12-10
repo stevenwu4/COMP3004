@@ -274,6 +274,7 @@ void TAEval::processTermListRequest(const QByteArray& packetData) {
 
     unsigned int numTerms;
     inputStream >> numTerms;
+    qDebug() << numTerms;
 
     for (unsigned int i = 0; i < numTerms; ++i) {
         QString term = 0;
@@ -283,6 +284,9 @@ void TAEval::processTermListRequest(const QByteArray& packetData) {
         inputStream >> year;
 
         _termList.push_back(Term(term, year));
+        qDebug() << term;
+        qDebug() << year;
+
     }
 
     emit termListUpdated(_termList);
